@@ -4,8 +4,7 @@ using System.Linq;
 using System.Text;
 
 namespace WarLab {
-	public interface IDamageable {
-		double Health { get; }
-		event EventHandler Dead;
+	public interface IRocketDamageable : IDamageable {
+		void MakeDamage(double damage);
 	}
 }

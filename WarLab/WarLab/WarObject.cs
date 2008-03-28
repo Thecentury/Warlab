@@ -7,31 +7,14 @@ namespace WarLab {
 	/// Базовый класс для любого объекта мира.
 	/// </summary>
 	public abstract class WarObject {
-		private double x;
+		private Vector3D position;
 		/// <summary>
-		/// X-координата объекта, метров.
+		/// Gets or sets the position.
 		/// </summary>
-		public double X {
-			get { return x; }
-			set { x = value; }
-		}
-
-		private double y;
-		/// <summary>
-		/// Y-координата объекта, метров.
-		/// </summary>
-		public double Y {
-			get { return y; }
-			set { y = value; }
-		}
-
-		private double height;
-		/// <summary>
-		/// Высота, на которой находится объект, метров.
-		/// </summary>
-		public double Height {
-			get { return height; }
-			set { height = value; }
+		/// <value>The position.</value>
+		public Vector3D Position {
+			get { return position; }
+			internal set { position = value; }
 		}
 
 		/// <summary>

@@ -28,24 +28,54 @@ namespace WarLab {
 			set { h = value; }
 		}
 
-		public override string ToString() {
-			return String.Format("[{0}, {1}, {2}]", x, y, h);
+		#region Operators
+
+		public static Vector3D operator +(Vector3D v1, Vector3D v2) {
+			return new Vector3D(
+				v1.x + v2.x,
+				v1.y + v2.y,
+				v1.h + v2.h);
 		}
 
-		public void Normalize() {
+		public static Vector3D operator -(Vector3D v1, Vector3D v2) {
+			return new Vector3D(
+				v1.x - v2.x,
+				v1.y - v2.y,
+				v1.h - v2.h);
+		}
+
+		public static Vector3D operator -(Vector3D v) {
+			return new Vector3D(-v.x, -v.y, -v.h);
+		}
+
+		public static Vector3D operator *(Vector3D v, double d) {
+			return new Vector3D(
+				v.x * d,
+				v.y * d,
+				v.h * d);
+		}
+
+		public static Vector3D operator *(double d, Vector3D v) {
+			return v * d;
+		}
+
+		public static Vector3D operator /(Vector3D v, double d) {
+			return v * (1 / d);
+		}
+
+		#endregion
+
+		public override string ToString() {
+			return String.Format("[{0}; {1}; {2}]", x, y, h);
+		}
+
+		public Vector3D Normalize() {
 			double one_div_len = 1.0 / Length;
 
-			x *= one_div_len;
-			y *= one_div_len;
-			h *= one_div_len;
-		}
-
-		public static Vector3D Normalize(Vector3D v) {
-			double one_div_len = 1.0 / v.Length;
 			return new Vector3D(
-				v.x * one_div_len,
-				v.y * one_div_len,
-				v.h * one_div_len);
+			x * one_div_len,
+			y * one_div_len,
+			h * one_div_len);
 		}
 
 		public double Length {

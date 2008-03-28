@@ -3,15 +3,20 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarLab.Base", "WarLab\WarLab.Base.csproj", "{8A13B2BF-4E90-4846-9812-978B21CCCE2B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarLab.Test", "WarLab.Test\WarLab.Test.csproj", "{0E3871C7-D408-40DB-B752-8F9BFFF0C4DB}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 2
+		SccNumberOfProjects = 3
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs07.codeplex.com/
 		SccLocalPath0 = .
 		SccProjectUniqueName1 = WarLab\\WarLab.Base.csproj
 		SccProjectName1 = WarLab
 		SccLocalPath1 = WarLab
+		SccProjectUniqueName2 = WarLab.Test\\WarLab.Test.csproj
+		SccProjectName2 = WarLab.Test
+		SccLocalPath2 = WarLab.Test
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -22,6 +27,10 @@ Global
 		{8A13B2BF-4E90-4846-9812-978B21CCCE2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8A13B2BF-4E90-4846-9812-978B21CCCE2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8A13B2BF-4E90-4846-9812-978B21CCCE2B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E3871C7-D408-40DB-B752-8F9BFFF0C4DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E3871C7-D408-40DB-B752-8F9BFFF0C4DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E3871C7-D408-40DB-B752-8F9BFFF0C4DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E3871C7-D408-40DB-B752-8F9BFFF0C4DB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
