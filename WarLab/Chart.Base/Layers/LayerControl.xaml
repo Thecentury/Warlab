@@ -1,0 +1,170 @@
+﻿<UserControl
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:l="clr-namespace:ScientificStudio.Charting.Layers"
+    x:Class="ScientificStudio.Charting.Layers.LayerControl"
+    Name="layersControl">
+	<UserControl.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="..\Themes\Aero.xaml"/>
+			</ResourceDictionary.MergedDictionaries>
+
+			<BooleanToVisibilityConverter x:Key="bool2Vis"/>
+
+			<ToolTip x:Key="liveTooltip">
+				<StackPanel Orientation="Vertical" Margin="3,1,3,2">
+					<TextBlock Margin="0,0,0,5" HorizontalAlignment="Center" Text="{Binding Graph.Description.Full}"/>
+				<Border HorizontalAlignment="Center" MaxWidth="50" MaxHeight="50" Width="50" Height="50" BorderBrush="Black" BorderThickness="1" Background="White">
+					<Border.BitmapEffect>
+						<OuterGlowBitmapEffect GlowColor="Black" GlowSize="1"/>
+					</Border.BitmapEffect>
+					<Image Source="{Binding Graph.Thumbnail}" Stretch="Fill"/>
+				</Border>
+			</StackPanel>
+			</ToolTip>
+
+			<Storyboard AutoReverse="False" Duration="0:0:0.2" BeginTime="0" x:Key="enterAnim">
+				<DoubleAnimation To="1.15" Duration="0:0:0.2" Storyboard.TargetProperty="RenderTransform.ScaleX"/>
+				<DoubleAnimation To="1.15" Duration="0:0:0.2" Storyboard.TargetProperty="RenderTransform.ScaleY"/>
+			</Storyboard>
+
+			<Storyboard AutoReverse="False" Duration="0:0:0.2" BeginTime="0" x:Key="leaveAnim">
+				<DoubleAnimation To="1" Duration="0:0:0.3" Storyboard.TargetProperty="RenderTransform.ScaleX"/>
+				<DoubleAnimation To="1" Duration="0:0:0.3" Storyboard.TargetProperty="RenderTransform.ScaleY"/>
+			</Storyboard>
+			
+			<Style x:Key="thumbnailStyle" TargetType="{x:Type FrameworkElement}">
+				<Setter Property="Width" Value="50"/>
+				<Setter Property="Height" Value="50"/>
+				<Setter Property="RenderTransform">
+					<Setter.Value>
+						<ScaleTransform x:Name="scale" CenterX="25" CenterY="25" ScaleX="1" ScaleY="1"/>
+					</Setter.Value>
+				</Setter>
+				<Style.Triggers>
+					<EventTrigger RoutedEvent="Mouse.MouseEnter">
+						<BeginStoryboard>
+							<StaticResource ResourceKey="enterAnim"/>
+						</BeginStoryboard>
+					</EventTrigger>
+					<EventTrigger RoutedEvent="Mouse.MouseLeave">
+						<BeginStoryboard>
+							<StaticResource ResourceKey="leaveAnim"/>
+						</BeginStoryboard>
+					</EventTrigger>
+				</Style.Triggers>
+			</Style>
+			
+			<Style x:Key="itemStyle" TargetType="ListViewItem">
+				<Setter Property="ToolTip" Value="{Binding Graph.Description.Full}"/>
+				<Setter Property="FocusVisualStyle" Value="{StaticResource ListViewItemFocusVisual}"/>
+				
+				<!--<Setter Property="ToolTip" Value="{StaticResource liveTooltip}"/>-->
+				
+				<Setter Property="Template" Value="{StaticResource lviTemplate}"/>
+				<Setter Property="ContentTemplate">
+					<Setter.Value>
+						<DataTemplate DataType="l:Layer">
+							<StackPanel Name="sp" Orientation="Vertical" Margin="3,2,2,0">
+								<!--todo разобраться с шириной-->
+								<StackPanel.Width>
+									<Binding Path="RenderSize.Width">
+										<Binding.RelativeSource>
+											<RelativeSource AncestorType="ListView" Mode="FindAncestor"/>
+										</Binding.RelativeSource>
+									</Binding>
+								</StackPanel.Width>
+								<Grid>
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="*"/>
+										<ColumnDefinition Width="Auto"/>
+									</Grid.ColumnDefinitions>
+									<StackPanel Grid.Column="0" Orientation="Horizontal">
+										<Border Margin="0,3,0,3"
+												BorderBrush="Black" BorderThickness="1" Background="White"
+												VerticalAlignment="Center"
+												Style="{StaticResource thumbnailStyle}"
+												>
+											<Border.BitmapEffect>
+												<OuterGlowBitmapEffect GlowColor="Black" GlowSize="2"/>
+											</Border.BitmapEffect>
+											<Image Source="{Binding Graph.Thumbnail}" 
+														 Stretch="Uniform"/>
+										</Border>
+										<TextBlock VerticalAlignment="Center" Text="{Binding Graph.Description.Brief}" FontSize="13" Margin="5,0,3,0"/>
+								</StackPanel>
+									<CheckBox Grid.Column="1" Margin="0,0,3,0" VerticalAlignment="Center" 
+													IsChecked="{Binding Visible, Mode=TwoWay}"/>
+								</Grid>
+
+								<DockPanel>
+									<DockPanel.Visibility>
+										<Binding Path="IsSelected" Converter="{StaticResource bool2Vis}">
+											<Binding.RelativeSource>
+												<RelativeSource AncestorType="ListViewItem" Mode="FindAncestor"/>
+											</Binding.RelativeSource>
+										</Binding>
+									</DockPanel.Visibility>
+									<TextBlock DockPanel.Dock="Left" Text="Opacity: " Margin="3,2,0,0"/>
+									<l:WheelSlider 
+												Minimum="0" Maximum="100" MinWidth="80" Value="{Binding Opacity}"
+												Style="{StaticResource {x:Type Slider}}"
+												DockPanel.Dock="Right" Margin="0,0,4,0"/>
+								</DockPanel>
+
+							</StackPanel>
+						</DataTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
+		</ResourceDictionary>
+	</UserControl.Resources>
+
+	<Border BorderBrush="Black" BorderThickness="1">
+		<Grid>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="*"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*"/>
+				<ColumnDefinition Width="*"/>
+				<ColumnDefinition Width="*"/>
+			</Grid.ColumnDefinitions>
+
+			<ListView Grid.Column="0"
+								Grid.ColumnSpan="3"
+					  ItemContainerStyle="{StaticResource itemStyle}"
+					  Name="list" ItemsSource="{Binding Layers, ElementName=levelsControl}"/>
+
+			<Button 
+							Grid.Column="0"
+							Grid.Row="1"
+							Command="NavigationCommands.NextPage" 
+							Content="Up"
+							ToolTip="Move selected layer to foreground"
+							/>
+			<Button 
+							Grid.Column="1"
+							Grid.Row="1"
+							Command="NavigationCommands.PreviousPage" 
+							Content="Down"
+							ToolTip="Move selected layer to background"
+							/>
+			<Button 
+							Grid.Column="2"
+							Grid.Row="1"
+							Command="{x:Static ApplicationCommands.Delete}" 
+							Content="Delete" 
+							ToolTip="Delete selected layer"
+							/>
+			<TextBlock Margin="5,2,0,0" 
+									 Grid.Column="0"
+									 Grid.ColumnSpan="3"
+									 Grid.Row="2"
+						   Text="{Binding ElementName=list, Path=SelectedValue.Graph.Description.Full}"/>
+		</Grid>
+	</Border>
+</UserControl>

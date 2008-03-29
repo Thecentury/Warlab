@@ -1,0 +1,191 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{2EE43325-B490-49C2-AE90-4B99B8104685}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ScientificStudio.Charting</RootNamespace>
+    <AssemblyName>ScientificStudio.Charting</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\Debug\bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRules>-Microsoft.Usage#CA1816</CodeAnalysisRules>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\Release\bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="PresentationCore">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationFramework">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UIAutomationProvider">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyXmlns.cs" />
+    <Compile Include="Auxilliary\ComputationOperation.cs" />
+    <Compile Include="Auxilliary\ComputationStatus.cs" />
+    <Compile Include="Auxilliary\Computator.cs" />
+    <Compile Include="Auxilliary\Interpolators\IGridInterpolator.cs" />
+    <Compile Include="Auxilliary\MathHelper.cs" />
+    <Compile Include="ChartControl.xaml.cs">
+      <DependentUpon>ChartControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ColorHelper.cs" />
+    <Compile Include="GraphicalObjects\ContentGraph.cs" />
+    <Compile Include="GraphicalObjects\Descriptions\PenDescription.cs" />
+    <Compile Include="GraphicalObjects\Descriptions\ScientificStudioDescription.cs" />
+    <Compile Include="GraphicalObjects\Descriptions\StandartDescription.cs" />
+    <Compile Include="GraphicalObjects\DotsGraph.cs" />
+    <Compile Include="GraphicalObjects\Filters\CompositeFilter.cs" />
+    <Compile Include="GraphicalObjects\ViewportService.cs" />
+    <Compile Include="GraphicalObjects\Legend.xaml.cs">
+      <DependentUpon>Legend.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GraphicalObjects\LegendItem.cs" />
+    <Compile Include="GraphicalObjects\LineLegendItem.xaml.cs">
+      <DependentUpon>LineLegendItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PointSources\AnimatedFunctionPointSource1d.cs" />
+    <Compile Include="PointSources\FunctionPointSource1dBase.cs" />
+    <Compile Include="PointSources\PolarFunctionPointSource1d.cs" />
+    <Compile Include="SimplifiedChartPlotter.cs" />
+    <Compile Include="Viewport2D.cs" />
+    <Compile Include="RectChangedEventArgs.cs" />
+    <Compile Include="Debug.cs" />
+    <Compile Include="GraphCollection.cs" />
+    <Compile Include="CoordinateUtils.cs" />
+    <Compile Include="GraphicalObjects\Axises.cs" />
+    <Compile Include="GraphicalObjects\Coastline.cs" />
+    <Compile Include="GraphicalObjects\ColorMap.cs" />
+    <Compile Include="GraphicalObjects\ColorMapTrackingGraph.cs" />
+    <Compile Include="GraphicalObjects\CoordinateConverter.cs" />
+    <Compile Include="GraphicalObjects\Descriptions\Description.cs" />
+    <Compile Include="GraphicalObjects\Filters\FrequencyFilter.cs" />
+    <Compile Include="GraphicalObjects\Filters\IFilter.cs" />
+    <Compile Include="GraphicalObjects\FakePointList.cs" />
+    <Compile Include="GraphicalObjects\Filters\InclinationFilter.cs" />
+    <Compile Include="GraphicalObjects\PointsGraph.cs" />
+    <Compile Include="GraphicalObjects\GraphicalObject.cs" />
+    <Compile Include="ChartPlotter.cs" />
+    <Compile Include="GraphicalObjects\GridGraph.cs" />
+    <Compile Include="GraphicalObjects\IsolineTrackingGraph.cs" />
+    <Compile Include="GraphicalObjects\ItemsGraph.cs" />
+    <Compile Include="GraphicalObjects\Quad.cs" />
+    <Compile Include="GraphicalObjects\RenderState.cs" />
+    <Compile Include="GraphicalObjects\VectorFieldGraph.cs" />
+    <Compile Include="GraphicalObjects\VectorFieldGraphLikeWW.cs" />
+    <Compile Include="GraphicalObjects\VectorMarkers\ColoredArrowMarker.cs" />
+    <Compile Include="GraphicalObjects\VectorMarkers\VectorMarker.cs" />
+    <Compile Include="GraphicalObjects\VectorMarkers\ArrowMarker.cs" />
+    <Compile Include="GraphicalObjects\VectorMarkers\TextMarker.cs" />
+    <Compile Include="GraphicalObjects\VectorMarkers\ColoredTriangleMarker.cs" />
+    <Compile Include="GraphicalObjects\VectorTrackingGraph.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="IGraphicalObject.cs" />
+    <Compile Include="Isoline\Arrays.cs" />
+    <Compile Include="Isoline\DataFields.cs" />
+    <Compile Include="Isoline\Grids.cs" />
+    <Compile Include="Isoline\HSLColor.cs" />
+    <Compile Include="Isoline\ICell.cs" />
+    <Compile Include="Isoline\IsolinePlotter.cs" />
+    <Compile Include="Isoline\Palette.cs" />
+    <Compile Include="Isoline\Vector2D.cs" />
+    <Compile Include="Isoline\VectorFields.cs" />
+    <Compile Include="Isoline\WarpedGrid2dHelper.cs" />
+    <Compile Include="Layers\LayerControl.xaml.cs">
+      <DependentUpon>LayerControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Layers\Layer.cs" />
+    <Compile Include="Layers\LayersCollection.cs" />
+    <Compile Include="Layers\WheelSlider.xaml.cs">
+      <DependentUpon>WheelSlider.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ListExtensions.cs" />
+    <Compile Include="GraphicalObjects\IsolineCollection.cs" />
+    <Compile Include="GraphicalObjects\IsolineGraph.cs" />
+    <Compile Include="PointSources\IPointSource.cs" />
+    <Compile Include="PointSources\ParametricPointSource.cs" />
+    <Compile Include="PointSources\FunctionPointSource1d.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RectangleSelectionAdorner.cs" />
+    <Compile Include="RectShareHelper.cs" />
+    <Compile Include="SharedViewport.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
+    <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="GraphicalObjects\Legend.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="GraphicalObjects\LineLegendItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Layers\WheelSlider.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Aero.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ChartControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Layers\LayerControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
