@@ -49,6 +49,8 @@
     <Compile Include="DynamicObject.cs" />
     <Compile Include="IDamageable.cs" />
     <Compile Include="IRocketDamageable.cs" />
+    <Compile Include="ISpriteSource.cs" />
+    <Compile Include="MathHelper.cs" />
     <Compile Include="NormalDistribution.cs" />
     <Compile Include="Plane.cs" />
     <Compile Include="StaticObject.cs" />
@@ -66,5 +68,8 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
   </ItemGroup>
 </Project>

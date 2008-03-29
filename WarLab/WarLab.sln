@@ -7,9 +7,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarLab.Test", "WarLab.Test\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScientificStudio.Charting", "Chart.Base\ScientificStudio.Charting.csproj", "{2EE43325-B490-49C2-AE90-4B99B8104685}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarLab.SampleUI", "WarLab.SampleUI\WarLab.SampleUI.csproj", "{398AD3D2-D40B-42AE-A304-1C3C372B35E1}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 4
+		SccNumberOfProjects = 5
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs07.codeplex.com/
 		SccLocalPath0 = .
@@ -22,6 +24,9 @@ Global
 		SccProjectUniqueName3 = Chart.Base\\ScientificStudio.Charting.csproj
 		SccProjectName3 = Chart.Base
 		SccLocalPath3 = Chart.Base
+		SccProjectUniqueName4 = WarLab.SampleUI\\WarLab.SampleUI.csproj
+		SccProjectName4 = WarLab.SampleUI
+		SccLocalPath4 = WarLab.SampleUI
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,6 +45,10 @@ Global
 		{2EE43325-B490-49C2-AE90-4B99B8104685}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2EE43325-B490-49C2-AE90-4B99B8104685}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2EE43325-B490-49C2-AE90-4B99B8104685}.Release|Any CPU.Build.0 = Release|Any CPU
+		{398AD3D2-D40B-42AE-A304-1C3C372B35E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{398AD3D2-D40B-42AE-A304-1C3C372B35E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{398AD3D2-D40B-42AE-A304-1C3C372B35E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{398AD3D2-D40B-42AE-A304-1C3C372B35E1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

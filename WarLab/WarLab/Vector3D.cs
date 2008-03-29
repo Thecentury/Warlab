@@ -85,5 +85,9 @@ namespace WarLab {
 		public double LengthSquared {
 			get { return x * x + y * y + h * h; }
 		}
+
+		public Vector2D Projection2D {
+			get { return new Vector2D(x, y); }
+		}
 	}
 }
