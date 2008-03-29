@@ -1,0 +1,31 @@
+﻿<UserControl x:Class="ScientificStudio.Charting.ChartControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:ScientificStudio.Charting"
+			 xmlns:lev="clr-namespace:ScientificStudio.Charting.Layers"
+             >
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*"/>
+			<ColumnDefinition Width="Auto"/>
+			<ColumnDefinition Width="Auto"/>
+		</Grid.ColumnDefinitions>
+		<local:ChartPlotter x:Name="plotter" Grid.Column="0"/>
+		<GridSplitter Grid.Column="1" ResizeDirection="Columns" ShowsPreview="True" 
+					  VerticalAlignment="Stretch"
+					  HorizontalAlignment="Center"
+					  Width="3.5"
+					  Background="LightGray"
+			/>
+		<Expander Grid.Column="2" ExpandDirection="Left" IsExpanded="False" Header="Layers">
+			<Expander.LayoutTransform>
+				<RotateTransform Angle="-90"/>
+			</Expander.LayoutTransform>
+			<lev:LayerControl x:Name="layers" Layers="{Binding Layers, ElementName=plotter}">
+				<lev:LayerControl.LayoutTransform>
+					<RotateTransform Angle="90"/>
+				</lev:LayerControl.LayoutTransform>
+			</lev:LayerControl>
+		</Expander>
+	</Grid>
+</UserControl>

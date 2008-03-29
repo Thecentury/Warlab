@@ -1,0 +1,3 @@
+﻿<Slider x:Class="ScientificStudio.Charting.Layers.WheelSlider"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseWheel="Slider_MouseWheel"/>
