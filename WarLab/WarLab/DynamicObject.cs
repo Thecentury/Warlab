@@ -6,7 +6,7 @@ namespace WarLab {
 	/// <summary>
 	/// Базовый класс для любого подвижного объекта мира.
 	/// </summary>
-	public abstract class DynamicObject : WarObject {
+	public abstract class DynamicObject : WarObject, ISpriteSource{
 		private double speed;
 		public double Speed {
 			get { return speed; }
@@ -18,5 +18,6 @@ namespace WarLab {
 			get { return orientation; }
 			internal set { orientation = value; }
 		}
+
 	}
 }
