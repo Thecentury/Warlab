@@ -26,6 +26,7 @@ namespace WarLab {
 		protected void MoveInDirectionOf(Vector3D moveTo) {
 			if (!moved) {
 				Vector3D dir = (moveTo - Position).Normalize();
+				Orientation = dir.Projection2D;
 				Vector3D shift = dir * time.ElapsedTime.TotalSeconds * Speed;
 				FuelLeft -= shift.Length;
 				Position += shift;
@@ -34,6 +35,10 @@ namespace WarLab {
 			else {
 				throw new InvalidOperationException("Нельзя вызывать этот метод более одного раза за такт");
 			}
+		}
+
+		protected void MoveInDirectionOf(double x, double y, double h) {
+			MoveInDirectionOf(new Vector3D(x, y, h));
 		}
 
 		private double fuelLeft;

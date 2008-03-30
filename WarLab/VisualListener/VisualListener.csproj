@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{398AD3D2-D40B-42AE-A304-1C3C372B35E1}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <ProjectGuid>{94E6E2D4-1BA0-4D82-87DD-F5DB696DA406}</ProjectGuid>
+    <OutputType>library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WarLab.SampleUI</RootNamespace>
-    <AssemblyName>WarLab.SampleUI</AssemblyName>
+    <RootNamespace>VisualListener</RootNamespace>
+    <AssemblyName>VisualListener</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -54,42 +54,29 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </ApplicationDefinition>
-    <Page Include="MainWindow.xaml">
+    <Page Include="VisualListenerControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
+    <Compile Include="VisualListenerControl.xaml.cs">
+      <DependentUpon>VisualListenerControl.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyXmlns.cs" />
-    <Compile Include="Charts\SpriteGraph.cs" />
-    <Compile Include="EndlessDoubleAnimation.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
+      <DependentUpon>Resources.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
+      <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="RenderedWarObjectAttribute.cs" />
-    <Compile Include="WarObjects\SamplePlane.cs" />
+    <Compile Include="VisualListener.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -99,25 +86,6 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Chart.Base\ScientificStudio.Charting.csproj">
-      <Project>{2EE43325-B490-49C2-AE90-4B99B8104685}</Project>
-      <Name>ScientificStudio.Charting</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\VisualListener\VisualListener.csproj">
-      <Project>{94E6E2D4-1BA0-4D82-87DD-F5DB696DA406}</Project>
-      <Name>VisualListener</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\WarLab\WarLab.Base.csproj">
-      <Project>{8A13B2BF-4E90-4846-9812-978B21CCCE2B}</Project>
-      <Name>WarLab.Base</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Sprites\Plane.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
