@@ -8,7 +8,7 @@ namespace WarLab {
 	public static class MathHelper {
 		private static readonly double radians2Degrees = 180 / Math.PI;
 		public static double AngleToDegrees(double angleInRadians) {
-			return angleInRadians / radians2Degrees;
+			return angleInRadians * radians2Degrees;
 		}
 
 		public static Rect CreateRectFromCenterSize(Point center, Size size) {

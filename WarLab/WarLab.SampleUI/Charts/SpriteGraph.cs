@@ -6,9 +6,14 @@ using ScientificStudio.Charting.GraphicalObjects;
 using System.Windows.Media;
 using System.Windows;
 using ScientificStudio.Charting;
+using System.Diagnostics;
+using WarLab.SampleUI.WarObjects;
 
 namespace WarLab.SampleUI.Charts {
+	
+	[Renders(typeof(SamplePlane))]
 	public class SpriteGraph : GraphicalObject {
+	
 		public ISpriteSource SpriteSource {
 			get { return (ISpriteSource)GetValue(SpriteSourceProperty); }
 			set { SetValue(SpriteSourceProperty, value); }
@@ -45,6 +50,10 @@ namespace WarLab.SampleUI.Charts {
 			  typeof(SpriteGraph),
 			  new FrameworkPropertyMetadata(new Size(20, 20)));
 
+		public void UpdateVisual() {
+			MakeDirty();
+		}
+
 		protected override void OnRenderCore(DrawingContext dc, RenderState state) {
 			if (SpriteSource == null) return;
 
@@ -53,10 +62,13 @@ namespace WarLab.SampleUI.Charts {
 			angle = MathHelper.AngleToDegrees(angle);
 
 			Vector2D pos2D = SpriteSource.Position.Projection2D;
+			
 			Point transformedPos = CoordinateUtils.Transform(new Point(pos2D.X, pos2D.Y), state.Visible, state.OutputWithMargin);
 
-			dc.PushTransform(new RotateTransform(angle, pos2D.X, pos2D.Y));
-			dc.DrawImage(SpriteImage, MathHelper.CreateRectFromCenterSize(transformedPos, SpriteSize));
+			Size size = new Size(SpriteImage.Width, SpriteImage.Height);
+
+			dc.PushTransform(new RotateTransform(angle, transformedPos.X, transformedPos.Y));
+			dc.DrawImage(SpriteImage, MathHelper.CreateRectFromCenterSize(transformedPos, size));
 			dc.Pop();
 		}
 	}

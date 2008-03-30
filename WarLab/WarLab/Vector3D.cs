@@ -1,9 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Diagnostics;
 
 namespace WarLab {
 	public struct Vector3D {
+
+		public Vector3D(double[] values) {
+			if (values == null)
+				throw new ArgumentNullException("values");
+			if (values.Length != 3)
+				throw new ArgumentException("Неправильная длина массива - в нем должны храниться 3 компоненты!");
+
+			x = values[0];
+			y = values[1];
+			h = values[2];
+		}
+
+		[DebuggerStepThrough]
 		public Vector3D(double x, double y, double h) {
 			this.x = x;
 			this.y = y;
@@ -66,7 +80,7 @@ namespace WarLab {
 		#endregion
 
 		public override string ToString() {
-			return String.Format("[{0}; {1}; {2}]", x, y, h);
+			return String.Format("{0}; {1}; {2}", x, y, h);
 		}
 
 		public Vector3D Normalize() {

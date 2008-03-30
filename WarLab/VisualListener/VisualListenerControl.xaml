@@ -1,0 +1,7 @@
+﻿<UserControl x:Class="VisualListener.VisualListenerControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ScrollViewer Name="scrollViewer" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+        <StackPanel VerticalAlignment="Stretch" Name="stackPanel" Orientation="Vertical"/>
+    </ScrollViewer>
+</UserControl>

@@ -3,9 +3,22 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 				xmlns:c="http://microsoft.cs.msu.su/ScientificStudio/1.0"
 				xmlns:l="clr-namespace:WarLab.SampleUI.Charts"
+				xmlns:d="http://microsoft.cs.msu.su/General"
     Title="Window1" WindowState="Maximized">
+	<Window.Resources>
+		<LinearGradientBrush x:Key="logBrush" StartPoint="0,0" EndPoint="0,1">
+			<GradientStop Color="SeaGreen" Offset="0" />
+			<GradientStop Color="SlateBlue" Offset="1" />
+		</LinearGradientBrush>
+	</Window.Resources>
+
 	<Grid>
-		<c:ChartPlotter Name="plotter">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="4*"/>
+			<ColumnDefinition Width="*"/>
+		</Grid.ColumnDefinitions>
+
+		<c:ChartPlotter Name="plotter" Grid.Column="0">
 			<c:ChartPlotter.Viewport>
 				<c:Viewport2D Margin="30" Visible="0,0,1000,1000"/>
 			</c:ChartPlotter.Viewport>
@@ -13,5 +26,12 @@
 			<c:Axises />
 			<l:SpriteGraph/>
 		</c:ChartPlotter>
+
+		<Border BorderBrush="{StaticResource logBrush}" BorderThickness="3" Grid.Column="1">
+			<DockPanel>
+				<TextBlock Text="Log" TextAlignment="Center" Background="SeaShell" DockPanel.Dock="Top"/>
+				<d:VisualListenerControl DockPanel.Dock="Bottom"/>
+			</DockPanel>
+		</Border>
 	</Grid>
 </Window>
