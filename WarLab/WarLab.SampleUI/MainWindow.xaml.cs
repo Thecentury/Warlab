@@ -9,8 +9,13 @@ using ScientificStudio.Charting.GraphicalObjects;
 using System.Windows.Threading;
 using System.Threading;
 using System.Windows.Media.Animation;
+using System.Diagnostics;
+using WarLab.SampleUI.AI;
 
 namespace WarLab.SampleUI {
+
+	public delegate GraphicalObject RendererCreator(WarObject warObj);
+
 	/// <summary>
 	/// Interaction logic for Window1.xaml
 	/// </summary>
@@ -19,19 +24,17 @@ namespace WarLab.SampleUI {
 			InitializeComponent();
 			world.CollectionChanged += Objects_CollectionChanged;
 
-			SamplePlane plane = new SamplePlane();
-			world.AddWarObject(plane, new Vector3D(500, 500, 1));
-
-			AddUIGraph(new SpriteGraph
-			{
-				SpriteSource = plane,
-				SpriteImage = new BitmapImage(new Uri(@"Sprites\Plane.png", UriKind.Relative))
-			});
-
 			Loaded += MainWindow_Loaded;
 		}
 
+
 		private void MainWindow_Loaded(object sender, RoutedEventArgs e) {
+			world.RegisterAIForWarObject<SamplePlaneAI, SamplePlane>();
+
+			for (int i = 0; i < 30; i++) {
+				world.AddWarObject(new SamplePlane(), new Vector3D(500, 500, 1));
+			}
+
 			AnimationClock clock = animation.CreateClock();
 			
 			ApplyAnimationClock(TimeProperty, clock);
@@ -70,7 +73,29 @@ namespace WarLab.SampleUI {
 			w.Tick();
 		}
 
+		private readonly Dictionary<WarObject, GraphicalObject> createdGraphs = new Dictionary<WarObject, GraphicalObject>();
+
 		private void Objects_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
+			switch (e.Action) {
+				case NotifyCollectionChangedAction.Add:
+
+					WarObject warObj = (WarObject)e.NewItems[0];
+					GraphicalObject graph = Renderers.CreateGraphForWarObject(warObj);
+					createdGraphs.Add(warObj, graph);
+					AddUIGraph(graph);
+
+					break;
+				case NotifyCollectionChangedAction.Move:
+					break;
+				case NotifyCollectionChangedAction.Remove:
+					break;
+				case NotifyCollectionChangedAction.Replace:
+					break;
+				case NotifyCollectionChangedAction.Reset:
+					break;
+				default:
+					break;
+			}
 		}
 
 		private TimeSpan totalTime = new TimeSpan();
@@ -80,8 +105,6 @@ namespace WarLab.SampleUI {
 			totalTime = totalTime.Add(tickDelta);
 
 			WarTime time = new WarTime(tickDelta, totalTime);
-
-			//Debug.WriteLine(totalTime.TotalMilliseconds);
 
 			world.Update(time);
 			UpdateUI();

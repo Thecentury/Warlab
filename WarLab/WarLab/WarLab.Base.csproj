@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WarLab</RootNamespace>
-    <AssemblyName>WarLab</AssemblyName>
+    <AssemblyName>WarLab.Base</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <StartupObject>
@@ -45,19 +45,25 @@
   </Target>
   -->
   <ItemGroup>
-    <Compile Include="IBombDamageable.cs" />
-    <Compile Include="DynamicObject.cs" />
-    <Compile Include="IDamageable.cs" />
-    <Compile Include="IRocketDamageable.cs" />
+    <Compile Include="AI\ChangeDirectionCommand.cs" />
+    <Compile Include="AI\ControlsAttribute.cs" />
+    <Compile Include="AI\IAICommand.cs" />
+    <Compile Include="AI\PlaneAI.cs" />
+    <Compile Include="AI\WarAI.cs" />
+    <Compile Include="WarObjects\IBombDamageable.cs" />
+    <Compile Include="WarObjects\DynamicObject.cs" />
+    <Compile Include="WarObjects\IDamageable.cs" />
+    <Compile Include="WarObjects\IRocketDamageable.cs" />
     <Compile Include="ISpriteSource.cs" />
     <Compile Include="MathHelper.cs" />
     <Compile Include="NormalDistribution.cs" />
-    <Compile Include="Plane.cs" />
-    <Compile Include="StaticObject.cs" />
+    <Compile Include="WarObjects\Plane.cs" />
+    <Compile Include="WarObjects\StaticObject.cs" />
+    <Compile Include="StaticRandom.cs" />
     <Compile Include="Vector2D.cs" />
     <Compile Include="Vector3D.cs" />
     <Compile Include="Verify.cs" />
-    <Compile Include="WarObject.cs" />
+    <Compile Include="WarObjects\WarObject.cs" />
     <Compile Include="WarTime.cs" />
     <Compile Include="World.cs" />
   </ItemGroup>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using WarLab.AI;
 
 namespace WarLab {
 	/// <summary>
@@ -9,17 +10,33 @@ namespace WarLab {
 	public abstract class WarObject {
 		private Vector3D position;
 		/// <summary>
-		/// Gets or sets the position.
+		/// Положение объекта в мире.
 		/// </summary>
-		/// <value>The position.</value>
 		public Vector3D Position {
 			get { return position; }
 			internal set { position = value; }
 		}
 
+
 		/// <summary>
 		/// Updates this instance.
 		/// </summary>
-		public abstract void Update(WarTime warTime);
+		public void Update(WarTime warTime) {
+			ai.Update(warTime);
+
+			UpdateImpl(warTime);
+		}
+
+		protected virtual void UpdateImpl(WarTime warTime) { }
+
+		private WarAI ai = null;
+		internal void SetAI(WarAI ai) {
+			this.ai = ai;
+			ai.Attach(this);
+		}
+
+		internal void ExecuteAICommands() {
+			ai.ExecuteCommands();
+		}
 	}
 }
