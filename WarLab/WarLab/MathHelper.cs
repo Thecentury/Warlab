@@ -14,5 +14,9 @@ namespace WarLab {
 		public static Rect CreateRectFromCenterSize(Point center, Size size) {
 			return new Rect(center.X - size.Width / 2, center.Y - size.Height / 2, size.Width, size.Height);
 		}
+
+		public static double Distance(Vector3D point1, Vector3D point2) {
+			return (point1 - point2).Length;
+		}
 	}
 }
