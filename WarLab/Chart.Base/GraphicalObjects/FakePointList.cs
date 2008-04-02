@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Linq;
+using System.Text;
 using System.Windows;
+using System.Diagnostics;
 
 namespace ScientificStudio.Charting.GraphicalObjects {
 	internal sealed class FakePointList : IList<Point> {

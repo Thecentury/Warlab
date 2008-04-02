@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Windows;
+using System.Linq;
+using System.Text;
 using System.Windows.Media;
+using System.Windows;
+using System.Globalization;
+using System.Diagnostics;
 
 namespace ScientificStudio.Charting.GraphicalObjects {
 	public class Axises : GraphicalObject {

@@ -1,4 +1,9 @@
-﻿
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
+using System.Diagnostics;
+
 namespace ScientificStudio.Charting.Isoline {
 	/// <summary>
 	/// Isoline's grid cell

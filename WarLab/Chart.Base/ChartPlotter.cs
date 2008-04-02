@@ -1,15 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Input;
 using ScientificStudio.Charting.GraphicalObjects;
+using System.Windows.Controls;
+using System.Diagnostics;
 using ScientificStudio.Charting.Layers;
+using System.Windows.Documents;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Collections.Generic;
 
 namespace ScientificStudio.Charting {
 	/// <summary>
@@ -19,20 +20,11 @@ namespace ScientificStudio.Charting {
 	/// LMB + drag - drag of graphs
 	/// RMB + drag - zoom/unzoom
 	/// </remarks>
-	public class ChartPlotter : Canvas, INotifyCollectionChanged {
-		/// <summary>
-		/// Initializes a new instance of the <see cref="ChartPlotter"/> class.
-		/// </summary>
+	public class ChartPlotter : Canvas {
 		public ChartPlotter() {
-			InitViewport();
-
 			Background = Brushes.Transparent;
 			Focusable = true;
 			Loaded += OnLoaded;
-		}
-
-		private void InitViewport() {
-			Viewport2D v = Viewport;
 		}
 
 		private void OnLoaded(object sender, RoutedEventArgs e) {
@@ -43,27 +35,17 @@ namespace ScientificStudio.Charting {
 
 		#region Graph children
 
-		public int AddGraph(IGraphicalObject graph) {
-			UIElement uiElement = graph as UIElement;
-			if (uiElement == null)
-				throw new ArgumentException("Graph should be descendant of UIElement class", "graph");
-
-			return Children.Add(uiElement);
+		public int AddGraph(GraphicalObject graph) {
+			return Children.Add(graph);
 		}
 
 		protected override UIElementCollection CreateUIElementCollection(FrameworkElement logicalParent) {
-			GraphCollection children = new GraphCollection(this, logicalParent);
-			children.CollectionChanged += children_CollectionChanged;
-			return children;
-		}
-
-		private void children_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
-			RaiseCollectionChanged(e);
+			return new GraphCollection(this, logicalParent);
 		}
 
 		protected internal void AttachChild(IGraphicalObject child) {
 			base.AddLogicalChild(child);
-			child.SetViewport(Viewport);
+			child.SetViewport(viewport);
 		}
 
 		protected internal void DetachGraph(IGraphicalObject graph) {
@@ -71,38 +53,23 @@ namespace ScientificStudio.Charting {
 			graph.DetachViewport();
 		}
 
-		public IEnumerable<IGraphicalObject> GraphChildren {
-			get { return Children.OfType<IGraphicalObject>(); }
-		}
+        public IEnumerable<IGraphicalObject> GraphChildren {
+            get { return Children.OfType<IGraphicalObject>(); }
+        }
 
 		#endregion
 
-		private Viewport2D viewport = null;
-		/// <summary>
-		/// Gets or sets the viewport.
-		/// </summary>
-		/// <value>The viewport.</value>
+		private Viewport2D viewport = new Viewport2D();
 		public Viewport2D Viewport {
-			get {
-				if (viewport == null) {
-					viewport = new Viewport2D();
-					AddLogicalChild(viewport);
-					viewport.AttachToPlotter(this);
-				}
-				return viewport;
-			}
+			get { return viewport; }
 			set {
 				if (value == null)
 					throw new ArgumentNullException("value");
 
-				if (viewport != null) {
-					viewport.DetachFromPlotter(this);
-				}
-				RemoveLogicalChild(viewport);
-				AddLogicalChild(value);
+                RemoveLogicalChild(viewport);
+                AddLogicalChild(value);
 
 				viewport = value;
-				viewport.AttachToPlotter(this);
 				foreach (IGraphicalObject graph in Children.OfType<IGraphicalObject>()) {
 					graph.SetViewport(viewport);
 				}
@@ -113,10 +80,6 @@ namespace ScientificStudio.Charting {
 			get { return new Rect(RenderSize); }
 		}
 
-		/// <summary>
-		/// Raises the <see cref="E:System.Windows.FrameworkElement.SizeChanged"/> event, using the specified information as part of the eventual event data.
-		/// </summary>
-		/// <param name="sizeInfo">Details of the old and new size involved in the change.</param>
 		protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo) {
 			base.OnRenderSizeChanged(sizeInfo);
 			Viewport.Output = RenderBounds;
@@ -191,8 +154,8 @@ namespace ScientificStudio.Charting {
 		double wheelZoomSpeed = 1.2;
 		protected override void OnPreviewMouseWheel(MouseWheelEventArgs e) {
 			Point zoomTo = e.GetPosition(this).Transform(viewport.OutputWithMargin, viewport.Visible);
-
-			double delta = -e.Delta;
+            
+            double delta = -e.Delta;
 			double zoomSpeed = Math.Abs(delta / 120);
 			zoomSpeed *= wheelZoomSpeed;
 			if (delta < 0) {
@@ -413,18 +376,6 @@ namespace ScientificStudio.Charting {
 			OnlyY,
 			None
 		}
-
-		#region INotifyCollectionChanged Members
-
-		private void RaiseCollectionChanged(NotifyCollectionChangedEventArgs e) {
-			if (CollectionChanged != null) {
-				CollectionChanged(this, e);
-			}
-		}
-
-		public event NotifyCollectionChangedEventHandler CollectionChanged;
-
-		#endregion
 	}
 
 	public enum KeepZoomRatio {

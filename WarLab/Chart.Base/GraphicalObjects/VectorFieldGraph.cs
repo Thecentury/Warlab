@@ -1,8 +1,11 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Media;
-using ScientificStudio.Charting.GraphicalObjects.VectorMarkers;
+﻿using System.Windows.Media;
 using ScientificStudio.Charting.Isoline;
+using System.Windows;
+using System;
+using System.Diagnostics;
+using ScientificStudio.Charting.GraphicalObjects.VectorMarkers;
+using System.Windows.Threading;
+using System.Threading;
 
 namespace ScientificStudio.Charting.GraphicalObjects {
 	public class VectorFieldGraph : GraphicalObject {

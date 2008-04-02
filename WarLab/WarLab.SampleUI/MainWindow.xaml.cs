@@ -28,16 +28,34 @@ namespace WarLab.SampleUI {
 		}
 
 
+		DateTime startTime;
 		private void MainWindow_Loaded(object sender, RoutedEventArgs e) {
 			world.RegisterAIForWarObject<SamplePlaneAI, SamplePlane>();
 
-			for (int i = 0; i < 30; i++) {
-				world.AddWarObject(new SamplePlane(), new Vector3D(500, 500, 1));
+			for (int i = 0; i < 100; i++) {
+				double x = StaticRandom.NextDouble() * 500 + 250;
+				double y = StaticRandom.NextDouble() * 500 + 250;
+				double h = 1;
+
+				world.AddWarObject(new SamplePlane(), new Vector3D(x, y, h));
 			}
 
+			startTime = DateTime.Now;
+			AnimationTimeline.SetDesiredFrameRate(animation, 100);
+
 			AnimationClock clock = animation.CreateClock();
-			
+#if !true
 			ApplyAnimationClock(TimeProperty, clock);
+#else
+			timer = new Timer(OnTimerTick, null, 0, 10);
+#endif
+		}
+
+		private Timer timer = null;
+
+		private delegate void MethodInvoker();
+		private void OnTimerTick(object o) {
+			Dispatcher.Invoke(DispatcherPriority.Normal, (MethodInvoker)(() => Tick()));
 		}
 
 		World world = World.Instance;
@@ -51,8 +69,7 @@ namespace WarLab.SampleUI {
 
 		private void UpdateUI() {
 			foreach (var graph in uiGraphs) {
-				(graph as SpriteGraph).UpdateVisual();
-				graph.InvalidateVisual();
+				(graph as SpriteGraph).DoUpdate();
 			}
 		}
 
@@ -101,13 +118,32 @@ namespace WarLab.SampleUI {
 		private TimeSpan totalTime = new TimeSpan();
 		private TimeSpan tickDelta = TimeSpan.FromMilliseconds(30);
 
+		TimeSpan prevFrameTime = TimeSpan.Zero;
+		int counter = 0;
 		private void Tick() {
-			totalTime = totalTime.Add(tickDelta);
+			counter++;
+			bool measureDuration = counter % 50 == 0;
 
-			WarTime time = new WarTime(tickDelta, totalTime);
+			int frameStartTime = Environment.TickCount;
+
+			DateTime now = DateTime.Now;
+			TimeSpan totalDelta = now - startTime;
+			totalTime = totalTime.Add(tickDelta);
+			TimeSpan prevDelta = totalDelta - prevFrameTime;
+
+			//WarTime time = new WarTime(tickDelta, totalTime);
+			WarTime time = new WarTime(prevDelta, totalDelta);
 
 			world.Update(time);
 			UpdateUI();
+
+			int duration = Environment.TickCount - frameStartTime;
+			if (measureDuration) {
+				Debug.WriteLine(prevDelta.TotalMilliseconds);
+				//Debug.WriteLine(String.Format("Duration = {0} ms", duration));
+			}
+
+			prevFrameTime = totalDelta;
 		}
 	}
 }

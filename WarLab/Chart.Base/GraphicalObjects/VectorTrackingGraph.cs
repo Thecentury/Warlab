@@ -1,6 +1,10 @@
-﻿using System.Windows;
-using System.Windows.Input;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Windows.Media;
+using System.Windows.Input;
+using System.Windows;
 using ScientificStudio.Charting.Isoline;
 
 namespace ScientificStudio.Charting.GraphicalObjects {

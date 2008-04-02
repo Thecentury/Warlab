@@ -4,10 +4,11 @@
 #define _cache
 
 using System;
-using System.Windows;
+using System.Collections.Generic;
 using System.Windows.Media;
-using ScientificStudio.Charting.Auxilliary;
+using System.Windows;
 using ScientificStudio.Charting.Isoline;
+using ScientificStudio.Charting.Auxilliary;
 
 namespace ScientificStudio.Charting.GraphicalObjects {
 	public class ColorMap : GraphicalObject {

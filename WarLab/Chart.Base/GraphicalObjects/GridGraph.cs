@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Windows;
-using System.Windows.Media;
-using ScientificStudio.Charting.GraphicalObjects.Filters;
+﻿using System.Windows.Media;
 using ScientificStudio.Charting.Isoline;
+using System.Windows;
+using ScientificStudio.Charting.GraphicalObjects.Filters;
+using System.Collections.Generic;
+using System;
 
 namespace ScientificStudio.Charting.GraphicalObjects {
 	public sealed class GridGraph : GraphicalObject {

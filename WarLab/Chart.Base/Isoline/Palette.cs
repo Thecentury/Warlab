@@ -1,7 +1,10 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Diagnostics;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Windows.Media;
+using System.Diagnostics;
+using System.ComponentModel;
 
 namespace ScientificStudio.Charting.Isoline {
 	public interface IPalette {

@@ -32,7 +32,7 @@ namespace WarLab {
 		#region IRocketDamageable Members
 
 		public void MakeDamage(double damage) {
-			Verify.Double(damage);
+			Verify.DoubleIsPositive(damage);
 
 			health -= damage;
 			if (health <= 0.01) {

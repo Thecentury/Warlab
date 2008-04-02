@@ -1,8 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Controls;
+using System.Collections.Generic;
 using ScientificStudio.Charting.GraphicalObjects;
+using System.Windows.Controls;
+using System.Windows;
+using ScientificStudio.Charting.Layers;
 
 namespace ScientificStudio.Charting.Layers {
 	public sealed class LayersCollection : List<Layer> {

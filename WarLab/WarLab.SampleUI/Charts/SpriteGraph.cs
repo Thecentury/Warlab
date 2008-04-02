@@ -53,8 +53,9 @@ namespace WarLab.SampleUI.Charts {
 			  typeof(SpriteGraph),
 			  new FrameworkPropertyMetadata(new Size(20, 20)));
 
-		public void UpdateVisual() {
+		public void DoUpdate() {
 			MakeDirty();
+			InvalidateVisual();
 		}
 
 		protected override void OnRenderCore(DrawingContext dc, RenderState state) {
@@ -72,7 +73,8 @@ namespace WarLab.SampleUI.Charts {
 
 			dc.PushTransform(new RotateTransform(angle, transformedPos.X, transformedPos.Y));
 #if !true
-			dc.DrawEllipse(Brushes.Red, null, transformedPos, 3, 3);
+			const double ellipseSize = 5;
+			dc.DrawEllipse(Brushes.Red, null, transformedPos, ellipseSize, ellipseSize);
 #else
 			dc.DrawImage(SpriteImage, MathHelper.CreateRectFromCenterSize(transformedPos, size));
 #endif

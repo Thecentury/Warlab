@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Windows;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Windows.Media;
-using ScientificStudio.Charting.GraphicalObjects.VectorMarkers;
+using System.Windows;
 using ScientificStudio.Charting.Isoline;
+using ScientificStudio.Charting.GraphicalObjects.VectorMarkers;
 
 namespace ScientificStudio.Charting.GraphicalObjects {
 	internal sealed class MarkerInfo {
