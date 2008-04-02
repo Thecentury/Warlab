@@ -23,7 +23,7 @@ namespace ScientificStudio.Charting.PointSources {
 
 		public Func<double, double, double> F { get; set; }
 
-		protected override List<Point> GetPointsCore() {
+		protected override ICollection<Point> GetPointsCore() {
 			List<Point> pts = new List<Point>();
 
 			double time = Time;
@@ -42,8 +42,9 @@ namespace ScientificStudio.Charting.PointSources {
 			return pts;
 		}
 
+		// todo сделать нормальные Bounds
 		public override Rect Bounds {
-			get { throw new NotImplementedException(); }
+			get { return new Rect(); }
 		}
 	}
 }

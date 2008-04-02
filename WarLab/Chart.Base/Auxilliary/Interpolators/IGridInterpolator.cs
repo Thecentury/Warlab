@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ScientificStudio.Charting.Isoline;
+﻿using System.Collections.Generic;
 using System.Windows;
+using ScientificStudio.Charting.Isoline;
 
 namespace ScientificStudio.Charting.Auxilliary.Interpolators {
 	public interface IGridInterpolator {

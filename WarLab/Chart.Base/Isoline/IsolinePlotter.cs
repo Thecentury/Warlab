@@ -1,13 +1,10 @@
 ﻿#define _hack
 
 using System;
-using System.Linq;
-using System.Windows.Media;
-using ScientificStudio.Charting.Isoline;
+using System.Diagnostics;
 using System.Runtime.Serialization;
 using System.Windows;
-using System.Diagnostics;
-using System.Collections.Generic;
+using System.Windows.Media;
 
 namespace ScientificStudio.Charting.Isoline {
 	/// <summary>

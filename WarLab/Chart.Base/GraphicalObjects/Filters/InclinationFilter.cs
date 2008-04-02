@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
 
 namespace ScientificStudio.Charting.GraphicalObjects.Filters {
@@ -16,6 +14,9 @@ namespace ScientificStudio.Charting.GraphicalObjects.Filters {
 		#region IFilter Members
 
 		public List<Point> Filter(List<Point> initialPoints) {
+			if (initialPoints.Count == 0)
+				return initialPoints;
+
 			List<Point> res = new List<Point>();
 			res.Add(initialPoints[0]);
 			int i = 1;

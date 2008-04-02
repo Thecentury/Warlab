@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Diagnostics;
-using System.ComponentModel;
-using System.Windows;
+﻿using System.Diagnostics;
 
 namespace ScientificStudio.Charting.Isoline {
 	public interface IGrid1d {

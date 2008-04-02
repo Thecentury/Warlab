@@ -13,7 +13,7 @@ namespace ScientificStudio.Charting.PointSources {
 		/// <value>The F.</value>
 		public Func<double, double> F { get; set; }
 
-		protected override List<Point> GetPointsCore() {
+		protected override ICollection<Point> GetPointsCore() {
 			List<Point> pts = new List<Point>(Number);
 
 			double duration = Duration;

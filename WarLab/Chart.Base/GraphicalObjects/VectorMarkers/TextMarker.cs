@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ScientificStudio.Charting.Isoline;
-using System.Windows.Media;
+﻿using System.Globalization;
 using System.Windows;
-using System.Globalization;
+using System.Windows.Media;
+using ScientificStudio.Charting.Isoline;
 
 namespace ScientificStudio.Charting.GraphicalObjects.VectorMarkers {
 	public sealed class TextMarker : VectorMarker {

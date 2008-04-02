@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace ScientificStudio.Charting.GraphicalObjects.Descriptions {
 	public sealed class ScientificStudioDescription : Description {

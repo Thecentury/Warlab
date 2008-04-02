@@ -3,7 +3,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			  xmlns:l="clr-namespace:ScientificStudio.Charting.GraphicalObjects"
 			  >
-	<Border BorderThickness="1" BorderBrush="Black" Padding="3" SnapsToDevicePixels="True">
+	<Border BorderThickness="1" BorderBrush="Black" Padding="3" SnapsToDevicePixels="True" 
+					Background="White">
 		<StackPanel Name="stackPanel" SnapsToDevicePixels="False"/>
 	</Border>
 </l:ContentGraph>

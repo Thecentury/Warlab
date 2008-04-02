@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Controls;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace ScientificStudio.Charting.GraphicalObjects
 {
@@ -66,14 +63,20 @@ namespace ScientificStudio.Charting.GraphicalObjects
 
         #region IGraphicalObject Members
 
+		protected virtual void OnSetViewport(Viewport2D viewport) { }
+
         void IGraphicalObject.SetViewport(Viewport2D viewport)
         {
             service.SetViewport(viewport);
+			OnSetViewport(viewport);
         }
+
+		protected virtual void OnDetachViewport() { }
 
         void IGraphicalObject.DetachViewport()
         {
             service.DetachViewport();
+			OnDetachViewport();
         }
 
         #endregion

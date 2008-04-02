@@ -68,6 +68,7 @@
     <Compile Include="ChartControl.xaml.cs">
       <DependentUpon>ChartControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ColorHelper.cs" />
     <Compile Include="Debug.cs" />
     <Compile Include="GraphCollection.cs" />
     <Compile Include="CoordinateUtils.cs" />
@@ -81,6 +82,8 @@
     <Compile Include="GraphicalObjects\Descriptions\ScientificStudioDescription.cs" />
     <Compile Include="GraphicalObjects\Descriptions\Description.cs" />
     <Compile Include="GraphicalObjects\Descriptions\StandartDescription.cs" />
+    <Compile Include="GraphicalObjects\DotsGraph.cs" />
+    <Compile Include="GraphicalObjects\Filters\CompositeFilter.cs" />
     <Compile Include="GraphicalObjects\Filters\FrequencyFilter.cs" />
     <Compile Include="GraphicalObjects\Filters\IFilter.cs" />
     <Compile Include="GraphicalObjects\FakePointList.cs" />
@@ -109,7 +112,18 @@
     <Compile Include="GraphicalObjects\VectorMarkers\ColoredTriangleMarker.cs" />
     <Compile Include="GraphicalObjects\VectorTrackingGraph.cs" />
     <Compile Include="GraphicalObjects\ViewportService.cs" />
+    <Compile Include="PointSources\AnimatedFunctionPointSource1d.cs" />
+    <Compile Include="PointSources\BoundsHelper.cs" />
+    <Compile Include="PointSources\ChangeableDirectPointSource.cs" />
+    <Compile Include="PointSources\DirectPointSource.cs" />
+    <Compile Include="PointSources\FunctionPointSource1d.cs" />
+    <Compile Include="PointSources\FunctionPointSource1dBase.cs" />
+    <Compile Include="PointSources\IPointCollectionExtensions.cs" />
+    <Compile Include="PointSources\ListGenerator.cs" />
+    <Compile Include="PointSources\PointSource1dBase.cs" />
+    <Compile Include="PointSources\PolarFunctionPointSource1d.cs" />
     <Compile Include="RectChangedEventArgs.cs" />
+    <Compile Include="SimplifiedChartPlotter.cs" />
     <Compile Include="Viewport2D.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="IGraphicalObject.cs" />
@@ -136,7 +150,6 @@
     <Compile Include="GraphicalObjects\IsolineGraph.cs" />
     <Compile Include="PointSources\IPointSource.cs" />
     <Compile Include="PointSources\ParametricPointSource.cs" />
-    <Compile Include="PointSources\PointSource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RectangleSelectionAdorner.cs" />
     <Compile Include="RectShareHelper.cs" />

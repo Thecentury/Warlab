@@ -7,6 +7,7 @@ using ScientificStudio.Charting.GraphicalObjects;
 using System.Windows.Media;
 using System.Windows;
 using ScientificStudio.Charting.GraphicalObjects.Descriptions;
+using System.Windows.Controls;
 
 namespace ScientificStudio.Charting {
 	public sealed class SimplifiedChartPlotter : ChartPlotter {
@@ -15,8 +16,13 @@ namespace ScientificStudio.Charting {
 		/// </summary>
 		public SimplifiedChartPlotter()
 			: base() {
+			
 			AddGraph(new Axises());
-			AddGraph(new Legend());
+			
+			Legend legend = new Legend();
+			legend.SetValue(Panel.ZIndexProperty, 1000);
+			AddGraph(legend);
+			
 			ZoomRatioKeepStyle = KeepZoomRatio.Always;
 		}
 
