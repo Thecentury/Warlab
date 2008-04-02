@@ -13,12 +13,9 @@ namespace WarLab.AI {
 			this.direction = direction;
 		}
 
-		#region IAICommand Members
-
 		public void Execute() {
 			target.Orientation = direction;
 		}
 
-		#endregion
 	}
 }

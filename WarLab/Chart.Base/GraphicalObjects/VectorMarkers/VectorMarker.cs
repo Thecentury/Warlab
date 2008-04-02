@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using ScientificStudio.Charting.Isoline;
 using System.Windows;
 using System.Windows.Media;
-using ScientificStudio.Charting.Isoline;
+using System.Diagnostics;
 
 namespace ScientificStudio.Charting.GraphicalObjects.VectorMarkers {
 	public abstract class VectorMarker {

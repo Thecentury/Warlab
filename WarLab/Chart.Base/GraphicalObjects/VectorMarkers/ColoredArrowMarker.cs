@@ -1,8 +1,11 @@
 ﻿using System;
-using System.Windows;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Windows.Media;
-using ScientificStudio.Charting.Auxilliary;
+using System.Windows;
 using ScientificStudio.Charting.Isoline;
+using ScientificStudio.Charting.Auxilliary;
 
 namespace ScientificStudio.Charting.GraphicalObjects.VectorMarkers {
 	public sealed class ColoredArrowMarker : VectorMarker {

@@ -1,8 +1,12 @@
 ﻿using System;
-using System.Windows;
-using System.Windows.Media;
-using ScientificStudio.Charting.Auxilliary;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using ScientificStudio.Charting.Isoline;
+using System.Windows.Media;
+using System.Windows;
+using ScientificStudio.Charting.Auxilliary;
+using System.Diagnostics;
 
 namespace ScientificStudio.Charting.GraphicalObjects.VectorMarkers {
 	public sealed class ColoredTriangleMarker : VectorMarker {

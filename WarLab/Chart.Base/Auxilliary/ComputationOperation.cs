@@ -1,6 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading;
 using System.Windows.Threading;
 using ScientificStudio.Charting.GraphicalObjects;
+using System.Windows;
 
 namespace ScientificStudio.Charting.Auxilliary {
 	public delegate object ComputationCallback(IAbortable abortable);

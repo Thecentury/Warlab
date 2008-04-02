@@ -17,19 +17,25 @@ namespace WarLab {
 			internal set { position = value; }
 		}
 
+		internal void UpdateAI(WarTime time) {
+			ai.Update(time);
+		}
 
 		/// <summary>
 		/// Updates this instance.
 		/// </summary>
-		public void Update(WarTime warTime) {
-			ai.Update(warTime);
-
+		internal void UpdateSelf(WarTime warTime) {
 			UpdateImpl(warTime);
 		}
 
 		protected virtual void UpdateImpl(WarTime warTime) { }
 
 		private WarAI ai = null;
+
+		protected WarAI AI {
+			get { return ai; }
+		}
+
 		internal void SetAI(WarAI ai) {
 			this.ai = ai;
 			ai.Attach(this);

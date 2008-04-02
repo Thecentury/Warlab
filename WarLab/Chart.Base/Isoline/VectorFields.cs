@@ -1,4 +1,8 @@
-﻿
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
 namespace ScientificStudio.Charting.Isoline {
 	public interface IVectorArray2d : IArray2d {
 		Vector2D this[int x, int y] { get; set; }
