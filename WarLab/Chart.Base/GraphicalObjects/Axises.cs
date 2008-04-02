@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Media;
-using System.Windows;
 using System.Globalization;
-using System.Diagnostics;
+using System.Windows;
+using System.Windows.Media;
 
 namespace ScientificStudio.Charting.GraphicalObjects {
 	public class Axises : GraphicalObject {
@@ -21,15 +18,22 @@ namespace ScientificStudio.Charting.GraphicalObjects {
 		private Brush brush;
 		private Pen pen;
 		private double axisesShift = 7;
-		private double thickness = 2;
+		private double thickness = 1;
 
 		protected override void OnRenderCore(DrawingContext dc, RenderState state) {
 			brush = Brushes.Black;
 			pen = new Pen(brush, thickness);
 
 			gridBrush = Brushes.LightGray;
+			gridBrush.Freeze();
+	
 			gridPen = new Pen(gridBrush, gridBrushThickness);
-            gridPen.DashStyle = DashStyles.Dot;
+			
+			// it is not recommended to specify DashStyle not equal to Solid
+			// because of poor performance
+            // gridPen.DashStyle = DashStyles.Dot;
+
+			gridPen.Freeze();
 
 			double[] horTicks = CalcHorTicks();
 			double[] vertTicks = CalcVertTicks();
@@ -71,24 +75,18 @@ namespace ScientificStudio.Charting.GraphicalObjects {
 
 		private void DrawGrid(DrawingContext dc, double[] horTicks, double[] vertTicks) {
 			dc.PushClip(new RectangleGeometry(Viewport.OutputWithMargin));
+			
 			Rect output = Viewport.OutputWithMargin;
 			for (int i = 0; i < horTicks.Length; i++) {
 				double screenX = new Point(horTicks[i], 0).Transform(Viewport.Visible, output).X;
-				LineGeometry line = new LineGeometry(
-					new Point(screenX, output.Top),
-					new Point(screenX, output.Bottom)
-				);
-				dc.DrawGeometry(gridBrush, gridPen, line);
+				dc.DrawLine(gridPen, new Point(screenX, output.Top), new Point(screenX, output.Bottom));
 			}
 
 			for (int i = 0; i < vertTicks.Length; i++) {
 				double screenY = new Point(0, vertTicks[i]).Transform(Viewport.Visible, output).Y;
-				LineGeometry line = new LineGeometry(
-					new Point(output.Left, screenY),
-					new Point(output.Right, screenY)
-				);
-				dc.DrawGeometry(gridBrush, gridPen, line);
+				dc.DrawLine(gridPen, new Point(output.Left, screenY), new Point(output.Right, screenY));
 			}
+			
 			dc.Pop();
 		}
 

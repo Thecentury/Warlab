@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Media;
-using System.IO;
-using System.Windows;
-using System.Globalization;
-using ScientificStudio.Charting.GraphicalObjects.Filters;
-using System.Diagnostics;
 using System.ComponentModel;
-using System.Windows.Shapes;
-using System.Windows.Media.Imaging;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Windows;
+using System.Windows.Media;
+using ScientificStudio.Charting.GraphicalObjects.Filters;
 
 namespace ScientificStudio.Charting.GraphicalObjects {
 	public class Coastline : GraphicalObject, ISupportInitialize {

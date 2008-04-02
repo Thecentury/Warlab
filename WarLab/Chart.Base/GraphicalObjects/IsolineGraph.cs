@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using ScientificStudio.Charting.GraphicalObjects;
-using System.Windows.Media;
-using System.Windows;
-using ScientificStudio.Charting.Isoline;
 using System.Globalization;
+using System.Windows;
+using System.Windows.Media;
+using ScientificStudio.Charting.GraphicalObjects;
 
 namespace ScientificStudio.Charting.Isoline {
 	public class IsolineGraph : GraphicalObject {

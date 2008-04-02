@@ -1,6 +1,5 @@
-﻿using System.Windows;
-using System.Windows.Media;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Windows;
 
 namespace ScientificStudio.Charting {
 	public static class CoordinateUtils {
@@ -36,7 +35,7 @@ namespace ScientificStudio.Charting {
 			return new Rect(p1, p2);
 		}
 
-		internal static Point RectCenter(Rect rect) {
+		public static Point RectCenter(Rect rect) {
 			return new Point(rect.Left + rect.Width * 0.5f, rect.Top + rect.Height * 0.5f);
 		}
 

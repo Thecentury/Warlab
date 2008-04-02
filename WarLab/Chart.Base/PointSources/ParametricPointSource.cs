@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
 
 namespace ScientificStudio.Charting.PointSources
@@ -15,7 +13,7 @@ namespace ScientificStudio.Charting.PointSources
 
         #region IPointSource Members
 
-        public List<Point> GeneratePoints()
+        public ICollection<Point> GetPoints()
         {
             List<Point> pts = new List<Point>(Number);
             double step = (EndT - StartT) / Number;
@@ -28,5 +26,17 @@ namespace ScientificStudio.Charting.PointSources
         }
 
         #endregion
-    }
+
+		#region IPointSource Members
+
+		public Rect Bounds {
+			get { throw new NotImplementedException(); }
+		}
+		// todo use me!
+		public event EventHandler BoundsChanged;
+
+		public event EventHandler PointsChanged;
+
+		#endregion
+	}
 }

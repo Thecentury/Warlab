@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Diagnostics;
+using System.Windows;
 
 namespace ScientificStudio.Charting.Auxilliary {
 	internal static class MathHelper {
@@ -16,6 +13,10 @@ namespace ScientificStudio.Charting.Auxilliary {
 
 		internal static void Clamp_01(ref double d) {
 			d = Math.Max(0, Math.Min(d, 1));
+		}
+
+		internal static Rect CreateRectByPoints(double xMin, double yMin, double xMax, double yMax) {
+			return new Rect(new Point(xMin, yMin), new Point(xMax, yMax));
 		}
 	}
 }

@@ -12,7 +12,7 @@ namespace ScientificStudio.Charting.PointSources {
 		private int version = 1;
 		private int cachedVersion = 0;
 		private List<Point> cachedPoints;
-		protected override List<Point> GetPointsCore() {
+		protected override ICollection<Point> GetPointsCore() {
 			if (cachedVersion == version) {
 				return cachedPoints;
 			}

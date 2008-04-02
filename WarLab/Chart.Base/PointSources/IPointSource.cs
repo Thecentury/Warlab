@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Windows;
+using System;
 
-namespace ScientificStudio.Charting.PointSources
-{
-    public interface IPointSource
-    {
-        List<Point> GeneratePoints();
-    }
+namespace ScientificStudio.Charting.PointSources {
+	
+	public interface IPointSource {
+		ICollection<Point> GetPoints();
+		event EventHandler PointsChanged;
+
+		Rect Bounds { get; }
+		event EventHandler BoundsChanged;
+	}
 }

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Media;
 
 namespace ScientificStudio.Charting {
@@ -42,6 +39,12 @@ namespace ScientificStudio.Charting {
 			set { alpha = value; }
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="HSBColor"/> struct.
+		/// </summary>
+		/// <param name="hue">The hue; [0; 360]</param>
+		/// <param name="saturation">The saturation; [0, 1]</param>
+		/// <param name="brightness">The brightness; [0, 1]</param>
 		public HSBColor(double hue, double saturation, double brightness) {
 			this.hue = hue;
 			this.saturation = saturation;
@@ -49,6 +52,13 @@ namespace ScientificStudio.Charting {
 			alpha = 1;
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="HSBColor"/> struct.
+		/// </summary>
+		/// <param name="hue">The hue; [0, 360]</param>
+		/// <param name="saturation">The saturation; [0, 1]</param>
+		/// <param name="brightness">The brightness; [0, 1]</param>
+		/// <param name="alpha">The alpha; [0, 1]</param>
 		public HSBColor(double hue, double saturation, double brightness, double alpha) {
 			this.hue = hue;
 			this.saturation = saturation;
