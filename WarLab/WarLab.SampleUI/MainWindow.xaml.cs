@@ -41,22 +41,18 @@ namespace WarLab.SampleUI {
 			}
 
 			startTime = DateTime.Now;
-			AnimationTimeline.SetDesiredFrameRate(animation, 100);
-
-			AnimationClock clock = animation.CreateClock();
-#if !true
-			ApplyAnimationClock(TimeProperty, clock);
-#else
-			timer = new Timer(OnTimerTick, null, 0, 10);
-#endif
+			
+			dispTimer.Tick += dispTimer_Tick;
+			dispTimer.IsEnabled = true;
+			dispTimer.Interval = TimeSpan.FromMilliseconds(5);
+			dispTimer.Start();
 		}
 
-		private Timer timer = null;
-
-		private delegate void MethodInvoker();
-		private void OnTimerTick(object o) {
-			Dispatcher.Invoke(DispatcherPriority.Normal, (MethodInvoker)(() => Tick()));
+		void dispTimer_Tick(object sender, EventArgs e) {
+			Tick();
 		}
+
+		DispatcherTimer dispTimer = new DispatcherTimer();
 
 		World world = World.Instance;
 		EndlessDoubleAnimation animation = new EndlessDoubleAnimation { From = 0, By = 1 };
@@ -71,23 +67,6 @@ namespace WarLab.SampleUI {
 			foreach (var graph in uiGraphs) {
 				(graph as SpriteGraph).DoUpdate();
 			}
-		}
-
-		public double Time {
-			get { return (double)GetValue(TimeProperty); }
-			set { SetValue(TimeProperty, value); }
-		}
-
-		public static readonly DependencyProperty TimeProperty =
-			DependencyProperty.Register(
-			  "Time",
-			  typeof(double),
-			  typeof(MainWindow),
-			  new FrameworkPropertyMetadata(0.0, OnTimeChanged));
-
-		private static void OnTimeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
-			MainWindow w = (MainWindow)d;
-			w.Tick();
 		}
 
 		private readonly Dictionary<WarObject, GraphicalObject> createdGraphs = new Dictionary<WarObject, GraphicalObject>();
