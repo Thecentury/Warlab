@@ -6,20 +6,19 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using WarLab.AI;
 using System.Diagnostics;
+using System.Windows.Markup;
+using System.ComponentModel;
+using System.Windows;
 
 namespace WarLab {
+	[ContentProperty("ObjectsForXaml")]
 	public sealed class World : INotifyCollectionChanged {
-		private World() {
+		public World() {
 			objects.CollectionChanged += objects_CollectionChanged;
 		}
 
 		private void objects_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
 			RaiseCollectionChanged(e);
-		}
-
-		private static readonly World instance = new World();
-		public static World Instance {
-			get { return instance; }
 		}
 
 		public void AddWarObject(WarObject obj, Vector3D position) {
@@ -32,8 +31,15 @@ namespace WarLab {
 			WarAI ai = (WarAI)Activator.CreateInstance(aiType);
 			obj.SetAI(ai);
 
+			obj.World = this;
+
 			obj.Position = position;
 			objects.Add(obj);
+		}
+
+		[EditorBrowsable(EditorBrowsableState.Never)]
+		public ObservableCollection<WarObject> ObjectsForXaml {
+			get { return objects; }
 		}
 
 		private readonly ObservableCollection<WarObject> objects = new ObservableCollection<WarObject>();
@@ -45,13 +51,9 @@ namespace WarLab {
 			return objects.OfType<T>();
 		}
 
-		int counter = 0;
 		public void Update(WarTime time) {
-			counter++;
-			bool measureDurationOfCall = false && counter % 50 == 0;
-			int startTime = 0;
-			if (measureDurationOfCall)
-				startTime = Environment.TickCount;
+			if (time.ElapsedTime.TotalMilliseconds == 0)
+				return;
 
 			foreach (var obj in objects) {
 				obj.UpdateAI(time);
@@ -63,11 +65,6 @@ namespace WarLab {
 
 			foreach (var obj in objects) {
 				obj.UpdateSelf(time);
-			}
-
-			if (measureDurationOfCall) {
-				int duration = Environment.TickCount - startTime;
-				Debug.WriteLine(String.Format("Duration = {0} ms", duration));
 			}
 		}
 
