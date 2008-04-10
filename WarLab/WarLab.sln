@@ -15,11 +15,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorldSerializationSample", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnemyPlanes", "EnemyPlanes\EnemyPlanes.csproj", "{A1D1E68B-FDF8-4954-B214-B4CCE4DFDDFA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarLab.SampleUI.2", "WarLab.SampleUI.2\WarLab.SampleUI.2.csproj", "{510FCA4D-C930-4F9D-A9C9-36BAE9FBAA77}"
-EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 9
+		SccNumberOfProjects = 8
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs07.codeplex.com/
 		SccLocalPath0 = .
@@ -41,12 +39,9 @@ Global
 		SccProjectUniqueName6 = EnemyPlanes\\EnemyPlanes.csproj
 		SccProjectName6 = EnemyPlanes
 		SccLocalPath6 = EnemyPlanes
-		SccProjectUniqueName7 = WarLab.SampleUI.2\\WarLab.SampleUI.2.csproj
-		SccProjectName7 = WarLab.SampleUI.2
-		SccLocalPath7 = WarLab.SampleUI.2
-		SccProjectUniqueName8 = WorldSerializationSample\\WorldSerializationSample.csproj
-		SccProjectName8 = WorldSerializationSample
-		SccLocalPath8 = WorldSerializationSample
+		SccProjectUniqueName7 = WorldSerializationSample\\WorldSerializationSample.csproj
+		SccProjectName7 = WorldSerializationSample
+		SccLocalPath7 = WorldSerializationSample
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,10 +76,6 @@ Global
 		{A1D1E68B-FDF8-4954-B214-B4CCE4DFDDFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A1D1E68B-FDF8-4954-B214-B4CCE4DFDDFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A1D1E68B-FDF8-4954-B214-B4CCE4DFDDFA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{510FCA4D-C930-4F9D-A9C9-36BAE9FBAA77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{510FCA4D-C930-4F9D-A9C9-36BAE9FBAA77}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{510FCA4D-C930-4F9D-A9C9-36BAE9FBAA77}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{510FCA4D-C930-4F9D-A9C9-36BAE9FBAA77}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

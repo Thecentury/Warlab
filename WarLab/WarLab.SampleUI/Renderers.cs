@@ -9,6 +9,7 @@ using WarLab.SampleUI.Charts;
 using System.Windows.Media.Imaging;
 using System.Diagnostics;
 using WarLab.WarObjects;
+using EnemyPlanes;
 
 namespace WarLab.SampleUI {
 	public static class Renderers {
@@ -44,7 +45,27 @@ namespace WarLab.SampleUI {
 			return new RLSGraph
 			{
 				StaticObject = (StaticObject)warObj,
-				SpriteImage = ResourceManager.GetBitmap(@"Sprites\Plane.png")
+				SpriteImage = ResourceManager.GetBitmap(@"Sprites\EnemyBuilding.png")
+			};
+		}
+
+		[RendersAttribute(typeof(EnemyFighter))]
+		[RendersAttribute(typeof(EnemyAirport))]
+		[RendersAttribute(typeof(EnemyBomber))]
+		private static GraphicalObject CreateForBomber(WarObject warObj) {
+			return new SpriteGraph
+			{
+				SpriteSource = (ISpriteSource)warObj,
+				SpriteImage = ResourceManager.GetBitmap(@"Sprites\EnemyPlane.png")
+			};
+		}
+
+		[RendersAttribute(typeof(StaticTarget))]
+		private static GraphicalObject CreateForStaticTarget(WarObject warObj) {
+			return new SpriteGraph
+			{
+				SpriteSource = (ISpriteSource)warObj,
+				SpriteImage = ResourceManager.GetBitmap(@"Sprites\EnemyBuilding.png")
 			};
 		}
 
