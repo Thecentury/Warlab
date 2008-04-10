@@ -21,7 +21,7 @@ namespace WarLab {
 		private double fuelLeft;
 		public double FuelLeft {
 			get { return fuelLeft; }
-			internal set {
+			set {
 				fuelLeft = value;
 				if (fuelLeft < 0.01) {
 					RaiseDead();

@@ -103,6 +103,7 @@ namespace WarLab.AI {
 					int j = i + 1;
 					while (j < trajectories.Count) {
 						if (trajectories[i].IsCloseTo(trajectories[j], errorDistance)) {
+							// todo возможно, проводить тут интерполяцию
 							trajectories.RemoveAt(j);
 						}
 						else {

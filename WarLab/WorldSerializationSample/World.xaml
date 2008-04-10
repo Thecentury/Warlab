@@ -1,0 +1,6 @@
+﻿<World
+	xmlns="http://warlab.ru"
+	xmlns:s="clr-namespace:WarLab.SampleUI.WarObjects;assembly=WarLab.SampleUI"
+	>
+	<s:SamplePlane Speed="10"/>
+</World>
