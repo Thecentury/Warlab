@@ -10,15 +10,5 @@ namespace WarLab.SampleUI {
 	/// Interaction logic for App.xaml
 	/// </summary>
 	public partial class App : Application {
-		protected override void OnStartup(StartupEventArgs e) {
-			base.OnStartup(e);
-
-			string windowName = "";
-#if true
-			windowName = "MainWindow";
-#endif
-			windowName += ".xaml";
-			StartupUri = new Uri(windowName, UriKind.Relative);
-		}
 	}
 }
