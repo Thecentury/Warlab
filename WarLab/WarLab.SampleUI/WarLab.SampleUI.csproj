@@ -72,10 +72,12 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AI\PathDrivenAI.cs" />
     <Compile Include="AI\SamplePlaneAI.cs" />
     <Compile Include="AssemblyXmlns.cs" />
+    <Compile Include="Charts\RLSGraph.cs" />
     <Compile Include="Charts\SpriteGraph.cs" />
-    <Compile Include="EndlessDoubleAnimation.cs" />
+    <Compile Include="Charts\WarGraph.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -92,6 +94,7 @@
     <Compile Include="Renderers.cs" />
     <Compile Include="RendersAttribute.cs" />
     <Compile Include="ResourceManager.cs" />
+    <Compile Include="WarObjects\SampleEnemyPlane.cs" />
     <Compile Include="WarObjects\SamplePlane.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

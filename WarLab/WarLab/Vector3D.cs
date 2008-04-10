@@ -2,12 +2,19 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Diagnostics;
+using System.Windows.Markup;
+using WarLab.WarObjects;
 
 namespace WarLab {
+	[ValueSerializer(typeof(Vector3DSerializer))]
 	public struct Vector3D {
 
 		[DebuggerStepThrough]
 		public Vector3D(double x, double y, double h) {
+			Verify.IsFinite(x);
+			Verify.IsFinite(y);
+			Verify.IsFinite(h);
+
 			this.x = x;
 			this.y = y;
 			this.h = h;
@@ -66,13 +73,47 @@ namespace WarLab {
 			return v * (1 / d);
 		}
 
+		public static bool operator ==(Vector3D v1, Vector3D v2) {
+			return v1.x == v2.x &&
+				v1.y == v2.y &&
+				v1.h == v2.h;
+		}
+
+		public static bool operator !=(Vector3D v1, Vector3D v2) {
+			return !(v1 == v2);
+		}
+
+		public static double operator &(Vector3D v1, Vector3D v2) {
+			return v1.x * v2.x + v1.y * v2.y + v1.h * v2.h;
+		}
+
 		#endregion
+
+		public double DistanceTo(Vector3D otherVec) {
+			return MathHelper.Distance(this, otherVec);
+		}
+
+		public override bool Equals(object obj) {
+			if (obj == null) return false;
+			if (obj is Vector3D) {
+				return this == (Vector3D)obj;
+			}
+			return false;
+		}
+
+		public override int GetHashCode() {
+			return x.GetHashCode() ^ y.GetHashCode() ^ h.GetHashCode();
+		}
 
 		public override string ToString() {
 			return String.Format("{0}; {1}; {2}", x, y, h);
 		}
 
 		public Vector3D Normalize() {
+			double len = Length;
+			if (len < Double.Epsilon) {
+				return new Vector3D();
+			}
 			double one_div_len = 1.0 / Length;
 
 			return new Vector3D(

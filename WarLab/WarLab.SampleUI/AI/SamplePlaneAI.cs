@@ -6,17 +6,21 @@ using WarLab.AI;
 using WarLab.SampleUI.WarObjects;
 
 namespace WarLab.SampleUI.AI {
+	[Controls(typeof(SampleEnemyPlane))]
 	[Controls(typeof(SamplePlane))]
 	class SamplePlaneAI : PlaneAI {
-		Vector3D targetPos = new Vector3D(1000, 1000, 1);
+		//Vector3D targetPos = new Vector3D(1000, 1000, 1);
+		Vector3D targetPos = new Vector3D(10000, 10000, 1);
 
 		public override void Update(WarTime warTime) {
 			double distance = MathHelper.Distance(ControlledPlane.Position, targetPos);
 
+			/*
 			double possibility = StaticRandom.NextDouble() * StaticRandom.NextDouble();
 			if (possibility > 0.9 || distance < 50) {
 				UpdateTargetPos();
 			}
+			 */
 
 			MoveInDirectionOf(targetPos);
 		}

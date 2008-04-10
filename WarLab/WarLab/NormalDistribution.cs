@@ -8,8 +8,18 @@ namespace WarLab {
 	/// Датчик случайных чисел с нормальным распределением.
 	/// </summary>
 	public sealed class NormalDistribution {
+		Random rnd = new Random();
+
+		const int len = 1200;
 		public double Generate(double m, double sigma) {
-			throw new NotImplementedException();
+			double sum = 0;
+			for (int i = 0; i < len; i++) {
+				sum += rnd.NextDouble();
+			}
+			sum -= len / 2;
+			sum *= Math.Sqrt(len / 12);
+			sum = sum * sigma + m;
+			return sum;
 		}
 	}
 }

@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarLab.SampleUI", "WarLab.S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VisualListener", "VisualListener\VisualListener.csproj", "{94E6E2D4-1BA0-4D82-87DD-F5DB696DA406}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorldSerializationSample", "WorldSerializationSample\WorldSerializationSample.csproj", "{2E51C2F5-AB87-48B4-ACC8-189964A2004E}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
 		SccNumberOfProjects = 6
@@ -58,6 +60,10 @@ Global
 		{94E6E2D4-1BA0-4D82-87DD-F5DB696DA406}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{94E6E2D4-1BA0-4D82-87DD-F5DB696DA406}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{94E6E2D4-1BA0-4D82-87DD-F5DB696DA406}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E51C2F5-AB87-48B4-ACC8-189964A2004E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E51C2F5-AB87-48B4-ACC8-189964A2004E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E51C2F5-AB87-48B4-ACC8-189964A2004E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E51C2F5-AB87-48B4-ACC8-189964A2004E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

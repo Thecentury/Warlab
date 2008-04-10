@@ -11,6 +11,8 @@ using System.Threading;
 using System.Windows.Media.Animation;
 using System.Diagnostics;
 using WarLab.SampleUI.AI;
+using WarLab.WarObjects;
+using WarLab.AI;
 
 namespace WarLab.SampleUI {
 
@@ -30,15 +32,31 @@ namespace WarLab.SampleUI {
 
 		DateTime startTime;
 		private void MainWindow_Loaded(object sender, RoutedEventArgs e) {
-			world.RegisterAIForWarObject<SamplePlaneAI, SamplePlane>();
+			//world.RegisterAIForWarObject<SamplePlaneAI, SamplePlane>();
+			world.RegisterAIForWarObject<PathDrivenAI, SamplePlane>();
+			//world.RegisterAIForWarObject<SamplePlaneAI, SampleEnemyPlane>();
+			world.RegisterAIForWarObject<PathDrivenAI, SampleEnemyPlane>();
+			world.RegisterAIForWarObject<RLSAI, RLS>();
 
-			for (int i = 0; i < 100; i++) {
+			for (int i = 0; i < 3; i++) {
 				double x = StaticRandom.NextDouble() * 500 + 250;
 				double y = StaticRandom.NextDouble() * 500 + 250;
-				double h = 1;
+				world.AddWarObject(new SampleEnemyPlane(), new Vector3D(x, y, 1));
+			}
+
+			/*
+			for (int i = 0; i < 1; i++) {
+				//double x = StaticRandom.NextDouble() * 500 + 250;
+				//double y = StaticRandom.NextDouble() * 500 + 250;
+				double x = 500;
+				double y = 500;
+				double h = 0;
 
 				world.AddWarObject(new SamplePlane(), new Vector3D(x, y, h));
 			}
+			 */
+
+			world.AddWarObject(new RLS(), new Vector3D());
 
 			startTime = DateTime.Now;
 			
@@ -48,14 +66,13 @@ namespace WarLab.SampleUI {
 			dispTimer.Start();
 		}
 
-		void dispTimer_Tick(object sender, EventArgs e) {
+		private void dispTimer_Tick(object sender, EventArgs e) {
 			Tick();
 		}
 
 		DispatcherTimer dispTimer = new DispatcherTimer();
 
-		World world = World.Instance;
-		EndlessDoubleAnimation animation = new EndlessDoubleAnimation { From = 0, By = 1 };
+		World world = new World();
 
 		private readonly List<GraphicalObject> uiGraphs = new List<GraphicalObject>();
 		private void AddUIGraph(GraphicalObject graph) {
@@ -65,7 +82,7 @@ namespace WarLab.SampleUI {
 
 		private void UpdateUI() {
 			foreach (var graph in uiGraphs) {
-				(graph as SpriteGraph).DoUpdate();
+				(graph as WarGraph).DoUpdate();
 			}
 		}
 
@@ -98,29 +115,26 @@ namespace WarLab.SampleUI {
 		private TimeSpan tickDelta = TimeSpan.FromMilliseconds(30);
 
 		TimeSpan prevFrameTime = TimeSpan.Zero;
-		int counter = 0;
 		private void Tick() {
-			counter++;
-			bool measureDuration = counter % 50 == 0;
 
 			int frameStartTime = Environment.TickCount;
 
 			DateTime now = DateTime.Now;
+#if !true
 			TimeSpan totalDelta = now - startTime;
 			totalTime = totalTime.Add(tickDelta);
 			TimeSpan prevDelta = totalDelta - prevFrameTime;
+#else
+			TimeSpan totalDelta = now - startTime;
+			totalTime = totalTime.Add(tickDelta);
+			TimeSpan prevDelta = tickDelta;
+#endif
 
 			//WarTime time = new WarTime(tickDelta, totalTime);
 			WarTime time = new WarTime(prevDelta, totalDelta);
 
 			world.Update(time);
 			UpdateUI();
-
-			int duration = Environment.TickCount - frameStartTime;
-			if (measureDuration) {
-				Debug.WriteLine(prevDelta.TotalMilliseconds);
-				//Debug.WriteLine(String.Format("Duration = {0} ms", duration));
-			}
 
 			prevFrameTime = totalDelta;
 		}

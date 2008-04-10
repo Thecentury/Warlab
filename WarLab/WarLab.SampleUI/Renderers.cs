@@ -8,6 +8,7 @@ using WarLab.SampleUI.WarObjects;
 using WarLab.SampleUI.Charts;
 using System.Windows.Media.Imaging;
 using System.Diagnostics;
+using WarLab.WarObjects;
 
 namespace WarLab.SampleUI {
 	public static class Renderers {
@@ -15,24 +16,35 @@ namespace WarLab.SampleUI {
 
 		static Renderers() {
 			Type type = typeof(Renderers);
-			
+
 			MemberInfo[] methods = type.GetMethods(BindingFlags.Static | BindingFlags.NonPublic);
 			var filteredMethods = from meth in methods
 								  let attrs = meth.GetCustomAttributes(typeof(RendersAttribute), false)
 								  where attrs.Length > 0
-								  select new { Method = meth, WarType = ((RendersAttribute)attrs[0]).WarObjectType };
+								  from attr in attrs
+								  select new { Method = meth, WarType = ((RendersAttribute)attr).WarObjectType };
 
 			foreach (var item in filteredMethods) {
 				renderers.Add(item.WarType, (RendererCreator)Delegate.CreateDelegate(typeof(RendererCreator), (MethodInfo)item.Method));
 			}
 		}
 
+		[RendersAttribute(typeof(SampleEnemyPlane))]
 		[RendersAttribute(typeof(SamplePlane))]
 		private static GraphicalObject CreateForSamplePlane(WarObject warObj) {
 			return new SpriteGraph
 			{
 				SpriteSource = (ISpriteSource)warObj,
-				SpriteImage = ResourceManager.GetBitmap(@"Sprites\Plane.png") //new BitmapImage(new Uri(@"Sprites\Plane.png", UriKind.Relative))
+				SpriteImage = ResourceManager.GetBitmap(@"Sprites\Plane.png")
+			};
+		}
+
+		[RendersAttribute(typeof(RLS))]
+		private static GraphicalObject CreateForStaticObject(WarObject warObj) {
+			return new RLSGraph
+			{
+				StaticObject = (StaticObject)warObj,
+				SpriteImage = ResourceManager.GetBitmap(@"Sprites\Plane.png")
 			};
 		}
 

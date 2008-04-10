@@ -2,19 +2,27 @@
 using System.Collections.Generic;
 using System.Text;
 using WarLab.AI;
+using System.Windows.Markup;
+using System.Windows;
 
 namespace WarLab {
 	/// <summary>
 	/// Базовый класс для любого объекта мира.
 	/// </summary>
-	public abstract class WarObject {
+	public abstract class WarObject  {
+		private World world;
+		public World World {
+			get { return world; }
+			internal set { world = value; }
+		}
+
 		private Vector3D position;
 		/// <summary>
 		/// Положение объекта в мире.
 		/// </summary>
 		public Vector3D Position {
 			get { return position; }
-			internal set { position = value; }
+			set { position = value; }
 		}
 
 		internal void UpdateAI(WarTime time) {
@@ -32,7 +40,7 @@ namespace WarLab {
 
 		private WarAI ai = null;
 
-		protected WarAI AI {
+		public WarAI AI {
 			get { return ai; }
 		}
 
