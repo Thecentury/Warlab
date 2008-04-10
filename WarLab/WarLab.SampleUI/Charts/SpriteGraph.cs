@@ -12,8 +12,6 @@ using WarLab.SampleUI.WarObjects;
 namespace WarLab.SampleUI.Charts {
 	public class SpriteGraph : WarGraph {
 		public SpriteGraph() {
-			// todo нужно ли это?
-			RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.LowQuality);
 			IsHitTestVisible = false;
 		}
 
@@ -41,18 +39,6 @@ namespace WarLab.SampleUI.Charts {
 			  typeof(SpriteGraph),
 			  new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender));
 
-		public Size SpriteSize {
-			get { return (Size)GetValue(SpriteSizeProperty); }
-			set { SetValue(SpriteSizeProperty, value); }
-		}
-
-		public static readonly DependencyProperty SpriteSizeProperty =
-			DependencyProperty.Register(
-			  "SpriteSize",
-			  typeof(Size),
-			  typeof(SpriteGraph),
-			  new FrameworkPropertyMetadata(new Size(20, 20)));
-
 		protected override void OnRenderCore(DrawingContext dc, RenderState state) {
 			if (SpriteSource == null) return;
 
@@ -65,6 +51,10 @@ namespace WarLab.SampleUI.Charts {
 			Point transformedPos = CoordinateUtils.Transform(new Point(pos2D.X, pos2D.Y), state.Visible, state.OutputWithMargin);
 
 			Size size = new Size(SpriteImage.Width, SpriteImage.Height);
+			if (SpriteImage.Width < 20) {
+				// для правильного отображения EnemyPlane.png - он почему-то считает, что его размер 16x14
+				size = new Size(100, 90);
+			}
 
 			dc.PushTransform(new RotateTransform(angle, transformedPos.X, transformedPos.Y));
 #if !true

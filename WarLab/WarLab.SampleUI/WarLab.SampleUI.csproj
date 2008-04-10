@@ -58,6 +58,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="MainWindow2.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -78,6 +82,9 @@
     <Compile Include="Charts\RLSGraph.cs" />
     <Compile Include="Charts\SpriteGraph.cs" />
     <Compile Include="Charts\WarGraph.cs" />
+    <Compile Include="MainWindow2.xaml.cs">
+      <DependentUpon>MainWindow2.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -112,6 +119,10 @@
       <Project>{2EE43325-B490-49C2-AE90-4B99B8104685}</Project>
       <Name>ScientificStudio.Charting</Name>
     </ProjectReference>
+    <ProjectReference Include="..\EnemyPlanes\EnemyPlanes.csproj">
+      <Project>{A1D1E68B-FDF8-4954-B214-B4CCE4DFDDFA}</Project>
+      <Name>EnemyPlanes</Name>
+    </ProjectReference>
     <ProjectReference Include="..\VisualListener\VisualListener.csproj">
       <Project>{94E6E2D4-1BA0-4D82-87DD-F5DB696DA406}</Project>
       <Name>VisualListener</Name>
@@ -123,6 +134,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Sprites\Plane.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\EnemyPlane.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\EnemyBuilding.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
