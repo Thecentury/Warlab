@@ -6,6 +6,6 @@ using System.Text;
 namespace WarLab {
 	public interface IDamageable {
 		double Health { get; }
-		event EventHandler Dead;
+		event EventHandler Destroyed;
 	}
 }

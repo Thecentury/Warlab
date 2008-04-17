@@ -45,6 +45,19 @@ namespace EnemyPlanes
 			get { return planes; }
 		}
 
+		/// <summary>
+		/// Добавить самолет аэропорту и установить ему позицию аэропорта в качестве позиции
+		/// базы, на которую надо возвращаться для дозаправки. Метод надо вызывать после 
+		/// добавления аэропорта и самолета в мир, потому что тогда у аэропорта есть Position,
+		/// а у самолета есть интеллект AI
+		/// </summary>
+		/// <param name="plane">Самолет</param>
+		public void AddPlane(EnemyPlane plane)
+		{
+			((EnemyPlaneAI)plane.AI).BasePosition = Position;
+			planes.Add(plane);
+		}
+
 		#endregion
 
 		#region WarObject implementation

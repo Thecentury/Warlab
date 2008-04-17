@@ -11,6 +11,10 @@ namespace WarLab {
 			return angleInRadians * radians2Degrees;
 		}
 
+		public static double AngleToRadians(double angleInDegrees) {
+			return angleInDegrees / radians2Degrees;
+		}
+
 		public static Rect CreateRectFromCenterSize(Point center, Size size) {
 			return new Rect(center.X - size.Width / 2, center.Y - size.Height / 2, size.Width, size.Height);
 		}

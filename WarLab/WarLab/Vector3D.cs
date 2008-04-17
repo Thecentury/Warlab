@@ -20,6 +20,31 @@ namespace WarLab {
 			this.h = h;
 		}
 
+		public Vector3D(double x, double y) {
+			Verify.IsFinite(x);
+			Verify.IsFinite(y);
+
+			this.x = x;
+			this.y = y;
+			this.h = 0;
+		}
+
+		public Vector3D(Vector2D v) {
+			x = v.X;
+			y = v.Y;
+			h = 0;
+		}
+
+		public Vector3D(Vector2D v, double height) {
+			x = v.X;
+			y = v.Y;
+			h = height;
+		}
+
+		public static implicit operator Vector3D(Vector2D v) {
+			return new Vector3D(v);
+		}
+
 		private double x;
 		public double X {
 			get { return x; }
@@ -83,6 +108,12 @@ namespace WarLab {
 			return !(v1 == v2);
 		}
 
+		/// <summary>
+		/// Скалярное произведение
+		/// </summary>
+		/// <param name="v1"></param>
+		/// <param name="v2"></param>
+		/// <returns></returns>
 		public static double operator &(Vector3D v1, Vector3D v2) {
 			return v1.x * v2.x + v1.y * v2.y + v1.h * v2.h;
 		}

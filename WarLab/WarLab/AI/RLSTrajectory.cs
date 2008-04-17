@@ -3,20 +3,34 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Diagnostics;
+using WarLab.WarObjects;
 
 namespace WarLab.AI {
 	public class RLSTrajectory {
-		public RLSTrajectory(Vector3D position, int createdRLSTurn) {
-			Position = position;
-			hasDirection = false;
-			NumOfSteps = 1;
-			LastUpdateTurn = createdRLSTurn;
+		private static int global_id = 0;
+		private int id = global_id++;
+		public int ID {
+			get { return id; }
 		}
 
-		public void Update(Vector3D newPosition, TimeSpan elapsedTime, int rlsTurn) {
-			hasDirection = true;
+		public RLSTrajectory(Vector3D position, int createdRLSTurn, TimeSpan createdTime, EnemyPlane plane) {
+			Position = position;
+			HasDirection = false;
+			NumOfSteps = 1;
+			LastUpdateTurn = createdRLSTurn;
+			LastUpdateTime = createdTime;
+			Plane = plane;
+		}
+
+		public void Update(Vector3D newPosition, TimeSpan updateTime, int rlsTurn) {
+			HasDirection = true;
 			Vector3D shift = newPosition - Position;
-			Speed = shift.Length / elapsedTime.TotalSeconds;
+
+			TimeSpan elapsedTime = updateTime - LastUpdateTime;
+			if (elapsedTime.TotalSeconds > 0) {
+				Speed = shift.Length / elapsedTime.TotalSeconds;
+			}
+			LastUpdateTime = updateTime;
 
 			Direction = shift.Normalize();
 			Position = newPosition;
@@ -25,20 +39,20 @@ namespace WarLab.AI {
 			LastUpdateTurn = rlsTurn;
 		}
 
-		public Vector3D Position { get; set; }
+		public Vector3D Position { get; private set; }
 		public Vector3D Direction { get; private set; }
 		public double Speed { get; private set; }
 		public int NumOfSteps { get; private set; }
 		public int LastUpdateTurn { get; private set; }
-		bool hasDirection = false;
-
-		public bool HasDirection {
-			get { return hasDirection; }
-		}
+		public bool HasDirection { get; private set; }
+		public TimeSpan LastUpdateTime { get; private set; }
+		public EnemyPlane Plane { get; private set; }
+		public bool IsDestroyed { get { return Plane.IsDestroyed; } }
 
 		public RLSTrajectory Clone() {
 			RLSTrajectory t = (RLSTrajectory)MemberwiseClone();
-
+			t.id = global_id++;
+			
 			return t;
 		}
 
@@ -49,13 +63,17 @@ namespace WarLab.AI {
 
 		public static readonly double MaxPlaneSpeed = WarLab.Speed.FromKilometresPerHour(1000);
 
+		public Vector3D InterpolatedPosition(TimeSpan totalTime) {
+			TimeSpan delta = totalTime - LastUpdateTime;
+			return Position + Speed * delta.TotalSeconds * Direction;
+		}
+
 		public bool IsInStrobe(Vector3D point, TimeSpan elapsedTime, double errorDistance) {
-			if (hasDirection) {
+			if (HasDirection) {
 				double distance = Speed * elapsedTime.TotalSeconds;
 				Vector3D newPos = Position + distance * Direction;
 				double realDist = MathHelper.Distance(point, newPos);
-				bool res = realDist <= errorDistance;
-				if (!res) { }
+				bool res = (realDist <= errorDistance) && ((Direction & (point - Position)) > 0.5);
 				return res;
 			}
 			else {

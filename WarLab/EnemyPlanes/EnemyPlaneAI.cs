@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using WarLab.AI;
 using WarLab;
+using WarLab.AI;
 
 namespace EnemyPlanes
 {
-	public abstract class EnemyPlaneAI: PlaneAI
+	public abstract class EnemyPlaneAI: DynamicObjectAI
 	{
 		#region vars
 		//private Vector3D target;//цель, которую надо бомбардировать
@@ -23,7 +23,6 @@ namespace EnemyPlanes
 
 		public EnemyPlaneAI()
 		{
-		    
 		}
 
 		#region properties
@@ -47,7 +46,8 @@ namespace EnemyPlanes
 		#endregion
 
 		#region methods
-		
+
+
 		///// <summary>
 		///// Установить цель
 		///// </summary>

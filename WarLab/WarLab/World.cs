@@ -9,12 +9,20 @@ using System.Diagnostics;
 using System.Windows.Markup;
 using System.ComponentModel;
 using System.Windows;
+using WarLab.WarObjects;
 
 namespace WarLab {
 	[ContentProperty("ObjectsForXaml")]
 	public sealed class World : INotifyCollectionChanged {
 		public World() {
 			objects.CollectionChanged += objects_CollectionChanged;
+
+			RegisterAIs();
+		}
+
+		private void RegisterAIs() {
+			RegisterAIForWarObject<ImprovedRocketAI, Rocket>();
+			RegisterAIForWarObject<RLSAI, RLS>();
 		}
 
 		private void objects_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
@@ -35,11 +43,27 @@ namespace WarLab {
 
 			obj.Position = position;
 			objects.Add(obj);
+
+			IDamageable damageableObj = obj as IDamageable;
+			if (damageableObj != null) {
+				damageableObj.Destroyed += OnObjectDestroyed;
+			}
 		}
 
-		[EditorBrowsable(EditorBrowsableState.Never)]
-		public ObservableCollection<WarObject> ObjectsForXaml {
-			get { return objects; }
+		private readonly List<WarObject> destroyedObjects = new List<WarObject>();
+		private void OnObjectDestroyed(object sender, EventArgs e) {
+			IDamageable damageable = sender as IDamageable;
+			destroyedObjects.Add(sender as WarObject);
+			damageable.Destroyed -= OnObjectDestroyed;
+
+			Debug.WriteLine(String.Format("{0} was destroyed", sender.GetType().Name));
+		}
+
+		public event ObjectDestroyedEventHandler ObjectDestroyed;
+		private void RaiseObjectDestroyed(WarObject destroyedObject) {
+			if (ObjectDestroyed != null) {
+				ObjectDestroyed(this, new ObjectDestroyedEventArgs(destroyedObject));
+			}
 		}
 
 		private readonly ObservableCollection<WarObject> objects = new ObservableCollection<WarObject>();
@@ -65,6 +89,40 @@ namespace WarLab {
 
 			foreach (var obj in objects) {
 				obj.UpdateSelf(time);
+			}
+
+			foreach (var obj in destroyedObjects) {
+				objects.Remove(obj);
+				RaiseObjectDestroyed(obj);
+			}
+			destroyedObjects.Clear();
+		}
+
+		internal void RocketExploded(Rocket rocket) {
+			Vector3D targetPos = rocket.TargetPoint;
+			foreach (var item in SelectAll<DynamicObject>()) {
+				IRocketDamageable rocketDamageable = item as IRocketDamageable;
+				if (rocketDamageable != null) {
+					double distance = MathHelper.Distance(item.Position, targetPos);
+					Debug.WriteLine(distance);
+					if (distance < rocket.DamageRange) {
+						double damage = (rocket.DamageRange - distance) / rocket.DamageRange * rocket.Damage;
+						rocketDamageable.MakeDamage(damage);
+					}
+				}
+			}
+		}
+
+		public void BombExploded(Vector3D position, double damage, double damageRange) {
+			foreach (var item in SelectAll<DynamicObject>()) {
+				IBombDamageable bombDamageable = item as IBombDamageable;
+				if (bombDamageable != null) {
+					double distance = MathHelper.Distance(item.Position, position);
+					if (distance < damageRange) {
+						double realDamage = (damageRange - distance) / damageRange * damage;
+						bombDamageable.MakeDamage(realDamage);
+					}
+				}
 			}
 		}
 

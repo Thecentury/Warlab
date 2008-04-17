@@ -10,6 +10,9 @@ namespace WarLab {
 	/// Базовый класс для любого объекта мира.
 	/// </summary>
 	public abstract class WarObject  {
+		private static int global_id = 0;
+		private int id = global_id++;
+
 		private World world;
 		public World World {
 			get { return world; }
@@ -22,7 +25,7 @@ namespace WarLab {
 		/// </summary>
 		public Vector3D Position {
 			get { return position; }
-			set { position = value; }
+			internal set { position = value; }
 		}
 
 		internal void UpdateAI(WarTime time) {

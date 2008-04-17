@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Diagnostics;
 
 namespace WarLab {
 	/// <summary>
@@ -8,28 +9,35 @@ namespace WarLab {
 	/// </summary>
 	public abstract class StaticObject : WarObject, IBombDamageable {
 		
-		#region IBombDamageable Members
-
-		public void MakeDamage(double damage) {
-			throw new NotImplementedException();
-		}
-
-		#endregion
-
 		#region IDamageable Members
 
-		private double health;
+		private double health = 2;
 		public double Health {
-			get { throw new NotImplementedException(); }
+			get { return health; }
 			internal set { health = value; }
 		}
 
 		private void RaiseDead() {
-			if (Dead != null) {
-				Dead(this, EventArgs.Empty);
+			if (Destroyed != null) {
+				Destroyed(this, EventArgs.Empty);
 			}
 		}
-		public event EventHandler Dead;
+		public event EventHandler Destroyed;
+
+		#endregion
+
+		#region IBombDamageable Members
+
+		public void MakeDamage(double damage) {
+			Verify.DoubleIsPositive(damage);
+
+			health -= damage;
+
+			Debug.WriteLine(String.Format("StaticObject: {0} damage taken, {1} health left", damage, health));
+			if (health <= 0.01) {
+				RaiseDead();
+			}
+		}
 
 		#endregion
 	}

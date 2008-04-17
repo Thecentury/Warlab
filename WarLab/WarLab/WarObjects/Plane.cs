@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Diagnostics;
 
 namespace WarLab {
 	public abstract class Plane : DynamicObject, IRocketDamageable {
@@ -18,7 +19,7 @@ namespace WarLab {
 		/// <param name="warTime">The war time.</param>
 		protected abstract void UpdateCore(WarTime warTime);
 
-		private double fuelLeft;
+		private double fuelLeft = Distance.FromKilometres(10000);
 		public double FuelLeft {
 			get { return fuelLeft; }
 			set {
@@ -31,10 +32,16 @@ namespace WarLab {
 
 		#region IRocketDamageable Members
 
+		public bool IsDestroyed {
+			get { return health <= 0.01; }
+		}
+
 		public void MakeDamage(double damage) {
 			Verify.DoubleIsPositive(damage);
 
 			health -= damage;
+	
+			Debug.WriteLine(String.Format("Plane: {0} damage taken, {1} health left", damage, health));
 			if (health <= 0.01) {
 				RaiseDead();
 			}
@@ -49,10 +56,10 @@ namespace WarLab {
 			get { return health; }
 		}
 
-		public event EventHandler Dead;
+		public event EventHandler Destroyed;
 		private void RaiseDead() {
-			if (Dead != null) {
-				Dead(this, EventArgs.Empty);
+			if (Destroyed != null) {
+				Destroyed(this, EventArgs.Empty);
 			}
 		}
 
