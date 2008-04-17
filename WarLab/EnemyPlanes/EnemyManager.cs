@@ -14,7 +14,13 @@ namespace EnemyPlanes
 		#region vars
 		//private Dictionary<EnemyBomber,EnemyBomberAI> bombers;
 		//private Dictionary<EnemyFighter,EnemyFighterAI> fighters;
+		/// <summary>
+		/// Аэропорт бомбардировщиков
+		/// </summary>
 		private EnemyAirport bombersAirport;
+		/// <summary>
+		/// Аэропорт истребителей
+		/// </summary>
 		private EnemyAirport fightersAirport;
 		#endregion
 
@@ -24,31 +30,15 @@ namespace EnemyPlanes
 		/// <param name="bombersAirport">Аэродром для бомбардировщиков</param>
 		/// <param name="fightersAirport">Аэродром для истребителей</param>
 		public EnemyManager(EnemyAirport bombersAirport,
-			EnemyAirport fightersAirport) 
+			EnemyAirport fightersAirport)
 		{
 			//bombers = new Dictionary<EnemyBomber,EnemyBomberAI>();
 			//fighters = new Dictionary<EnemyFighter,EnemyFighterAI>();
 			this.bombersAirport = bombersAirport;
-			this.fightersAirport= fightersAirport;
+			this.fightersAirport = fightersAirport;
 		}
 
 		#region properties
-
-		///// <summary>
-		///// Получить вражеские бомбардировщики
-		///// </summary>
-		//public Dictionary<EnemyBomber, EnemyBomberAI> Bombers
-		//{
-		//    get { return bombers; }
-		//}
-
-		///// <summary>
-		///// Получить вражеские истребители
-		///// </summary>
-		//public Dictionary<EnemyFighter, EnemyFighterAI> Fighters
-		//{
-		//    get { return fighters; }
-		//}
 
 		/// <summary>
 		/// Получить аэродром вражеских бомбардировщиков
@@ -61,7 +51,7 @@ namespace EnemyPlanes
 		/// <summary>
 		/// Получить аэродром вражеских истребителей
 		/// </summary>
-		public EnemyAirport  FightersAirport
+		public EnemyAirport FightersAirport
 		{
 			get { return fightersAirport; }
 		}
@@ -105,19 +95,19 @@ namespace EnemyPlanes
 					EnemyBomberAI bomberAI = (EnemyBomberAI)bomber.AI;
 					double radius = bomberAI.FightersRadius;
 					//находим все самолеты, уже сопровождающие этот бомбер
-					foreach(EnemyFighter fighter in fightersAirport.Planes)
+					foreach (EnemyFighter fighter in fightersAirport.Planes)
 					{
-						if(((EnemyFighterAI)fighter.AI).Target == target)
+						if (((EnemyFighterAI)fighter.AI).Target == target)
 							followingFighters.Add(fighter);
 					}
 					// добавим в число этих истребителей наводимый в этой функции истребитель
 					followingFighters.Add(plane);
-					double delta = 360.0/(double)followingFighters.Count; //угол между истребителями
+					double delta = 360.0 / (double)followingFighters.Count; //угол между истребителями
 					for (int i = 0; i < followingFighters.Count; i++)
 					{
 						// задаем смещение истребителю и наводим его
-						double angle = i*delta;
-						((EnemyFighterAI)followingFighters[i].AI).FollowBomber(bomber,angle);
+						double angle = i * delta;
+						((EnemyFighterAI)followingFighters[i].AI).FollowBomber(bomber, angle);
 					}
 				}
 				else
@@ -127,6 +117,8 @@ namespace EnemyPlanes
 				throw new ArgumentException("Командный пункт не управляет этим истребителем. Он отсутствует в коллекции Fighters");
 		}
 
+
 		#endregion
 	}
 }
+

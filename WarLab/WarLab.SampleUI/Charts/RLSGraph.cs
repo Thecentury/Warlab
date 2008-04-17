@@ -1,4 +1,6 @@
-﻿using System;
+﻿#define full
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -55,11 +57,6 @@ namespace WarLab.SampleUI.Charts {
 			  typeof(RLSGraph),
 			  new FrameworkPropertyMetadata(new Size(20, 20)));
 
-		public void DoUpdate() {
-			MakeDirty();
-			InvalidateVisual();
-		}
-
 		private RLS Rls {
 			get { return StaticObject as RLS; }
 		}
@@ -85,6 +82,7 @@ namespace WarLab.SampleUI.Charts {
 
 			foreach (var t in Ai.AllTrajectories) {
 				Point pos = CoordinateUtils.Transform(t.Position.Projection2D, state.Visible, state.OutputWithMargin);
+				//Point pos = CoordinateUtils.Transform(t.InterpolatedPosition(Time.TotalTime).Projection2D, state.Visible, state.OutputWithMargin);
 				dc.DrawEllipse(brush, null, pos, 3, 3);
 
 				if (t.HasDirection) {
@@ -100,6 +98,14 @@ namespace WarLab.SampleUI.Charts {
 			}
 
 			dc.DrawEllipse(null, new Pen(Brushes.Green, 2), transformedPos, radiusX, radiusY);
+
+			Color lineColor = Colors.Green;
+			lineColor.A = 160;
+
+#if !full
+			Point radarLineEnd = new Point(transformedPos.X + radiusX * Math.Cos(Rls.RadarAngle), transformedPos.Y - radiusY * Math.Sin(Rls.RadarAngle));
+			dc.DrawLine(new Pen(new SolidColorBrush(lineColor), 2), transformedPos, radarLineEnd);
+#endif
 		}
 	}
 }

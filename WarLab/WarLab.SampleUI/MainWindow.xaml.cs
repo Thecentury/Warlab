@@ -25,10 +25,17 @@ namespace WarLab.SampleUI {
 		public MainWindow() {
 			InitializeComponent();
 			world.CollectionChanged += Objects_CollectionChanged;
+			world.ObjectDestroyed += world_ObjectDestroyed;
 
 			Loaded += MainWindow_Loaded;
 		}
 
+		private void world_ObjectDestroyed(object sender, ObjectDestroyedEventArgs e) {
+			if (createdGraphs.ContainsKey(e.DestroyedObject)) {
+				GraphicalObject graph = createdGraphs[e.DestroyedObject];
+				plotter.Children.Remove(graph);
+			}
+		}
 
 		DateTime startTime;
 		private void MainWindow_Loaded(object sender, RoutedEventArgs e) {
@@ -36,13 +43,25 @@ namespace WarLab.SampleUI {
 			world.RegisterAIForWarObject<PathDrivenAI, SamplePlane>();
 			//world.RegisterAIForWarObject<SamplePlaneAI, SampleEnemyPlane>();
 			world.RegisterAIForWarObject<PathDrivenAI, SampleEnemyPlane>();
-			world.RegisterAIForWarObject<RLSAI, RLS>();
 
+			SampleEnemyPlane plane = null;
 			for (int i = 0; i < 3; i++) {
 				double x = StaticRandom.NextDouble() * 500 + 250;
 				double y = StaticRandom.NextDouble() * 500 + 250;
-				world.AddWarObject(new SampleEnemyPlane(), new Vector3D(x, y, 1));
+				world.AddWarObject(plane = new SampleEnemyPlane(), new Vector3D(x, y, 1));
 			}
+
+			Rocket rocket = new Rocket
+			{
+				TargetPoint = new Vector3D(1000, 1000, 0),
+				TimeOfExposion = TimeSpan.FromSeconds(8),
+				Speed = Speed.FromKilometresPerHour(200),
+				DamageRange = Distance.FromMetres(200),
+				Damage = 10
+			};
+
+			world.AddWarObject(rocket, new Vector3D());
+			((ImprovedRocketAI)rocket.AI).Target = plane;
 
 			/*
 			for (int i = 0; i < 1; i++) {
@@ -80,9 +99,9 @@ namespace WarLab.SampleUI {
 			uiGraphs.Add(graph);
 		}
 
-		private void UpdateUI() {
+		private void UpdateUI(WarTime time) {
 			foreach (var graph in uiGraphs) {
-				(graph as WarGraph).DoUpdate();
+				(graph as WarGraph).DoUpdate(time);
 			}
 		}
 
@@ -134,7 +153,7 @@ namespace WarLab.SampleUI {
 			WarTime time = new WarTime(prevDelta, totalDelta);
 
 			world.Update(time);
-			UpdateUI();
+			UpdateUI(time);
 
 			prevFrameTime = totalDelta;
 		}

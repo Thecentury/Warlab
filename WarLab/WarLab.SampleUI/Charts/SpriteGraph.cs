@@ -8,6 +8,7 @@ using System.Windows;
 using ScientificStudio.Charting;
 using System.Diagnostics;
 using WarLab.SampleUI.WarObjects;
+using WarLab.WarObjects;
 
 namespace WarLab.SampleUI.Charts {
 	public class SpriteGraph : WarGraph {
@@ -25,7 +26,22 @@ namespace WarLab.SampleUI.Charts {
 			  "SpriteSource",
 			  typeof(ISpriteSource),
 			  typeof(SpriteGraph),
-			  new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender));
+			  new FrameworkPropertyMetadata(null, 
+				  FrameworkPropertyMetadataOptions.AffectsRender, OnSourceChanged));
+
+		private static void OnSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
+			/*
+			SpriteGraph graph = (SpriteGraph)d;
+			IDamageable damageable = e.NewValue as IDamageable;
+			if (damageable != null) {
+				damageable.Destroyed += graph.damageable_Destroyed;
+			}
+			 */
+		}
+
+		private void damageable_Destroyed(object sender, EventArgs e) {
+			throw new NotImplementedException();
+		}
 
 		public ImageSource SpriteImage {
 			get { return (ImageSource)GetValue(SpriteImageProperty); }
@@ -43,7 +59,13 @@ namespace WarLab.SampleUI.Charts {
 			if (SpriteSource == null) return;
 
 			Vector2D orientation = SpriteSource.Orientation.Projection2D;
+			
+			orientation.X *= state.OutputWithMargin.Width;
+			orientation.Y *= state.OutputWithMargin.Height;
+			orientation = orientation.Normalize();
+			
 			double angle = Math.Atan2(orientation.Y, orientation.X);
+
 			angle = 90 - MathHelper.AngleToDegrees(angle);
 
 			Vector2D pos2D = SpriteSource.Position.Projection2D;
@@ -55,6 +77,8 @@ namespace WarLab.SampleUI.Charts {
 				// для правильного отображения EnemyPlane.png - он почему-то считает, что его размер 16x14
 				size = new Size(100, 90);
 			}
+
+			size = new Size(size.Width / 3, size.Height / 3);
 
 			dc.PushTransform(new RotateTransform(angle, transformedPos.X, transformedPos.Y));
 #if !true

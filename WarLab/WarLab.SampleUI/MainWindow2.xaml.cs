@@ -39,10 +39,12 @@ namespace WarLab.SampleUI {
 			EnemyAirport ba = new EnemyAirport();
 			EnemyAirport fa = new EnemyAirport();
 			cp = new EnemyManager(ba, fa);
-			EnemyBomber bomber = new EnemyBomber(10, 600, 60);
-			EnemyFighter fighter1 = new EnemyFighter(10, 300, 140.0);
-			EnemyFighter fighter2 = new EnemyFighter(10, 300, 120.0);
-			EnemyFighter fighter3 = new EnemyFighter(10, 300, 120.0);
+
+			double fuel = Distance.FromKilometres(10000);
+			EnemyBomber bomber = new EnemyBomber(10, fuel, 60);
+			EnemyFighter fighter1 = new EnemyFighter(10, fuel, 140.0);
+			EnemyFighter fighter2 = new EnemyFighter(10, fuel, 120.0);
+			EnemyFighter fighter3 = new EnemyFighter(10, fuel, 120.0);
 			fa.Planes.Add(fighter1);
 			fa.Planes.Add(fighter2);
 			fa.Planes.Add(fighter3);
@@ -96,9 +98,9 @@ namespace WarLab.SampleUI {
 			uiGraphs.Add(graph);
 		}
 
-		private void UpdateUI() {
+		private void UpdateUI(WarTime time) {
 			foreach (var graph in uiGraphs) {
-				(graph as SpriteGraph).DoUpdate();
+				(graph as SpriteGraph).DoUpdate(time);
 			}
 		}
 
@@ -142,7 +144,7 @@ namespace WarLab.SampleUI {
 			WarTime time = new WarTime(prevDelta, totalDelta);
 
 			world.Update(time);
-			UpdateUI();
+			UpdateUI(time);
 
 			prevFrameTime = totalDelta;
 		}

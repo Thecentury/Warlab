@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using WarLab.AI;
 using WarLab;
+using System.Diagnostics;
 
 namespace EnemyPlanes
 {
@@ -63,26 +64,29 @@ namespace EnemyPlanes
 		#region EnemyPlaneAI implementation
 		public override void Update(WarLab.WarTime time)
 		{
-			Vector3D flyTo = target.Position;
-			if (mode != FighterFlightMode.ReturnToBase)
+			if (target != null)
 			{
-				bool canContinue = CanContinue(time);
-				if (!canContinue)
-					mode = FighterFlightMode.ReturnToBase;
-			}
-			switch (mode)
-			{
-				case FighterFlightMode.ReturnToBase:
-					flyTo = basePosition;
-					ReturnToBase();
-					break;
-				case FighterFlightMode.FollowBomber:
-					flyTo = Follow(time);
-					break;
-				default: break;
+				Vector3D flyTo = target.Position;
+				if (mode != FighterFlightMode.ReturnToBase)
+				{
+					bool canContinue = CanContinue(time);
+					if (!canContinue)
+						mode = FighterFlightMode.ReturnToBase;
+				}
+				switch (mode)
+				{
+					case FighterFlightMode.ReturnToBase:
+						flyTo = basePosition;
+						ReturnToBase();
+						break;
+					case FighterFlightMode.FollowBomber:
+						flyTo = Follow(time);
+						break;
+					default: break;
 
+				}
+				MoveInDirectionOf(flyTo);
 			}
-			MoveInDirectionOf(flyTo);
 		}
 
 
@@ -96,7 +100,7 @@ namespace EnemyPlanes
 			if (mode != FighterFlightMode.ReturnToBase)
 			{
 				target = t;
-				EnemyFighter plane = (EnemyFighter)ControlledPlane;
+				EnemyFighter plane = (EnemyFighter)ControlledDynamicObject;
 				plane.Speed = plane.MaxSpeed;
 				return true;
 			}
@@ -113,20 +117,27 @@ namespace EnemyPlanes
 		/// <returns></returns>
 		private bool CanContinue(WarTime warTime)
 		{
-			EnemyFighter plane = (EnemyFighter)ControlledPlane;
-			//насколько мы улетим по направлению к цели, если продолжим двигаться к ней
-			Vector3D shift = plane.Orientation * warTime.ElapsedTime.TotalSeconds
-				* plane.Speed;
-			/*если после этого мы не сможем вернутся домой, то возвращаемся обратно
-			Другое условие возвращения - кончились ракеты
-			 */
-			if (MathHelper.Distance(plane.Position + shift, basePosition) < plane.FuelLeft ||
-				plane.WeaponsLeft < 1)
+			EnemyFighter plane = (EnemyFighter)ControlledDynamicObject;
+			if (plane.Orientation != null && plane.Orientation.X != 0 && plane.Orientation.Y != 0 &&
+				plane.Orientation.H != 0)
 			{
-				mode = FighterFlightMode.ReturnToBase;
-				//target = basePosition;
-				plane.Speed = plane.MaxSpeed; //домой летим на максимальной скорости
-				return false;
+				//насколько мы улетим по направлению к цели, если продолжим двигаться к ней
+				Vector3D shift = plane.Orientation * warTime.ElapsedTime.TotalSeconds
+					* plane.Speed;
+				/*если после этого мы не сможем вернутся домой, то возвращаемся обратно
+				Другое условие возвращения - кончились ракеты. Но, поскольку CanContinue в
+				 * вызывается в Update до MoveInDirectionOf, первый раз когда происходит
+				 * Update вектор Orientation нулевой (потому что именно MoveInDirectionOf
+				 * его меняет). Поэтому сначала есть проверка на ненулевой вектор
+				 */
+				if (MathHelper.Distance(plane.Position + shift, basePosition) < plane.FuelLeft ||
+					plane.WeaponsLeft < 1)
+				{
+					mode = FighterFlightMode.ReturnToBase;
+					//target = basePosition;
+					plane.Speed = plane.MaxSpeed; //домой летим на максимальной скорости
+					return false;
+				}
 			}
 			return true;
 		}
@@ -136,7 +147,7 @@ namespace EnemyPlanes
 		/// </summary>
 		private void ReturnToBase()
 		{
-			//EnemyFighter plane = (EnemyFighter)ControlledPlane;
+			//EnemyFighter plane = (EnemyFighter)ControlledDynamicObject;
 			////насколько мы улетим по направлению к базе, если продолжим двигаться к ней
 			//Vector3D shift = plane.Orientation * warTime.ElapsedTime.TotalSeconds
 			//    * plane.Speed;
@@ -155,7 +166,7 @@ namespace EnemyPlanes
 		/// </summary>
 		private Vector3D Follow(WarTime warTime)
 		{
-			EnemyFighter plane = (EnemyFighter)ControlledPlane;
+			EnemyFighter plane = (EnemyFighter)ControlledDynamicObject;
 			EnemyBomber bomber = (EnemyBomber)target;
 			//насколько мы улетим по направлению к бомбардировщику
 			Vector3D shift = plane.Orientation * warTime.ElapsedTime.TotalSeconds
@@ -172,22 +183,31 @@ namespace EnemyPlanes
 													    * (как Orientation у бомбера)*/
 			newPosition = bomber.Position + ((EnemyBomberAI)bomber.AI).FightersRadius *
 				offsetVector;
-			// если мы за один такт подлетим к бомберу, снижаем скорость
+			//Vector3D dir = (newPosition - ControlledDynamicObject.Position).Normalize();
+			//Vector3D oldDir = ControlledDynamicObject.Orientation;
+			//double proj = dir.X * oldDir.X + dir.Y * oldDir.Y;
 			double distance = (MathHelper.Distance(plane.Position, newPosition));
-			if (distance < shift.Length)
+			if (distance <= shift.Length)
 			{
+				// если мы за один такт подлетим к бомберу, снижаем скорость
 				plane.Speed = bomber.Speed;
 			}
 			else
 				if (plane.Speed < plane.MaxSpeed)
-					plane.Speed = (distance * plane.Speed / shift.Length);//= plane.MaxSpeed;
-			if(plane.Speed>plane.MaxSpeed)
+				{
+					/* мы уже летели на скорости бомбера (потому что Speed<MaxSpeed),
+					но мы отстали от него (потому что if (distance < shift.Length) не 
+					 * сработал, а это значит, что за один такт нам не долететь до бомбера*/
+					plane.Speed = (distance * plane.Speed / shift.Length);/* увеличиваем 
+						скорость, чтоб догнать бомбера*/
+					//return Follow(warTime);
+					/* заново вызовем этот метод, потому что 
+					скорость изменилась, и newPosition надо пересчитать*/
+				} 
+			if (plane.Speed > plane.MaxSpeed)
 				// чтоб избегать телепорта, когда бомбардировщик меняет направление
 				plane.Speed = plane.MaxSpeed;
-			Vector3D dir = (newPosition - ControlledPlane.Position).Normalize();
-			Vector3D oldDir = ControlledPlane.Orientation;
-			double proj = dir.X * oldDir.X + dir.Y * oldDir.Y;
-			if (proj < 0) { }
+			
 			
 			return newPosition;
 		}

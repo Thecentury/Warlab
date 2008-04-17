@@ -1,4 +1,6 @@
-﻿using System;
+﻿#define full
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,11 +10,6 @@ using System.Diagnostics;
 namespace WarLab.AI {
 	[Controls(typeof(RLS))]
 	public sealed class RLSAI : WarAI {
-		private TimeSpan rotationDuration = TimeSpan.FromSeconds(1);
-		public TimeSpan RotationDuration {
-			get { return rotationDuration; }
-			set { rotationDuration = value; }
-		}
 
 		private readonly double errorDistance = Distance.FromMetres(20);
 		private readonly double strobeError = Distance.FromMetres(100);
@@ -26,17 +23,18 @@ namespace WarLab.AI {
 			get { return trajectories; }
 		}
 
-		private int numOfSteps = 5;
+		private int minNumOfStepsInPreciseTrajectory = 5;
 		public IEnumerable<RLSTrajectory> OldTrajectories {
-			get { return trajectories.Where(t => t.NumOfSteps != numOfSteps); }
+			get { return trajectories.Where(t => t.NumOfSteps != minNumOfStepsInPreciseTrajectory); }
 		}
 
-		public IEnumerable<RLSTrajectory> NewCreatedTrajectories {
-			get { return trajectories.Where(t => t.NumOfSteps == numOfSteps); }
+		public IEnumerable<RLSTrajectory> NewlyCreatedTrajectories {
+			get { return trajectories.Where(t => t.NumOfSteps == minNumOfStepsInPreciseTrajectory); }
 		}
 
 		NormalDistribution rnd = new NormalDistribution();
 		private Vector3D RandomVector() {
+
 			double x = rnd.Generate(0, errorDistance);
 			double y = rnd.Generate(0, errorDistance);
 			double z = rnd.Generate(0, errorDistance);
@@ -47,9 +45,16 @@ namespace WarLab.AI {
 		private TimeSpan fromPrevTurn = new TimeSpan();
 		public override void Update(WarTime time) {
 			fromPrevTurn += time.ElapsedTime;
+			trajectories.RemoveAll(tr => tr.IsDestroyed);
 
-			if (fromPrevTurn > rotationDuration) {
+#if full
+			if (fromPrevTurn > RLS.RotationPeriod) {
+#endif
+#if !full
+				var enemyPlanes = RLS.GetPlanesInSector();
+#else
 				var enemyPlanes = RLS.GetPlanesInCoverage();
+#endif
 
 				var examinedPlanes = new List<EnemyPlane>();
 				var newTrajectories = new List<RLSTrajectory>();
@@ -86,7 +91,11 @@ namespace WarLab.AI {
 
 				var unexaminedPlanes = enemyPlanes.Where(plane => !examinedPlanes.Contains(plane));
 				foreach (var plane in unexaminedPlanes) {
-					trajectories.Add(new RLSTrajectory(plane.Position + errorDistance * RandomVector(), turnNum));
+					trajectories.Add(new RLSTrajectory(
+						plane.Position + errorDistance * RandomVector(),
+						turnNum,
+						time.TotalTime,
+						plane));
 				}
 
 				trajectories.AddRange(newTrajectories);
@@ -113,9 +122,17 @@ namespace WarLab.AI {
 					i++;
 				}
 
+#if !full
+			if (fromPrevTurn > RLS.RotationPeriod) {
+#endif
 				fromPrevTurn = new TimeSpan();
 				turnNum++;
+#if !full
 			}
+#else
+			}
+#endif
+
 		}
 	}
 }

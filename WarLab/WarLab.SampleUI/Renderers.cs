@@ -68,6 +68,15 @@ namespace WarLab.SampleUI {
 				SpriteImage = ResourceManager.GetBitmap(@"Sprites\EnemyBuilding.png")
 			};
 		}
+		
+		[RendersAttribute(typeof(Rocket))]
+		private static GraphicalObject CreateForRocket(WarObject warObj) {
+			return new SpriteGraph
+			{
+				SpriteSource = (ISpriteSource)warObj,
+				SpriteImage = ResourceManager.GetBitmap(@"Sprites\Rocket.png")
+			};
+		}
 
 		public static GraphicalObject CreateGraphForWarObject(WarObject warObject) {
 			RendererCreator creator = renderers[warObject.GetType()];
