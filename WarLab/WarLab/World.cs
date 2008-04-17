@@ -12,7 +12,6 @@ using System.Windows;
 using WarLab.WarObjects;
 
 namespace WarLab {
-	[ContentProperty("ObjectsForXaml")]
 	public sealed class World : INotifyCollectionChanged {
 		public World() {
 			objects.CollectionChanged += objects_CollectionChanged;
