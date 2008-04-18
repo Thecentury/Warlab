@@ -47,7 +47,7 @@ namespace WarLab.WarObjects {
 			get { return 2 * Math.PI / rotationPeriod.TotalSeconds; }
 		}
 
-		private double errorPossibility = 0.03;
+		private double errorPossibility = 0.005;
 
 		private int channelsNum = 100;
 		public int ChannelsNum {

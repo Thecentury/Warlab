@@ -17,6 +17,8 @@ namespace WarLab {
 			objects.CollectionChanged += objects_CollectionChanged;
 
 			RegisterAIs();
+
+			watch.Start();
 		}
 
 		private void RegisterAIs() {
@@ -74,7 +76,31 @@ namespace WarLab {
 			return objects.OfType<T>();
 		}
 
-		public void Update(WarTime time) {
+		private WarTime time;
+		public WarTime Time {
+			get { return time; }
+		}
+
+		private TimeSpan warTickTime = new TimeSpan();
+		private TimeSpan warPrevTickTime = new TimeSpan();
+		private TimeSpan realTickTime = new TimeSpan();
+		private TimeSpan realPrevTickTime = new TimeSpan();
+		private readonly Stopwatch watch = new Stopwatch();
+		private double timerSpeed = 1;
+
+		private readonly TimeSpan constDelta = TimeSpan.FromMilliseconds(20);
+
+		public void Update() {
+			warPrevTickTime = warTickTime;
+			realPrevTickTime = realTickTime;
+			realTickTime = watch.Elapsed;
+
+			TimeSpan delta = realTickTime - realPrevTickTime;
+			TimeSpan warDelta = TimeSpan.FromSeconds(delta.TotalSeconds * timerSpeed);
+			warTickTime = warPrevTickTime + warDelta;
+
+			time = new WarTime(warDelta, warTickTime);
+
 			if (time.ElapsedTime.TotalMilliseconds == 0)
 				return;
 
@@ -112,7 +138,7 @@ namespace WarLab {
 			}
 		}
 
-		public void BombExploded(Vector3D position, double damage, double damageRange) {
+		public void ExplodeBomb(Vector3D position, double damage, double damageRange) {
 			foreach (var item in SelectAll<DynamicObject>()) {
 				IBombDamageable bombDamageable = item as IBombDamageable;
 				if (bombDamageable != null) {
@@ -152,6 +178,42 @@ namespace WarLab {
 				throw new InvalidOperationException(String.Format("Объекты типа {0} не может управлять объектами типа {1}, что следует из аттрибутов, навешеных на тип {0}", aiType.Name, warType.Name));
 
 			aiForWarObjects.Add(typeof(TWarObject), typeof(TAI));
+		}
+
+		public ITimeControl GetTimeControl() {
+			return new WorldTimeControl(this);
+		}
+
+		private sealed class WorldTimeControl : ITimeControl {
+			private readonly World world;
+
+			public WorldTimeControl(World world) {
+				this.world = world;
+			}
+
+			#region ITimeControl Members
+
+			public double Speed {
+				get { return world.timerSpeed; }
+				set {
+					Verify.IsFinite(value);
+					world.timerSpeed = value;
+				}
+			}
+
+			public void Start() {
+				world.watch.Start();
+			}
+
+			public void Stop() {
+				world.watch.Stop();
+			}
+
+			public bool IsRunning {
+				get { return world.watch.IsRunning; }
+			}
+
+			#endregion
 		}
 	}
 }

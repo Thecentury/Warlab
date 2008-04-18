@@ -11,8 +11,8 @@ namespace WarLab.AI {
 	[Controls(typeof(RLS))]
 	public sealed class RLSAI : WarAI {
 
-		private readonly double errorDistance = Distance.FromMetres(20);
-		private readonly double strobeError = Distance.FromMetres(100);
+		private readonly double errorDistance = Distance.FromMetres(0);
+		private readonly double strobeError = Distance.FromMetres(0); // 100
 
 		List<RLSTrajectory> trajectories = new List<RLSTrajectory>();
 		private RLS RLS {

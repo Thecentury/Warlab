@@ -68,12 +68,13 @@ namespace WarLab.AI {
 			return Position + Speed * delta.TotalSeconds * Direction;
 		}
 
+		const double minScalarProj = 0.2;
 		public bool IsInStrobe(Vector3D point, TimeSpan elapsedTime, double errorDistance) {
 			if (HasDirection) {
 				double distance = Speed * elapsedTime.TotalSeconds;
 				Vector3D newPos = Position + distance * Direction;
 				double realDist = MathHelper.Distance(point, newPos);
-				bool res = (realDist <= errorDistance) && ((Direction & (point - Position)) > 0.5);
+				bool res = (realDist <= errorDistance) && ((Direction & (point - Position)) > minScalarProj);
 				return res;
 			}
 			else {

@@ -150,7 +150,7 @@ namespace WarLab.SampleUI {
 
 			WarTime time = new WarTime(prevDelta, totalDelta);
 
-			world.Update(time);
+			world.Update();
 			UpdateUI();
 
 			prevFrameTime = totalDelta;
