@@ -29,6 +29,7 @@
 
 		<Border BorderBrush="{StaticResource logBrush}" BorderThickness="3" Grid.Column="1">
 			<DockPanel>
+				<Slider Minimum="0" Maximum="10" ValueChanged="Slider_ValueChanged" Value="1" DockPanel.Dock="Top"/>
 				<TextBlock Text="Log" TextAlignment="Center" Background="SeaShell" DockPanel.Dock="Top"/>
 				<d:VisualListenerControl DockPanel.Dock="Bottom"/>
 			</DockPanel>

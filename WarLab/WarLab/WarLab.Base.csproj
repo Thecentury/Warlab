@@ -58,7 +58,8 @@
     <Compile Include="Angle.cs" />
     <Compile Include="AssemblyXmlns.cs" />
     <Compile Include="Distance.cs" />
-    <Compile Include="InitStage.cs" />
+    <Compile Include="EndlessTimer.cs" />
+    <Compile Include="ITimeControl.cs" />
     <Compile Include="ObjectDestroyedEventArgs.cs" />
     <Compile Include="Orientation.cs" />
     <Compile Include="Path\ArcSegment.cs" />
@@ -68,6 +69,7 @@
     <Compile Include="Path\PathSegment.cs" />
     <Compile Include="Path\Position.cs" />
     <Compile Include="Speed.cs" />
+    <Compile Include="UpdateType.cs" />
     <Compile Include="WarObjects\EnemyPlane.cs" />
     <Compile Include="WarObjects\IBombDamageable.cs" />
     <Compile Include="WarObjects\DynamicObject.cs" />

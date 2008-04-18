@@ -23,7 +23,10 @@ namespace WarLab.SampleUI {
 	/// </summary>
 	public partial class MainWindow : Window {
 		public MainWindow() {
+			timeControl = world.GetTimeControl();
+
 			InitializeComponent();
+	
 			world.CollectionChanged += Objects_CollectionChanged;
 			world.ObjectDestroyed += world_ObjectDestroyed;
 
@@ -150,12 +153,17 @@ namespace WarLab.SampleUI {
 #endif
 
 			//WarTime time = new WarTime(tickDelta, totalTime);
-			WarTime time = new WarTime(prevDelta, totalDelta);
 
-			world.Update(time);
+			world.Update();
+			WarTime time = world.Time;
 			UpdateUI(time);
 
 			prevFrameTime = totalDelta;
+		}
+
+		ITimeControl timeControl;
+		private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) {
+			timeControl.Speed = e.NewValue;
 		}
 	}
 }
