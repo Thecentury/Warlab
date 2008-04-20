@@ -11,8 +11,14 @@ namespace WarLab.AI {
 	[Controls(typeof(RLS))]
 	public sealed class RLSAI : WarAI {
 
-		private readonly double errorDistance = Distance.FromMetres(0);
-		private readonly double strobeError = Distance.FromMetres(0); // 100
+		/// <summary>
+		/// Ошибка, вносимая в реальное положение цели.
+		/// </summary>
+		private readonly double errorDistance = Distance.FromMetres(10);
+		/// <summary>
+		/// Размер строба траектории.
+		/// </summary>
+		private readonly double strobeError = Distance.FromMetres(100);
 
 		List<RLSTrajectory> trajectories = new List<RLSTrajectory>();
 		private RLS RLS {
@@ -62,7 +68,7 @@ namespace WarLab.AI {
 
 				foreach (var traj in trajectories) {
 					var appropriatePlanes = enemyPlanes.
-						Where(plane => traj.IsInStrobe(plane.Position, fromPrevTurn, strobeError));
+						Where(plane => traj.IsInStrobe(plane.Position, time.TotalTime, strobeError));
 
 					bool wereContinuations = false;
 					foreach (var plane in appropriatePlanes) {
@@ -76,7 +82,7 @@ namespace WarLab.AI {
 
 						Vector3D newPos = plane.Position + errorDistance * RandomVector() / newTraj.NumOfSteps;
 
-						newTraj.Update(newPos, fromPrevTurn, turnNum);
+						newTraj.Update(newPos, time.TotalTime, turnNum);
 						newTrajectories.Add(newTraj);
 					}
 
@@ -111,7 +117,7 @@ namespace WarLab.AI {
 				while (i < trajectories.Count) {
 					int j = i + 1;
 					while (j < trajectories.Count) {
-						if (trajectories[i].IsCloseTo(trajectories[j], errorDistance)) {
+						if (trajectories[i].IsCloseTo(trajectories[j], strobeError)) {
 							// todo возможно, проводить тут интерполяцию
 							trajectories.RemoveAt(j);
 						}

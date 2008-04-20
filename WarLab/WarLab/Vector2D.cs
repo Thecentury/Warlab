@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
+using System.Diagnostics;
 
 namespace WarLab {
 	public struct Vector2D {
@@ -40,9 +41,13 @@ namespace WarLab {
 			}
 			double one_div_len = 1.0 / Length;
 
-			return new Vector2D(
+			Vector2D res = new Vector2D(
 			x * one_div_len,
 			y * one_div_len);
+
+			WarDebug.Assert(0.99 < res.Length && res.Length < 1.01);
+
+			return res;
 		}
 
 		public double Length {

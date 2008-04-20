@@ -52,13 +52,13 @@ namespace WarLab.AI {
 		public RLSTrajectory Clone() {
 			RLSTrajectory t = (RLSTrajectory)MemberwiseClone();
 			t.id = global_id++;
-			
+
 			return t;
 		}
 
 		public bool IsCloseTo(RLSTrajectory otherTraj, double errorStrobe) {
 			return Position.DistanceTo(otherTraj.Position) < errorStrobe &&
-				(Direction & otherTraj.Direction) > 0.9;
+				(Direction & otherTraj.Direction) > minScalarProj;
 		}
 
 		public static readonly double MaxPlaneSpeed = WarLab.Speed.FromKilometresPerHour(1000);
@@ -69,16 +69,17 @@ namespace WarLab.AI {
 		}
 
 		const double minScalarProj = 0.2;
-		public bool IsInStrobe(Vector3D point, TimeSpan elapsedTime, double errorDistance) {
+		public bool IsInStrobe(Vector3D point, TimeSpan totalTime, double errorDistance) {
+			double deltaSeconds = (totalTime - LastUpdateTime).TotalSeconds;
 			if (HasDirection) {
-				double distance = Speed * elapsedTime.TotalSeconds;
+				double distance = Speed * deltaSeconds;
 				Vector3D newPos = Position + distance * Direction;
 				double realDist = MathHelper.Distance(point, newPos);
-				bool res = (realDist <= errorDistance) && ((Direction & (point - Position)) > minScalarProj);
+				bool res = (realDist <= errorDistance) && ((Direction & (point - Position).Normalize()) > minScalarProj);
 				return res;
 			}
 			else {
-				double expectedDist = MaxPlaneSpeed * elapsedTime.TotalSeconds;
+				double expectedDist = MaxPlaneSpeed * deltaSeconds;
 				double realDist = MathHelper.Distance(point, Position);
 				bool res = realDist <= expectedDist;
 				if (!res) { }

@@ -6,7 +6,6 @@ using System.Windows.Markup;
 using WarLab.WarObjects;
 
 namespace WarLab {
-	[ValueSerializer(typeof(Vector3DSerializer))]
 	public struct Vector3D {
 
 		[DebuggerStepThrough]
@@ -147,10 +146,14 @@ namespace WarLab {
 			}
 			double one_div_len = 1.0 / Length;
 
-			return new Vector3D(
+			Vector3D res = new Vector3D(
 			x * one_div_len,
 			y * one_div_len,
 			h * one_div_len);
+
+			WarDebug.Assert(0.99 < res.Length && res.Length < 1.01);
+
+			return res;
 		}
 
 		public double Length {

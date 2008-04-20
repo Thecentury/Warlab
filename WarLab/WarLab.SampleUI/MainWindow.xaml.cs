@@ -40,12 +40,16 @@ namespace WarLab.SampleUI {
 			}
 		}
 
-		DateTime startTime;
 		private void MainWindow_Loaded(object sender, RoutedEventArgs e) {
+			ClockGraph clock = new ClockGraph();
+			uiGraphs.Add(clock);
+			plotter.AddGraph(clock);
+
 			//world.RegisterAIForWarObject<SamplePlaneAI, SamplePlane>();
 			world.RegisterAIForWarObject<PathDrivenAI, SamplePlane>();
 			//world.RegisterAIForWarObject<SamplePlaneAI, SampleEnemyPlane>();
 			world.RegisterAIForWarObject<PathDrivenAI, SampleEnemyPlane>();
+			world.RegisterAIForWarObject<ZRKAI, SimpleZRK>();
 
 			SampleEnemyPlane plane = null;
 			for (int i = 0; i < 3; i++) {
@@ -63,27 +67,13 @@ namespace WarLab.SampleUI {
 				Damage = 10
 			};
 
-			world.AddWarObject(rocket, new Vector3D());
-			((ImprovedRocketAI)rocket.AI).Target = plane;
-
-			/*
-			for (int i = 0; i < 1; i++) {
-				//double x = StaticRandom.NextDouble() * 500 + 250;
-				//double y = StaticRandom.NextDouble() * 500 + 250;
-				double x = 500;
-				double y = 500;
-				double h = 0;
-
-				world.AddWarObject(new SamplePlane(), new Vector3D(x, y, h));
-			}
-			 */
+			//world.AddWarObject(rocket, new Vector3D());
+			//((ImprovedRocketAI)rocket.AI).Target = plane;
 
 			world.AddWarObject(new RLS(), new Vector3D());
+			world.AddWarObject(new SimpleZRK(), new Vector3D(30, 100));
 
-			startTime = DateTime.Now;
-			
 			dispTimer.Tick += dispTimer_Tick;
-			dispTimer.IsEnabled = true;
 			dispTimer.Interval = TimeSpan.FromMilliseconds(5);
 			dispTimer.Start();
 		}
@@ -94,7 +84,7 @@ namespace WarLab.SampleUI {
 
 		DispatcherTimer dispTimer = new DispatcherTimer();
 
-		World world = new World();
+		World world = World.Instance;
 
 		private readonly List<GraphicalObject> uiGraphs = new List<GraphicalObject>();
 		private void AddUIGraph(GraphicalObject graph) {
@@ -102,9 +92,9 @@ namespace WarLab.SampleUI {
 			uiGraphs.Add(graph);
 		}
 
-		private void UpdateUI(WarTime time) {
+		private void UpdateUI() {
 			foreach (var graph in uiGraphs) {
-				(graph as WarGraph).DoUpdate(time);
+				(graph as WarGraph).DoUpdate();
 			}
 		}
 
@@ -133,37 +123,25 @@ namespace WarLab.SampleUI {
 			}
 		}
 
-		private TimeSpan totalTime = new TimeSpan();
-		private TimeSpan tickDelta = TimeSpan.FromMilliseconds(30);
-
-		TimeSpan prevFrameTime = TimeSpan.Zero;
 		private void Tick() {
-
-			int frameStartTime = Environment.TickCount;
-
-			DateTime now = DateTime.Now;
-#if !true
-			TimeSpan totalDelta = now - startTime;
-			totalTime = totalTime.Add(tickDelta);
-			TimeSpan prevDelta = totalDelta - prevFrameTime;
-#else
-			TimeSpan totalDelta = now - startTime;
-			totalTime = totalTime.Add(tickDelta);
-			TimeSpan prevDelta = tickDelta;
-#endif
-
-			//WarTime time = new WarTime(tickDelta, totalTime);
-
 			world.Update();
-			WarTime time = world.Time;
-			UpdateUI(time);
-
-			prevFrameTime = totalDelta;
+			UpdateUI();
 		}
 
 		ITimeControl timeControl;
 		private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) {
 			timeControl.Speed = e.NewValue;
+		}
+
+		private void PauseButton_Click(object sender, RoutedEventArgs e) {
+			if (timeControl.IsRunning) {
+				timeControl.Stop();
+				timeBtn.Content = "Resume";
+			}
+			else {
+				timeControl.Start();
+				timeBtn.Content = "Pause";
+			}
 		}
 	}
 }

@@ -35,11 +35,11 @@ namespace WarLab {
 		/// <summary>
 		/// Updates this instance.
 		/// </summary>
-		internal void UpdateSelf(WarTime warTime) {
-			UpdateImpl(warTime);
+		internal void UpdateSelf(WarTime time) {
+			UpdateImpl(time);
 		}
 
-		protected virtual void UpdateImpl(WarTime warTime) { }
+		protected virtual void UpdateImpl(WarTime time) { }
 
 		private WarAI ai = null;
 
