@@ -90,7 +90,7 @@ namespace WarLab.SampleUI {
 
 		DispatcherTimer dispTimer = new DispatcherTimer();
 
-		World world = new World();
+		World world = World.Instance;
 
 		private readonly List<GraphicalObject> uiGraphs = new List<GraphicalObject>();
 		private void AddUIGraph(GraphicalObject graph) {
@@ -98,9 +98,9 @@ namespace WarLab.SampleUI {
 			uiGraphs.Add(graph);
 		}
 
-		private void UpdateUI(WarTime time) {
+		private void UpdateUI() {
 			foreach (var graph in uiGraphs) {
-				(graph as SpriteGraph).DoUpdate(time);
+				(graph as SpriteGraph).DoUpdate();
 			}
 		}
 
@@ -129,24 +129,9 @@ namespace WarLab.SampleUI {
 			}
 		}
 
-		private TimeSpan totalTime = new TimeSpan();
-		private TimeSpan tickDelta = TimeSpan.FromMilliseconds(30);
-
-		TimeSpan prevFrameTime = TimeSpan.Zero;
 		private void Tick() {
-			int frameStartTime = Environment.TickCount;
-
-			DateTime now = DateTime.Now;
-			TimeSpan totalDelta = now - startTime;
-			totalTime = totalTime.Add(tickDelta);
-			TimeSpan prevDelta = totalDelta - prevFrameTime;
-
-			WarTime time = new WarTime(prevDelta, totalDelta);
-
 			world.Update();
-			UpdateUI(time);
-
-			prevFrameTime = totalDelta;
+			UpdateUI();
 		}
 	}
 }

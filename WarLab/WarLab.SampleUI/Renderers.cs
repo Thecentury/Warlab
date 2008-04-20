@@ -30,8 +30,8 @@ namespace WarLab.SampleUI {
 			}
 		}
 
-		[RendersAttribute(typeof(SampleEnemyPlane))]
-		[RendersAttribute(typeof(SamplePlane))]
+		[Renders(typeof(SampleEnemyPlane))]
+		[Renders(typeof(SamplePlane))]
 		private static GraphicalObject CreateForSamplePlane(WarObject warObj) {
 			return new SpriteGraph
 			{
@@ -40,18 +40,28 @@ namespace WarLab.SampleUI {
 			};
 		}
 
-		[RendersAttribute(typeof(RLS))]
-		private static GraphicalObject CreateForStaticObject(WarObject warObj) {
+		[Renders(typeof(RLS))]
+		private static GraphicalObject CreateForRLS(WarObject warObj) {
 			return new RLSGraph
 			{
 				StaticObject = (StaticObject)warObj,
-				SpriteImage = ResourceManager.GetBitmap(@"Sprites\EnemyBuilding.png")
+				SpriteImage = ResourceManager.GetBitmap(@"Sprites\Radar.png")
 			};
 		}
 
-		[RendersAttribute(typeof(EnemyFighter))]
-		[RendersAttribute(typeof(EnemyAirport))]
-		[RendersAttribute(typeof(EnemyBomber))]
+		[Renders(typeof(StaticObject))]
+		private static GraphicalObject CreateForStaticObject(WarObject warObj) {
+			return new StaticObjectGraph
+			{
+				StaticObject = (StaticObject)warObj,
+				SpriteImage = ResourceManager.GetBitmap(@"Sprites\EnemyBuilding.png"),
+				SmallSprite = false
+			};
+		}
+
+		[Renders(typeof(EnemyFighter))]
+		[Renders(typeof(EnemyAirport))]
+		[Renders(typeof(EnemyBomber))]
 		private static GraphicalObject CreateForBomber(WarObject warObj) {
 			return new SpriteGraph
 			{
@@ -60,7 +70,7 @@ namespace WarLab.SampleUI {
 			};
 		}
 
-		[RendersAttribute(typeof(StaticTarget))]
+		[Renders(typeof(StaticTarget))]
 		private static GraphicalObject CreateForStaticTarget(WarObject warObj) {
 			return new SpriteGraph
 			{
@@ -68,8 +78,8 @@ namespace WarLab.SampleUI {
 				SpriteImage = ResourceManager.GetBitmap(@"Sprites\EnemyBuilding.png")
 			};
 		}
-		
-		[RendersAttribute(typeof(Rocket))]
+
+		//[Renders(typeof(Rocket))]
 		private static GraphicalObject CreateForRocket(WarObject warObj) {
 			return new SpriteGraph
 			{
@@ -78,9 +88,29 @@ namespace WarLab.SampleUI {
 			};
 		}
 
+		[Renders(typeof(Rocket))]
+		private static GraphicalObject CreateForMissile(WarObject warObj) {
+			return new MissileGraph
+			{
+				SpriteSource = (ISpriteSource)warObj,
+			};
+		}
+
 		public static GraphicalObject CreateGraphForWarObject(WarObject warObject) {
-			RendererCreator creator = renderers[warObject.GetType()];
-			return creator(warObject);
+			Type type = warObject.GetType();
+			if (renderers.ContainsKey(type)) {
+				RendererCreator creator = renderers[type];
+				return creator(warObject);
+			}
+			else {
+				var keyType = renderers.Keys.Where(t => t.IsAssignableFrom(type)).First();
+				if (keyType != null) {
+					return renderers[keyType](warObject);
+				}
+				else {
+					throw new ArgumentException(String.Format("Не найден рендерер для объектов типа {0}."), type.Name);
+				}
+			}
 		}
 	}
 }

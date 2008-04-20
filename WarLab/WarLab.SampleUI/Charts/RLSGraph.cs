@@ -17,7 +17,7 @@ namespace WarLab.SampleUI.Charts {
 	public class RLSGraph : WarGraph {
 		public RLSGraph() {
 			// todo нужно ли это?
-			RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.LowQuality);
+			//RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.LowQuality);
 			IsHitTestVisible = false;
 		}
 
@@ -81,8 +81,11 @@ namespace WarLab.SampleUI.Charts {
 			double radiusY = radius / state.Visible.Height * state.OutputWithMargin.Height;
 
 			foreach (var t in Ai.AllTrajectories) {
+#if false
 				Point pos = CoordinateUtils.Transform(t.Position.Projection2D, state.Visible, state.OutputWithMargin);
-				//Point pos = CoordinateUtils.Transform(t.InterpolatedPosition(Time.TotalTime).Projection2D, state.Visible, state.OutputWithMargin);
+#else
+				Point pos = CoordinateUtils.Transform(t.InterpolatedPosition(World.Instance.Time.TotalTime).Projection2D, state.Visible, state.OutputWithMargin);
+#endif
 				dc.DrawEllipse(brush, null, pos, 3, 3);
 
 				if (t.HasDirection) {

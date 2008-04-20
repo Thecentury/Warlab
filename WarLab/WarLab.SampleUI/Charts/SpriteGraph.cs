@@ -27,21 +27,7 @@ namespace WarLab.SampleUI.Charts {
 			  typeof(ISpriteSource),
 			  typeof(SpriteGraph),
 			  new FrameworkPropertyMetadata(null, 
-				  FrameworkPropertyMetadataOptions.AffectsRender, OnSourceChanged));
-
-		private static void OnSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
-			/*
-			SpriteGraph graph = (SpriteGraph)d;
-			IDamageable damageable = e.NewValue as IDamageable;
-			if (damageable != null) {
-				damageable.Destroyed += graph.damageable_Destroyed;
-			}
-			 */
-		}
-
-		private void damageable_Destroyed(object sender, EventArgs e) {
-			throw new NotImplementedException();
-		}
+				  FrameworkPropertyMetadataOptions.AffectsRender));
 
 		public ImageSource SpriteImage {
 			get { return (ImageSource)GetValue(SpriteImageProperty); }
@@ -53,7 +39,14 @@ namespace WarLab.SampleUI.Charts {
 			  "SpriteImage",
 			  typeof(ImageSource),
 			  typeof(SpriteGraph),
-			  new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender));
+			  new FrameworkPropertyMetadata(
+				  null, FrameworkPropertyMetadataOptions.AffectsRender));
+
+		private bool smallSprite = true;
+		public bool SmallSprite {
+			get { return smallSprite; }
+			set { smallSprite = value; }
+		}
 
 		protected override void OnRenderCore(DrawingContext dc, RenderState state) {
 			if (SpriteSource == null) return;
@@ -78,7 +71,9 @@ namespace WarLab.SampleUI.Charts {
 				size = new Size(100, 90);
 			}
 
-			size = new Size(size.Width / 3, size.Height / 3);
+			if (smallSprite) {
+				size = new Size(size.Width / 3, size.Height / 3);
+			}
 
 			dc.PushTransform(new RotateTransform(angle, transformedPos.X, transformedPos.Y));
 #if !true

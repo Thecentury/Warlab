@@ -13,7 +13,13 @@ using WarLab.WarObjects;
 
 namespace WarLab {
 	public sealed class World : INotifyCollectionChanged {
-		public World() {
+
+		private static readonly World instance = new World();
+		public static World Instance {
+			get { return instance; }
+		}
+
+		private World() {
 			objects.CollectionChanged += objects_CollectionChanged;
 
 			RegisterAIs();
@@ -22,7 +28,7 @@ namespace WarLab {
 		}
 
 		private void RegisterAIs() {
-			RegisterAIForWarObject<ImprovedRocketAI, Rocket>();
+			RegisterAIForWarObject<RocketAI, Rocket>();
 			RegisterAIForWarObject<RLSAI, RLS>();
 		}
 
@@ -43,13 +49,20 @@ namespace WarLab {
 			obj.World = this;
 
 			obj.Position = position;
-			objects.Add(obj);
+			if (!isUpdating) {
+				objects.Add(obj);
+			}
+			else {
+				addedObjects.Add(obj);
+			}
 
 			IDamageable damageableObj = obj as IDamageable;
 			if (damageableObj != null) {
 				damageableObj.Destroyed += OnObjectDestroyed;
 			}
 		}
+
+		private readonly List<WarObject> addedObjects = new List<WarObject>();
 
 		private readonly List<WarObject> destroyedObjects = new List<WarObject>();
 		private void OnObjectDestroyed(object sender, EventArgs e) {
@@ -76,7 +89,11 @@ namespace WarLab {
 			return objects.OfType<T>();
 		}
 
-		private WarTime time;
+		public T SelectSingle<T>() where T : WarObject {
+			return objects.OfType<T>().First<T>();
+		}
+
+		private WarTime time = new WarTime();
 		public WarTime Time {
 			get { return time; }
 		}
@@ -87,16 +104,25 @@ namespace WarLab {
 		private TimeSpan realPrevTickTime = new TimeSpan();
 		private readonly Stopwatch watch = new Stopwatch();
 		private double timerSpeed = 1;
+		private bool isConstantDelta = true;
 
 		private readonly TimeSpan constDelta = TimeSpan.FromMilliseconds(20);
+
+		private bool isUpdating = false;
+		public bool IsUpdating { get { return isUpdating; } }
 
 		public void Update() {
 			warPrevTickTime = warTickTime;
 			realPrevTickTime = realTickTime;
 			realTickTime = watch.Elapsed;
 
-			TimeSpan delta = realTickTime - realPrevTickTime;
+			TimeSpan delta = isConstantDelta ? constDelta : realTickTime - realPrevTickTime;
+
 			TimeSpan warDelta = TimeSpan.FromSeconds(delta.TotalSeconds * timerSpeed);
+			if (!watch.IsRunning) {
+				warDelta = TimeSpan.Zero;
+			}
+
 			warTickTime = warPrevTickTime + warDelta;
 
 			time = new WarTime(warDelta, warTickTime);
@@ -104,6 +130,7 @@ namespace WarLab {
 			if (time.ElapsedTime.TotalMilliseconds == 0)
 				return;
 
+			isUpdating = true;
 			foreach (var obj in objects) {
 				obj.UpdateAI(time);
 			}
@@ -115,6 +142,12 @@ namespace WarLab {
 			foreach (var obj in objects) {
 				obj.UpdateSelf(time);
 			}
+			isUpdating = false;
+
+			foreach (var obj in addedObjects) {
+				objects.Add(obj);
+			}
+			addedObjects.Clear();
 
 			foreach (var obj in destroyedObjects) {
 				objects.Remove(obj);
@@ -129,7 +162,6 @@ namespace WarLab {
 				IRocketDamageable rocketDamageable = item as IRocketDamageable;
 				if (rocketDamageable != null) {
 					double distance = MathHelper.Distance(item.Position, targetPos);
-					Debug.WriteLine(distance);
 					if (distance < rocket.DamageRange) {
 						double damage = (rocket.DamageRange - distance) / rocket.DamageRange * rocket.Damage;
 						rocketDamageable.MakeDamage(damage);

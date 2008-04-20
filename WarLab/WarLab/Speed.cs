@@ -8,5 +8,9 @@ namespace WarLab {
 		public static double FromKilometresPerHour(double kmh) {
 			return kmh * 1000 / 3600.0;
 		}
+
+		public static double FromMetresPerSecond(double mps) {
+			return mps;
+		}
 	}
 }

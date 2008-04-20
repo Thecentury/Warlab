@@ -79,8 +79,11 @@
     <Compile Include="AI\PathDrivenAI.cs" />
     <Compile Include="AI\SamplePlaneAI.cs" />
     <Compile Include="AssemblyXmlns.cs" />
+    <Compile Include="Charts\ClockGraph.cs" />
+    <Compile Include="Charts\MissileGraph.cs" />
     <Compile Include="Charts\RLSGraph.cs" />
     <Compile Include="Charts\SpriteGraph.cs" />
+    <Compile Include="Charts\StaticObjectGraph.cs" />
     <Compile Include="Charts\WarGraph.cs" />
     <Compile Include="MainWindow2.xaml.cs">
       <DependentUpon>MainWindow2.xaml</DependentUpon>
@@ -149,6 +152,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Sprites\Rocket.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Radar.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
