@@ -68,8 +68,8 @@ namespace EnemyPlanes {
 		/// <param name="plane">Самолет</param>
 		public void ReloadAndRefuel(EnemyPlane plane) {
 			if (planes.Contains(plane)) {
-				plane.FuelLeft = plane.TankCapacity;
-				plane.WeaponsLeft = plane.WeaponsCapacity;
+				plane.Refuel();
+				plane.Reload();
 			}
 			else
 				throw new ArgumentException("Этот самолет не приписан к этому аэродрому");

@@ -11,7 +11,7 @@ namespace WarLab.WarObjects {
 		public double Importance {
 			get { return importance; }
 			protected set {
-				Verify.DoubleIsPositive(value);
+				Verify.IsNonNegative(value);
 
 				importance = value;
 			}

@@ -5,29 +5,40 @@ using System.Text;
 using System.Diagnostics;
 
 namespace WarLab {
-	internal static class Verify {
-		internal static void IsFinite(double d) {
+	public static class Verify {
+		public static void IsFinite(double d) {
 			if (Double.IsNaN(d) || Double.IsInfinity(d)) {
 				Debugger.Break();
-				throw new ArgumentException("Нельзя NAN или бесконечность!");
+				throw new ArgumentException("Величина не может быть равной NAN или бесконечности");
 			}
 		}
 
-		internal static void DoubleIsPositive(double d) {
-			if (Double.IsInfinity(d) || Double.IsNaN(d)) {
+		public static void IsNonNegative(double d) {
+			IsFinite(d);
+			if (d < 0) {
 				Debugger.Break();
-				throw new ArgumentOutOfRangeException("damage", "Величина должна быть конечной");
+				throw new ArgumentOutOfRangeException("Величина не может быть отрицательной");
 			}
+		}
+
+		public static void IsPositive(double d) {
+			IsFinite(d);
 			if (d <= 0) {
 				Debugger.Break();
-				throw new ArgumentOutOfRangeException("damage", "Величина не может быть отрицательной");
+				throw new ArgumentOutOfRangeException("Величина не может быть отрицательной");
 			}
 		}
 
-		internal static void DoubleIs0To1(double d) {
+		public static void Is0To1(double d) {
 			if (!(0 <= d && d <= 1)) {
 				Debugger.Break();
 				throw new ArgumentException("Величина должна быть от 0 до 1");
+			}
+		}
+
+		public static void IsNonNegative(int i) {
+			if (i < 0) {
+				throw new ArithmeticException("Величина не может быть неотрицательной");
 			}
 		}
 	}
