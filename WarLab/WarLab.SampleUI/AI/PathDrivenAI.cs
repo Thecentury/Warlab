@@ -7,8 +7,6 @@ using WarLab.SampleUI.WarObjects;
 using WarLab.Path;
 
 namespace WarLab.SampleUI.AI {
-	[Controls(typeof(SampleEnemyPlane))]
-	[Controls(typeof(SamplePlane))]
 	class PathDrivenAI : DynamicObjectAI {
 
 		WarPath path = null;

@@ -19,7 +19,7 @@ namespace WarLab.WarObjects {
 
 		public static readonly TimeSpan ChannelReloadTime = TimeSpan.FromSeconds(4);
 
-		public const int NumOfChannels = 1;
+		public const int NumOfChannels = 2;
 
 		private int numOfEquipment = 50;
 		public int NumOfEquipment {
@@ -27,7 +27,11 @@ namespace WarLab.WarObjects {
 			set { numOfEquipment = value; }
 		}
 
-		public ZRKChannelInfo[] channels = new ZRKChannelInfo[NumOfChannels];
+		private ZRKChannelInfo[] channels = new ZRKChannelInfo[NumOfChannels];
+		public ZRKChannelInfo[] Channels {
+			get { return channels; }
+		}
+
 		private List<RLSTrajectory> trajectories = new List<RLSTrajectory>();
 
 		protected override void UpdateImpl(WarTime warTime) {

@@ -8,7 +8,7 @@ using ScientificStudio.Charting;
 using System.Windows;
 
 namespace WarLab.SampleUI.Charts {
-	public sealed class StaticObjectGraph : WarGraph {
+	public class StaticObjectGraph : WarGraph {
 		public StaticObject StaticObject { get; set; }
 		public ImageSource SpriteImage { get; set; }
 
@@ -18,25 +18,36 @@ namespace WarLab.SampleUI.Charts {
 			set { smallSprite = value; }
 		}
 
+		protected Size SpriteSize {
+			get {
+				Size size = new Size(SpriteImage.Width, SpriteImage.Height);
+				if (SpriteImage.Width < 20) {
+					// для правильного отображения EnemyPlane.png - он почему-то считает, что его размер 16x14
+					size = new Size(100, 90);
+				}
+
+				if (smallSprite) {
+					size = new Size(size.Width / 3, size.Height / 3);
+				}
+				return size;
+			}
+		}
+
+		protected Point GetSpriteCenter(RenderState state) {
+			Vector2D pos2D = StaticObject.Position.Projection2D;
+			Point transformedPos = CoordinateUtils.Transform(pos2D, state.Visible, state.OutputWithMargin);
+			return transformedPos;
+		}
+
 		protected override void OnRenderCore(DrawingContext dc, RenderState state) {
 			if (StaticObject == null) return;
 			if (SpriteImage == null) return;
 
-			Vector2D pos2D = StaticObject.Position.Projection2D;
 
-			Point transformedPos = CoordinateUtils.Transform(pos2D, state.Visible, state.OutputWithMargin);
+			Size spriteSize = SpriteSize;
+			Point transformedPos = GetSpriteCenter(state);
 
-			Size size = new Size(SpriteImage.Width, SpriteImage.Height);
-			if (SpriteImage.Width < 20) {
-				// для правильного отображения EnemyPlane.png - он почему-то считает, что его размер 16x14
-				size = new Size(100, 90);
-			}
-
-			if (smallSprite) {
-				size = new Size(size.Width / 3, size.Height / 3);
-			}
-
-			dc.DrawImage(SpriteImage, MathHelper.CreateRectFromCenterSize(transformedPos, size));
+			dc.DrawImage(SpriteImage, MathHelper.CreateRectFromCenterSize(transformedPos, spriteSize));
 		}
 	}
 }

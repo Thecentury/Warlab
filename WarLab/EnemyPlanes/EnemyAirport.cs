@@ -4,34 +4,30 @@ using System.Linq;
 using System.Text;
 using WarLab;
 
-namespace EnemyPlanes
-{
+namespace EnemyPlanes {
 	/// <summary>
 	/// Вражеский аэродром, на котором находятся либо бомбардировщики, либо истребители
 	/// </summary>
-	public class EnemyAirport : WarObject,ISpriteSource
-	{
+	public class EnemyAirport : WarObject, ISpriteSource {
 		#region vars
 		/// <summary>
 		/// Самолеты, взлетающие и заправляющиеся на этом аэродроме
 		/// </summary>
-		private List<EnemyPlane> planes;
+		private readonly List<EnemyPlane> planes;
 		#endregion
 
 		/// <summary>
 		/// Создать вражеский аэродром
 		/// </summary>
 		/// <param name="capacity">Количество самолетов, приписанных к нему</param>
-		public EnemyAirport(int capacity) 
-		{
+		public EnemyAirport(int capacity) {
 			planes = new List<EnemyPlane>(capacity);
 		}
 
 		/// <summary>
 		/// Создать вражеский аэродром
 		/// </summary>
-		public EnemyAirport()
-		{
+		public EnemyAirport() {
 			planes = new List<EnemyPlane>();
 		}
 
@@ -40,8 +36,7 @@ namespace EnemyPlanes
 		/// <summary>
 		/// Возвращает самолеты, приписанные к этому вражескому аэродрому
 		/// </summary>
-		public List<EnemyPlane> Planes
-		{
+		public List<EnemyPlane> Planes {
 			get { return planes; }
 		}
 
@@ -52,8 +47,7 @@ namespace EnemyPlanes
 		/// а у самолета есть интеллект AI
 		/// </summary>
 		/// <param name="plane">Самолет</param>
-		public void AddPlane(EnemyPlane plane)
-		{
+		public void AddPlane(EnemyPlane plane) {
 			((EnemyPlaneAI)plane.AI).BasePosition = Position;
 			planes.Add(plane);
 		}
@@ -61,9 +55,8 @@ namespace EnemyPlanes
 		#endregion
 
 		#region WarObject implementation
-		protected override void UpdateImpl(WarTime warTime)
-		{
-			
+		protected override void UpdateImpl(WarTime warTime) {
+			// do nothing here
 		}
 		#endregion
 
@@ -73,10 +66,8 @@ namespace EnemyPlanes
 		/// Заправить самолет и установить на него вооружение
 		/// </summary>
 		/// <param name="plane">Самолет</param>
-		public void ReloadAndRefuel(EnemyPlane plane)
-		{
-			if (planes.Contains(plane))
-			{
+		public void ReloadAndRefuel(EnemyPlane plane) {
+			if (planes.Contains(plane)) {
 				plane.FuelLeft = plane.TankCapacity;
 				plane.WeaponsLeft = plane.WeaponsCapacity;
 			}
@@ -88,9 +79,8 @@ namespace EnemyPlanes
 
 		#region ISpriteSource Members
 
-		public Vector3D Orientation
-		{
-			get { return new Vector3D(1.0,0.0,0.0); }
+		public Vector3D Orientation {
+			get { return new Vector3D(1.0, 0.0, 0.0); }
 		}
 
 		#endregion

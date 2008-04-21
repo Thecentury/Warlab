@@ -15,12 +15,6 @@ using WarLab.AI;
 
 namespace WarLab.SampleUI.Charts {
 	public class RLSGraph : WarGraph {
-		public RLSGraph() {
-			// todo нужно ли это?
-			//RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.LowQuality);
-			IsHitTestVisible = false;
-		}
-
 		public StaticObject StaticObject {
 			get { return (StaticObject)GetValue(SpriteSourceProperty); }
 			set { SetValue(SpriteSourceProperty, value); }
@@ -75,7 +69,16 @@ namespace WarLab.SampleUI.Charts {
 
 			Size size = new Size(SpriteImage.Width, SpriteImage.Height);
 
+			RLSAI ai = Rls.AI as RLSAI;
+			double turnRatio = ai.FromPrevTurn.TotalSeconds / Rls.RotationPeriod.TotalSeconds;
+			double angle = 360*turnRatio;
+
+			dc.PushTransform(new RotateTransform(angle, transformedPos.X, transformedPos.Y));
+
 			dc.DrawImage(SpriteImage, MathHelper.CreateRectFromCenterSize(transformedPos, size));
+
+			dc.Pop();
+
 			double radius = Rls.CoverageRadius;
 			double radiusX = radius / state.Visible.Width * state.OutputWithMargin.Width;
 			double radiusY = radius / state.Visible.Height * state.OutputWithMargin.Height;

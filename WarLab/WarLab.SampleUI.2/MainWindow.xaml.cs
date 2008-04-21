@@ -97,7 +97,7 @@ namespace WarLab.SampleUI {
 
 		DispatcherTimer dispTimer = new DispatcherTimer();
 
-		World world = new World();
+		World world = World.Instance;
 
 		private readonly List<GraphicalObject> uiGraphs = new List<GraphicalObject>();
 		private void AddUIGraph(GraphicalObject graph) {

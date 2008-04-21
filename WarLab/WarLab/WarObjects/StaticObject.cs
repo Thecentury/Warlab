@@ -5,7 +5,7 @@ using System.Diagnostics;
 
 namespace WarLab {
 	/// <summary>
-	/// Неподвижный объект мира, видимый на игровой картею
+	/// Неподвижный объект мира, видимый на игровой карте.
 	/// </summary>
 	public abstract class StaticObject : WarObject, IBombDamageable {
 		
@@ -28,7 +28,7 @@ namespace WarLab {
 
 		#region IBombDamageable Members
 
-		public void MakeDamage(double damage) {
+		void IBombDamageable.MakeDamage(double damage) {
 			Verify.DoubleIsPositive(damage);
 
 			health -= damage;

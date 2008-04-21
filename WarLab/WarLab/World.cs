@@ -89,8 +89,16 @@ namespace WarLab {
 			return objects.OfType<T>();
 		}
 
+		public IEnumerable<T> SelectAllAIs<T>() where T : WarAI {
+			return objects.Where(o => o.AI is T).Select(o => o.AI as T);
+		}
+
 		public T SelectSingle<T>() where T : WarObject {
 			return objects.OfType<T>().First<T>();
+		}
+
+		public T SelectSingleAI<T>() where T : WarAI {
+			return objects.First(o => o.AI is T).AI as T;
 		}
 
 		private WarTime time = new WarTime();
@@ -171,7 +179,7 @@ namespace WarLab {
 		}
 
 		public void ExplodeBomb(Vector3D position, double damage, double damageRange) {
-			foreach (var item in SelectAll<DynamicObject>()) {
+			foreach (var item in SelectAll<StaticObject>()) {
 				IBombDamageable bombDamageable = item as IBombDamageable;
 				if (bombDamageable != null) {
 					double distance = MathHelper.Distance(item.Position, position);
@@ -204,10 +212,6 @@ namespace WarLab {
 			Type warType = typeof(TWarObject);
 
 			Type aiType = typeof(TAI);
-			var attrs = aiType.GetCustomAttributes(typeof(ControlsAttribute), true);
-			bool valid = ((ControlsAttribute[])attrs).Any<ControlsAttribute>(attr => attr.ControllsType.IsAssignableFrom(warType));
-			if (!valid)
-				throw new InvalidOperationException(String.Format("Объекты типа {0} не может управлять объектами типа {1}, что следует из аттрибутов, навешеных на тип {0}", aiType.Name, warType.Name));
 
 			aiForWarObjects.Add(typeof(TWarObject), typeof(TAI));
 		}

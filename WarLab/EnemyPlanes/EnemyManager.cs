@@ -4,13 +4,11 @@ using System.Linq;
 using System.Text;
 using WarLab;
 
-namespace EnemyPlanes
-{
+namespace EnemyPlanes {
 	/// <summary>
 	/// Командный пункт вражеских самолетов
 	/// </summary>
-	public class EnemyManager
-	{
+	public class EnemyManager {
 		#region vars
 		//private Dictionary<EnemyBomber,EnemyBomberAI> bombers;
 		//private Dictionary<EnemyFighter,EnemyFighterAI> fighters;
@@ -30,8 +28,7 @@ namespace EnemyPlanes
 		/// <param name="bombersAirport">Аэродром для бомбардировщиков</param>
 		/// <param name="fightersAirport">Аэродром для истребителей</param>
 		public EnemyManager(EnemyAirport bombersAirport,
-			EnemyAirport fightersAirport)
-		{
+			EnemyAirport fightersAirport) {
 			//bombers = new Dictionary<EnemyBomber,EnemyBomberAI>();
 			//fighters = new Dictionary<EnemyFighter,EnemyFighterAI>();
 			this.bombersAirport = bombersAirport;
@@ -43,16 +40,14 @@ namespace EnemyPlanes
 		/// <summary>
 		/// Получить аэродром вражеских бомбардировщиков
 		/// </summary>
-		public EnemyAirport BombersAirport
-		{
+		public EnemyAirport BombersAirport {
 			get { return bombersAirport; }
 		}
 
 		/// <summary>
 		/// Получить аэродром вражеских истребителей
 		/// </summary>
-		public EnemyAirport FightersAirport
-		{
+		public EnemyAirport FightersAirport {
 			get { return fightersAirport; }
 		}
 
@@ -61,14 +56,12 @@ namespace EnemyPlanes
 
 		#region methods
 		/// <summary>
-		/// Навести бомбадировщик
+		/// Навести бомбадировщик на цель.
 		/// </summary>
 		/// <param name="plane">Бомбардировщик</param>
 		/// <param name="target">Цель</param>
-		public void Navigate(EnemyBomber plane, StaticTarget target)
-		{
-			if (bombersAirport.Planes.Contains(plane))
-			{
+		public void Navigate(EnemyBomber plane, StaticTarget target) {
+			if (bombersAirport.Planes.Contains(plane)) {
 				EnemyBomberAI ai = (EnemyBomberAI)plane.AI;
 				ai.AttackTarget(target);
 			}
@@ -82,29 +75,24 @@ namespace EnemyPlanes
 		/// </summary>
 		/// <param name="plane">Истребитель</param>
 		/// <param name="target">Бомбардировщик или истребитель обороняющейся стороны</param>
-		public void Navigate(EnemyFighter plane, Plane target)
-		{
-			if (fightersAirport.Planes.Contains(plane))
-			{
+		public void Navigate(EnemyFighter plane, Plane target) {
+			if (fightersAirport.Planes.Contains(plane)) {
 				//EnemyFighterAI ai = fighters[plane];
-				if (target is EnemyBomber)
-				{
+				if (target is EnemyBomber) {
 					Vector3D offset = new Vector3D();
 					List<EnemyFighter> followingFighters = new List<EnemyFighter>();// истребители, уже сопровождающие этот бомбер
 					EnemyBomber bomber = (EnemyBomber)target;
 					EnemyBomberAI bomberAI = (EnemyBomberAI)bomber.AI;
 					double radius = bomberAI.FightersRadius;
 					//находим все самолеты, уже сопровождающие этот бомбер
-					foreach (EnemyFighter fighter in fightersAirport.Planes)
-					{
+					foreach (EnemyFighter fighter in fightersAirport.Planes) {
 						if (((EnemyFighterAI)fighter.AI).Target == target)
 							followingFighters.Add(fighter);
 					}
 					// добавим в число этих истребителей наводимый в этой функции истребитель
 					followingFighters.Add(plane);
 					double delta = 360.0 / (double)followingFighters.Count; //угол между истребителями
-					for (int i = 0; i < followingFighters.Count; i++)
-					{
+					for (int i = 0; i < followingFighters.Count; i++) {
 						// задаем смещение истребителю и наводим его
 						double angle = i * delta;
 						((EnemyFighterAI)followingFighters[i].AI).FollowBomber(bomber, angle);

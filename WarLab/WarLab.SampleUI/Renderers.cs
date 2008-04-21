@@ -49,9 +49,9 @@ namespace WarLab.SampleUI {
 			};
 		}
 
-		[Renders(typeof(StaticObject))]
+		[Renders(typeof(SimpleZRK))]
 		private static GraphicalObject CreateForStaticObject(WarObject warObj) {
-			return new StaticObjectGraph
+			return new ZRKGraph
 			{
 				StaticObject = (StaticObject)warObj,
 				SpriteImage = ResourceManager.GetBitmap(@"Sprites\EnemyBuilding.png"),

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 
 namespace WarLab {
-	public interface IRocketDamageable : IDamageable {
+	internal interface IRocketDamageable : IDamageable {
 		void MakeDamage(double damage);
 	}
 }

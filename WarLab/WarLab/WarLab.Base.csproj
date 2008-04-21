@@ -46,7 +46,7 @@
   -->
   <ItemGroup>
     <Compile Include="AI\ChangeDirectionCommand.cs" />
-    <Compile Include="AI\ControlsAttribute.cs" />
+    <Compile Include="AI\DummyAI.cs" />
     <Compile Include="AI\IAICommand.cs" />
     <Compile Include="AI\ImprovedRocketAI.cs" />
     <Compile Include="AI\DynamicObjectAI.cs" />
@@ -75,11 +75,13 @@
     <Compile Include="WarObjects\IBombDamageable.cs" />
     <Compile Include="WarObjects\DynamicObject.cs" />
     <Compile Include="WarObjects\IDamageable.cs" />
+    <Compile Include="WarObjects\IHasImportance.cs" />
     <Compile Include="WarObjects\IRocketDamageable.cs" />
     <Compile Include="ISpriteSource.cs" />
     <Compile Include="MathHelper.cs" />
     <Compile Include="NormalDistribution.cs" />
     <Compile Include="WarObjects\OurHeadQuaters.cs" />
+    <Compile Include="WarObjects\OurStaticObject.cs" />
     <Compile Include="WarObjects\Plane.cs" />
     <Compile Include="WarObjects\RLS.cs" />
     <Compile Include="WarObjects\Rocket.cs" />

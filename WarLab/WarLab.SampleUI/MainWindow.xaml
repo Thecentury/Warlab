@@ -5,12 +5,6 @@
 				xmlns:l="clr-namespace:WarLab.SampleUI.Charts"
 				xmlns:d="http://microsoft.cs.msu.su/General"
     Title="Window1" WindowState="Maximized">
-	<Window.Resources>
-		<LinearGradientBrush x:Key="logBrush" StartPoint="0,0" EndPoint="0,1">
-			<GradientStop Color="SeaGreen" Offset="0" />
-			<GradientStop Color="SlateBlue" Offset="1" />
-		</LinearGradientBrush>
-	</Window.Resources>
 
 	<Grid>
 		<Grid.ColumnDefinitions>
@@ -24,7 +18,6 @@
 			</c:ChartPlotter.Viewport>
 
 			<c:Axises />
-			<l:SpriteGraph/>
 		</c:ChartPlotter>
 
 		<Border BorderBrush="{StaticResource logBrush}" BorderThickness="3" Grid.Column="1">

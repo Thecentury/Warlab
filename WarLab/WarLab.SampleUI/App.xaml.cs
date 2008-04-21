@@ -17,7 +17,7 @@ namespace WarLab.SampleUI {
 #if true
 			windowName = "MainWindow";
 #elif true
-			windowName = "MainWindow2";
+			windowName = "Window2";
 #endif
 			windowName += ".xaml";
 			StartupUri = new Uri(windowName, UriKind.Relative);
