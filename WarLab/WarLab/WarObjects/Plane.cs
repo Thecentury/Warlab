@@ -14,7 +14,8 @@ namespace WarLab {
 		}
 
 		/// <summary>
-		/// Метод, который будет вызываться каждый такт и именно в котором нужно реализовывать ИИ.
+		/// Метод, который будет вызываться каждый такт и именно в котором нужно 
+		/// реализовывать ИИ.
 		/// </summary>
 		/// <param name="warTime">The war time.</param>
 		protected abstract void UpdateCore(WarTime warTime);
@@ -22,11 +23,30 @@ namespace WarLab {
 		private double fuelLeft = Distance.FromKilometres(10000);
 		public double FuelLeft {
 			get { return fuelLeft; }
-			set {
+			internal set {
+				Verify.IsFinite(value);
 				fuelLeft = value;
+
 				if (fuelLeft < 0.01) {
 					RaiseDead();
 				}
+			}
+		}
+
+		/// <summary>
+		/// Заправляет самолет - количество топлива увеличивается до MaxFuel.
+		/// </summary>
+		public void Refuel() {
+			FuelLeft = MaxFuel;
+		}
+
+		private double maxFuel = Distance.FromKilometres(10000);
+		public double MaxFuel {
+			get { return maxFuel; }
+			set {
+				Verify.IsPositive(value);
+
+				maxFuel = value;
 			}
 		}
 
@@ -37,10 +57,10 @@ namespace WarLab {
 		}
 
 		void IRocketDamageable.MakeDamage(double damage) {
-			Verify.DoubleIsPositive(damage);
+			Verify.IsNonNegative(damage);
 
 			health -= damage;
-	
+
 			Debug.WriteLine(String.Format("Plane: {0} damage taken, {1} health left", damage, health));
 			if (health <= 0.01) {
 				RaiseDead();

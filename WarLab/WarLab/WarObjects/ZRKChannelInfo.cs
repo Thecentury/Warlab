@@ -5,12 +5,23 @@ using System.Text;
 
 namespace WarLab.WarObjects {
 	public sealed class ZRKChannelInfo {
-		public bool ReadyToFire = true;
-		public TimeSpan TimeToReload = new TimeSpan();
+		private bool readyToFire = false;
+		public bool ReadyToFire { get { return readyToFire; } }
+
+		private TimeSpan timeToReload = SimpleZRK.ChannelReloadTime;
+		public TimeSpan TimeToReload {
+			get { return timeToReload; }
+			set { timeToReload = value; }
+		}
 
 		internal void Fire() {
-			ReadyToFire = false;
-			TimeToReload = SimpleZRK.ChannelReloadTime;
+			readyToFire = false;
+			timeToReload = SimpleZRK.ChannelReloadTime;
+		}
+
+		internal void Load() {
+			readyToFire = true;
+			timeToReload = TimeSpan.Zero;
 		}
 	}
 }

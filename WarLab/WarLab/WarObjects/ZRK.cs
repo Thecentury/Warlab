@@ -39,7 +39,7 @@ namespace WarLab.WarObjects {
 			foreach (var channel in channels.Where(ch => !ch.ReadyToFire)) {
 				channel.TimeToReload -= elapsedSeconds;
 				if (channel.TimeToReload <= TimeSpan.FromSeconds(0)) {
-					channel.ReadyToFire = true;
+					channel.Load();
 				}
 			}
 

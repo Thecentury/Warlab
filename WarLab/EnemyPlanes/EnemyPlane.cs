@@ -16,34 +16,34 @@ namespace EnemyPlanes {
 		#endregion
 
 		public EnemyPlane(int weapons, double fuel, double speed) {
-			FuelLeft = fuel;//нету public setter'а в этом свойстве
+			this.MaxFuel = fuel;
 			this.Speed = speed;
-			this.tankCapacity = fuel;
 			this.weaponsLeft = weapons;
 			this.weaponsCapacity = weapons;
 		}
 
 		public EnemyPlane(int weapons, double fuel) {
-			FuelLeft = fuel;//нету public setter'а в этом свойстве
-			this.tankCapacity = fuel;
+			this.MaxFuel = fuel;
 			this.weaponsLeft = weapons;
 			this.weaponsCapacity = weapons;
 		}
 
 		#region Properties
 
-		/// <summary>
-		/// Возвращает вместимость бака с топливом
-		/// </summary>
-		public double TankCapacity {
-			get { return tankCapacity; }
+		public void Reload() {
+			WeaponsLeft = WeaponsCapacity;
 		}
+
 		/// <summary>
 		/// Количество оставшегося вооружения. Когда его 0 - надо лететь на базу
 		/// </summary>
 		public int WeaponsLeft {
 			get { return weaponsLeft; }
-			set { weaponsLeft = value; }
+			private set {
+				Verify.IsNonNegative(value);
+
+				weaponsLeft = value;
+			}
 		}
 
 		/// <summary>

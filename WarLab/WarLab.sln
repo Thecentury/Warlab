@@ -15,11 +15,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorldSerializationSample", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnemyPlanes", "EnemyPlanes\EnemyPlanes.csproj", "{A1D1E68B-FDF8-4954-B214-B4CCE4DFDDFA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarLab.SampleUI.2", "WarLab.SampleUI.2\WarLab.SampleUI.2.csproj", "{C2290753-16CA-4419-A6B0-F947AE21609A}"
-EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 9
+		SccNumberOfProjects = 8
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs07.codeplex.com/
 		SccLocalPath0 = .
@@ -44,9 +42,6 @@ Global
 		SccProjectUniqueName7 = WorldSerializationSample\\WorldSerializationSample.csproj
 		SccProjectName7 = WorldSerializationSample
 		SccLocalPath7 = WorldSerializationSample
-		SccProjectUniqueName8 = WarLab.SampleUI.2\\WarLab.SampleUI.2.csproj
-		SccProjectName8 = WarLab.SampleUI.2
-		SccLocalPath8 = WarLab.SampleUI.2
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,10 +76,6 @@ Global
 		{A1D1E68B-FDF8-4954-B214-B4CCE4DFDDFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A1D1E68B-FDF8-4954-B214-B4CCE4DFDDFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A1D1E68B-FDF8-4954-B214-B4CCE4DFDDFA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C2290753-16CA-4419-A6B0-F947AE21609A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C2290753-16CA-4419-A6B0-F947AE21609A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C2290753-16CA-4419-A6B0-F947AE21609A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C2290753-16CA-4419-A6B0-F947AE21609A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

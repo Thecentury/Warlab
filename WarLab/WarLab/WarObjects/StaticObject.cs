@@ -29,7 +29,7 @@ namespace WarLab {
 		#region IBombDamageable Members
 
 		void IBombDamageable.MakeDamage(double damage) {
-			Verify.DoubleIsPositive(damage);
+			Verify.IsNonNegative(damage);
 
 			health -= damage;
 
