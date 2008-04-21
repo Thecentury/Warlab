@@ -36,7 +36,7 @@ namespace WarLab {
 			get { return health <= 0.01; }
 		}
 
-		public void MakeDamage(double damage) {
+		void IRocketDamageable.MakeDamage(double damage) {
 			Verify.DoubleIsPositive(damage);
 
 			health -= damage;

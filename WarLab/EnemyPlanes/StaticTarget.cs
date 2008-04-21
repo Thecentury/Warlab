@@ -3,13 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using WarLab;
+using WarLab.WarObjects;
 
 namespace EnemyPlanes {
-	public class StaticTarget : StaticObject, ISpriteSource {
-		protected override void UpdateImpl(WarTime warTime) {
-			base.UpdateImpl(warTime);
-		}
-
+	public class StaticTarget : OurStaticObject, ISpriteSource {
 		#region ISpriteSource Members
 
 		public Vector3D Orientation {

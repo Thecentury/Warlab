@@ -9,7 +9,6 @@ using WarLab.WarObjects;
 using System.Diagnostics;
 
 namespace EnemyPlanes {
-	[Controls(typeof(EnemyBomber))]
 	public class EnemyBomberAI : EnemyPlaneAI {
 		#region vars
 		/// <summary>
@@ -58,7 +57,7 @@ namespace EnemyPlanes {
 		private Random rand;
 		/// <summary>
 		/// Коэффициент, умножаемый на случайное число от 0 до 1. Полученное число определяет
-		/// отклонение от цели
+		/// отклонение от цели, в метрах.
 		/// </summary> 
 		public static double errorCoef = 5.0;
 		/// <summary>
@@ -180,6 +179,15 @@ namespace EnemyPlanes {
 			return false;
 		}
 
+		/// <summary>
+		/// Величина повреждений, наносимых бомбой.
+		/// </summary>
+		public readonly double BombDamage = 5;
+		/// <summary>
+		/// Радиус зоны, в которой бомба наносит повреждения.
+		/// </summary>
+		public readonly double BombDamageRange = Distance.FromMetres(50);
+
 		private void DropBomb() {
 			EnemyBomber plane = (EnemyBomber)ControlledDynamicObject;
 			if (plane.WeaponsLeft > 0) {
@@ -188,6 +196,7 @@ namespace EnemyPlanes {
 				/*бомба падает вертикально вниз - прямо под самолет*/
 				bombPos.X = plane.Position.X;
 				bombPos.Y = plane.Position.Y;
+
 				double plusMinusRandX = rand.NextDouble();
 				double plusMinusRandY = rand.NextDouble();
 				double plusMinusX = (plusMinusRandX > 0.5) ? 1.0 : -1.0;
@@ -196,19 +205,23 @@ namespace EnemyPlanes {
 				double errorY = rand.NextDouble() * errorCoef * plusMinusRandY;
 				bombPos.X += errorX;
 				bombPos.Y += errorY;
+				/*
 				if (Math.Sqrt((bombPos.X - target.Position.X) * (bombPos.X - target.Position.X)
 					+ (bombPos.Y - target.Position.Y) * (bombPos.Y - target.Position.Y))
 					< ((StaticTargetAI)target.AI).DamageRadius) {
-					/*попали*/
+					
+					// попали
 					Debug.WriteLine("Bomb hits the target");
-					// todo вызывать метод мира, который будет производить взрыв бомбы
-					target.MakeDamage(5.0);
+				*/
+				World.Instance.ExplodeBomb(bombPos, BombDamage, BombDamageRange);
+				/*
 				}
 				else {
-					/*промазали*/
+					// промазали
 					Debug.WriteLine("Bomb misses the target");
 				}
-				if (target.Health > 0.0 && plane.WeaponsLeft > 0) {
+				 */
+				if (target.Health > 0 && plane.WeaponsLeft > 0) {
 					returnToTargetCircleCenter = target.Position + plane.Orientation *
 						returnToTargetRadius;
 					mode = BomberFlightMode.ReturnToBombTarget;

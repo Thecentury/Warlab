@@ -8,7 +8,7 @@ namespace WarLab.WarObjects {
 	public sealed class ZRK : StaticObject {
 		public ZRK() {
 			for (int i = 0; i < NumOfChannels; i++) {
-				channels[i] = new ChannelInfo();
+				channels[i] = new ZRKChannelInfo();
 			}
 		}
 
@@ -17,15 +17,6 @@ namespace WarLab.WarObjects {
 		}
 
 		static readonly TimeSpan reloadTime = TimeSpan.FromSeconds(60);
-		private class ChannelInfo {
-			public bool ReadyToFire = true;
-			public TimeSpan TimeToReload = new TimeSpan();
-
-			public void Fire() {
-				ReadyToFire = false;
-				TimeToReload = ZRK.reloadTime;
-			}
-		}
 
 		public const int NumOfChannels = 10;
 
@@ -35,7 +26,11 @@ namespace WarLab.WarObjects {
 			set { numOfEquipment = value; }
 		}
 
-		private ChannelInfo[] channels = new ChannelInfo[NumOfChannels];
+		private ZRKChannelInfo[] channels = new ZRKChannelInfo[NumOfChannels];
+		public ZRKChannelInfo[] Channels {
+			get { return channels; }
+		}
+
 		private readonly List<RLSTrajectory> trajectories = new List<RLSTrajectory>();
 
 		protected override void UpdateImpl(WarTime warTime) {
@@ -49,7 +44,7 @@ namespace WarLab.WarObjects {
 			}
 
 			foreach (var target in trajectories) {
-				ChannelInfo channel = channels.First(ch => ch.ReadyToFire);
+				ZRKChannelInfo channel = channels.First(ch => ch.ReadyToFire);
 				channel.Fire();
 
 				LaunchRocket(warTime.TotalTime, target.Position);

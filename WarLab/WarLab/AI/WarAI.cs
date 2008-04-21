@@ -19,7 +19,7 @@ namespace WarLab.AI {
 
 		private readonly Dictionary<Type, IAICommand> commands = new Dictionary<Type, IAICommand>();
 
-		public abstract void Update(WarTime time);
+		public virtual void Update(WarTime time) { }
 
 		protected void AddCommand(IAICommand command) {
 			commands[command.GetType()] = command;

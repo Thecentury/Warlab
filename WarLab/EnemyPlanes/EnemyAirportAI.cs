@@ -6,7 +6,6 @@ using WarLab.AI;
 
 namespace EnemyPlanes
 {
-	[Controls(typeof(EnemyAirport))]
 	public class EnemyAirportAI:WarAI
 	{
 		public override void Update(WarLab.WarTime time)

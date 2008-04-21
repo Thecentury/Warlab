@@ -8,7 +8,6 @@ using System.Diagnostics;
 
 namespace EnemyPlanes
 {
-	[Controls(typeof(EnemyFighter))]
 	public class EnemyFighterAI : EnemyPlaneAI
 	{
 		#region variables

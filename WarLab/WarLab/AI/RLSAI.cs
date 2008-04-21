@@ -8,7 +8,6 @@ using WarLab.WarObjects;
 using System.Diagnostics;
 
 namespace WarLab.AI {
-	[Controls(typeof(RLS))]
 	public sealed class RLSAI : WarAI {
 
 		/// <summary>
@@ -49,6 +48,11 @@ namespace WarLab.AI {
 
 		private int turnNum = 0;
 		private TimeSpan fromPrevTurn = new TimeSpan();
+		
+		public TimeSpan FromPrevTurn {
+			get { return fromPrevTurn; }
+		}
+
 		public override void Update(WarTime time) {
 			fromPrevTurn += time.ElapsedTime;
 			trajectories.RemoveAll(tr => tr.IsDestroyed);
@@ -113,6 +117,7 @@ namespace WarLab.AI {
 					trajectories.RemoveRange(RLS.ChannelsNum, trajectories.Count - RLS.ChannelsNum);
 				}
 
+				// удаляем все близкие траектории, оставляя только 1 из них
 				int i = 0;
 				while (i < trajectories.Count) {
 					int j = i + 1;

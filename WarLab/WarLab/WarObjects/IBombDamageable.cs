@@ -7,7 +7,7 @@ namespace WarLab {
 	/// <summary>
 	/// Объект может быть поврежден бомбой.
 	/// </summary>
-	public interface IBombDamageable : IDamageable {
+	internal interface IBombDamageable : IDamageable {
 		void MakeDamage(double damage);
 	}
 }

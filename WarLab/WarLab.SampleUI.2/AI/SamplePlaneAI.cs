@@ -6,7 +6,6 @@ using WarLab.AI;
 using WarLab.SampleUI.WarObjects;
 
 namespace WarLab.SampleUI.AI {
-	[Controls(typeof(SamplePlane))]
 	class SamplePlaneAI : DynamicObjectAI {
 		Vector3D targetPos = new Vector3D(1000, 1000, 1);
 

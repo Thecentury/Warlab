@@ -4,6 +4,6 @@ using System.Linq;
 using System.Text;
 
 namespace WarLab.WarObjects {
-	public sealed class OurHeadQuaters : StaticObject {
+	public sealed class OurHeadQuaters : OurStaticObject {
 	}
 }

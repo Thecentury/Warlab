@@ -5,7 +5,6 @@ using System.Text;
 using WarLab.WarObjects;
 
 namespace WarLab.AI {
-	[Controls(typeof(Rocket))]
 	public class ImprovedRocketAI : RocketAI {
 		private WarObject target;
 		public WarObject Target {
