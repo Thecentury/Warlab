@@ -7,36 +7,35 @@ namespace WarLab {
 	/// Время в имитируемом мире.
 	/// </summary>
 	public sealed class WarTime {
-		public WarTime() { }
+		internal WarTime() {
 
+		}
 		/// <summary>
 		/// Initializes a new instance of the <see cref="WarTime"/> class.
 		/// </summary>
 		/// <param name="elapsedTime">The elapsed time.</param>
 		/// <param name="totalTime">The total time.</param>
-		public WarTime(TimeSpan elapsedTime, TimeSpan totalTime) {
+		internal WarTime(TimeSpan elapsedTime, TimeSpan totalTime) {
 			this.elapsedTime = elapsedTime;
 			this.totalTime = totalTime;
 		}
 
-		private TimeSpan elapsedTime;
+		private readonly TimeSpan elapsedTime;
 		/// <summary>
-		/// Gets or sets the time elapsed since previous call of Update method.
+		/// Время, прошедшее с предыдущего обновления мира.
 		/// </summary>
 		/// <value>The elapsed time.</value>
 		public TimeSpan ElapsedTime {
 			get { return elapsedTime; }
-			set { elapsedTime = value; }
 		}
 
-		private TimeSpan totalTime;
+		private readonly TimeSpan totalTime;
 		/// <summary>
-		/// Gets or sets the total time since the beginning of simulation.
+		/// Глобальное время мира.
 		/// </summary>
 		/// <value>The total time.</value>
 		public TimeSpan TotalTime {
 			get { return totalTime; }
-			set { totalTime = value; }
 		}
 	}
 }
