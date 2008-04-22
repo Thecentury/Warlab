@@ -50,6 +50,12 @@ namespace WarLab {
 			return res;
 		}
 
+		public static Vector2D operator -(Vector2D v1, Vector2D v2) {
+			return new Vector2D(
+				v1.x - v2.x,
+				v1.y - v2.y);
+		}
+
 		public double Length {
 			get { return Math.Sqrt(LengthSquared); }
 		}

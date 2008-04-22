@@ -53,7 +53,7 @@ namespace WarLab.WarObjects {
 			set {
 				Verify.IsNonNegative(value);
 
-				PropertyInspector.Instance.AddValue("numOfEquipment", value);
+				PropertyInspector.AddValue("numOfEquipment", value);
 
 				numOfEquipment = value;
 			}
@@ -103,12 +103,12 @@ namespace WarLab.WarObjects {
 				// нашелся свободный канал
 				if (channel != null) {
 
-					Vector3D targetPosition = target.InterpolatedPosition(warTime.TotalTime);
+					Vector3D targetPosition = target.ExtrapolatedPosition(warTime.TotalTime);
 
 					double distance = (targetPosition - Position).Length;
 					TimeSpan durationOfFlight = TimeSpan.FromSeconds(distance / RocketSpeed);
 					TimeSpan explosionTime = warTime.TotalTime + durationOfFlight;
-					Vector3D interpolatedTargetPos = target.InterpolatedPosition(explosionTime);
+					Vector3D interpolatedTargetPos = target.ExtrapolatedPosition(explosionTime);
 
 					Vector3D rocketDir = GetRocketDirection(interpolatedTargetPos);
 					double targetSpeedProj = rocketDir & target.Direction * target.Speed;

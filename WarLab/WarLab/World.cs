@@ -54,7 +54,7 @@ namespace WarLab {
 		public void AddWarObject(WarObject obj, Vector3D position) {
 			if (obj == null)
 				throw new ArgumentNullException("obj");
-	
+
 			Type warObjectType = obj.GetType();
 
 			if (!aiForWarObjects.ContainsKey(warObjectType))
@@ -186,9 +186,7 @@ namespace WarLab {
 
 			time = new WarTime(warDelta, warTickTime);
 
-			if (tick % 12 == 0) {
-				PropertyInspector.Instance.AddValue("World time", warTickTime.TotalSeconds);
-			}
+			PropertyInspector.AddValueIf("World time", warTickTime.TotalSeconds, tick % 12 == 0);
 
 			if (time.ElapsedTime.TotalMilliseconds == 0)
 				return;

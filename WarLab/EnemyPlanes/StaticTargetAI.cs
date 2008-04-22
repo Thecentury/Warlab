@@ -11,7 +11,7 @@ namespace EnemyPlanes {
 		/// Радиус окружности вокруг объекта, при попадании в которую бомбы считаем, что 
 		/// попали в объект
 		/// </summary>
-		private double damageRadius = 10.0;
+		private double damageRadius = 100.0;
 
 		public double DamageRadius {
 			get { return damageRadius; }

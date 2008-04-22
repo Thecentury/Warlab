@@ -35,13 +35,5 @@ namespace EnemyPlanes {
 			: base(rockets, fuel, speed) {
 			this.MaxSpeed = speed;
 		}
-
-		#region Plane implementation
-
-		protected override void UpdateCore(WarTime warTime) {
-
-		}
-
-		#endregion
 	}
 }

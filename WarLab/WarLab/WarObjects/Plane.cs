@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Diagnostics;
+using VisualListener;
 
 namespace WarLab {
 	public abstract class Plane : DynamicObject, IRocketDamageable {
@@ -9,6 +10,9 @@ namespace WarLab {
 			UpdateCore(warTime);
 
 			Vector3D shift = Orientation * warTime.ElapsedTime.TotalSeconds * Speed;
+			
+			PropertyInspector.AddValue("Plane orientation", Orientation.Projection2D.ToOrientation());
+
 			FuelLeft -= shift.Length;
 			Position += shift;
 		}
@@ -17,14 +21,15 @@ namespace WarLab {
 		/// Метод, который будет вызываться каждый такт и именно в котором нужно 
 		/// реализовывать ИИ.
 		/// </summary>
-		/// <param name="warTime">The war time.</param>
-		protected abstract void UpdateCore(WarTime warTime);
+		/// <param name="warTime">Время.</param>
+		protected virtual void UpdateCore(WarTime warTime) { }
 
 		private double fuelLeft = Distance.FromKilometres(10000);
 		public double FuelLeft {
 			get { return fuelLeft; }
 			internal set {
 				Verify.IsFinite(value);
+
 				fuelLeft = value;
 
 				if (fuelLeft < 0.01) {

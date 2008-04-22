@@ -29,6 +29,13 @@ namespace WarLab {
 			}
 		}
 
+		public static void IsInSegment(double value, double min, double max) {
+			if (!(min <= value && value <= max)) {
+				Debugger.Break();
+				throw new ArgumentOutOfRangeException("Value должно быть больше min и меньше max.");
+			}
+		}
+
 		public static void Is0To1(double d) {
 			if (!(0 <= d && d <= 1)) {
 				Debugger.Break();
@@ -39,6 +46,13 @@ namespace WarLab {
 		public static void IsNonNegative(int i) {
 			if (i < 0) {
 				throw new ArithmeticException("Величина не может быть неотрицательной");
+			}
+		}
+
+		public static void IsTrue(bool condition) {
+			if (!condition) {
+				Debugger.Break();
+				throw new ArgumentException("Условие не выполнено.");
 			}
 		}
 	}

@@ -167,5 +167,9 @@ namespace WarLab {
 		public Vector2D Projection2D {
 			get { return new Vector2D(x, y); }
 		}
+
+		public double LengthTo(Vector3D point) {
+			return (this - point).Length;
+		}
 	}
 }

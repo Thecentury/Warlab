@@ -2,43 +2,30 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Windows.Controls;
-using System.Windows;
-using System.Windows.Media;
 
 namespace VisualListener {
-	public class PropertyInspector : UserControl {
-		private PropertyInspector() {
-			Loaded += PropertyInspector_Loaded;
+	public static class PropertyInspector {
+		private static readonly List<PropertyInspectorControl> attachedControls = new List<PropertyInspectorControl>();
+		internal static void AttachControl(PropertyInspectorControl control) {
+			attachedControls.Add(control);
 		}
 
-		private static PropertyInspector instance = new PropertyInspector();
-		public static PropertyInspector Instance {
-			get { return instance; }
-		}
+		public static void AddValue<T>(string descriptiveKey, T value) {
+			if (String.IsNullOrEmpty(descriptiveKey))
+				throw new ArgumentNullException("descriptiveKey");
 
-		public void AddValue<T>(string descr, T value) {
-			string str = value.ToString();
-
-			if (values.ContainsKey(descr)) {
-				UIInfo uiInfo = values[descr];
-				uiInfo.UIElement.Update(str);
-				uiInfo.Value = str;
-			}
-			else {
-				PropertyView view = new PropertyView(descr, str);
-				UIInfo info = new UIInfo { Value = str, UIElement = view };
-				values.Add(descr, info);
-				stackPanel.Children.Add(view);
+			if (value == null)
+				throw new ArgumentNullException("value");
+	
+			foreach (var control in attachedControls) {
+				control.AddValue(descriptiveKey, value);
 			}
 		}
 
-		private readonly Dictionary<string, UIInfo> values = new Dictionary<string, UIInfo>();
-
-		private StackPanel stackPanel;
-		private void PropertyInspector_Loaded(object sender, RoutedEventArgs e) {
-			stackPanel = new StackPanel { Background = new SolidColorBrush(Color.FromArgb(100, 100, 50, 180)) };
-			Content = stackPanel;
+		public static void AddValueIf<T>(string descriptiveKey, T value, bool condition) {
+			if (condition) {
+				AddValue(descriptiveKey, value);
+			}
 		}
 	}
 }
