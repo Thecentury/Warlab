@@ -1,37 +1,9 @@
-﻿<Window x:Class="WarLab.SampleUI.MainWindow"
+﻿<ll:WarWindow x:Class="WarLab.SampleUI.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-				xmlns:c="http://microsoft.cs.msu.su/ScientificStudio/1.0"
-				xmlns:l="clr-namespace:WarLab.SampleUI.Charts"
-				xmlns:d="http://microsoft.cs.msu.su/General"
+		xmlns:c="http://microsoft.cs.msu.su/ScientificStudio/1.0"
+		xmlns:l="clr-namespace:WarLab.SampleUI.Charts"
+		xmlns:d="http://microsoft.cs.msu.su/General"
+		xmlns:ll="clr-namespace:WarLab.SampleUI"
     Title="Window1" WindowState="Maximized">
-
-	<Grid>
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="4*"/>
-			<ColumnDefinition Width="*"/>
-		</Grid.ColumnDefinitions>
-
-		<c:ChartPlotter Name="plotter" Grid.Column="0">
-			<c:ChartPlotter.Viewport>
-				<c:Viewport2D Margin="30" Visible="0,0,1000,1000"/>
-			</c:ChartPlotter.Viewport>
-
-			<c:Axises />
-		</c:ChartPlotter>
-
-		<Border BorderBrush="{StaticResource logBrush}" BorderThickness="3" Grid.Column="1">
-			<DockPanel>
-				<Slider Minimum="0" Maximum="10" ValueChanged="Slider_ValueChanged" 
-								Value="1" DockPanel.Dock="Top"
-								AutoToolTipPlacement="BottomRight" TickPlacement="BottomRight"
-								/>
-				<StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,2,0,2">
-					<Button Name="timeBtn" Content="Pause" Click="PauseButton_Click"/>
-				</StackPanel>
-				<TextBlock Text="Log" TextAlignment="Center" Background="SeaShell" DockPanel.Dock="Top"/>
-				<d:VisualListenerControl DockPanel.Dock="Bottom"/>
-			</DockPanel>
-		</Border>
-	</Grid>
-</Window>
+</ll:WarWindow>

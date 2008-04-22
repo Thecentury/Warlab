@@ -18,7 +18,10 @@ namespace WarLab.SampleUI.Charts {
 
 		public ISpriteSource SpriteSource {
 			get { return (ISpriteSource)GetValue(SpriteSourceProperty); }
-			set { SetValue(SpriteSourceProperty, value); }
+			set {
+				SetValue(SpriteSourceProperty, value);
+				warObject = (WarObject)value;
+			}
 		}
 
 		public static readonly DependencyProperty SpriteSourceProperty =
@@ -26,7 +29,7 @@ namespace WarLab.SampleUI.Charts {
 			  "SpriteSource",
 			  typeof(ISpriteSource),
 			  typeof(SpriteGraph),
-			  new FrameworkPropertyMetadata(null, 
+			  new FrameworkPropertyMetadata(null,
 				  FrameworkPropertyMetadataOptions.AffectsRender));
 
 		public ImageSource SpriteImage {
@@ -52,11 +55,11 @@ namespace WarLab.SampleUI.Charts {
 			if (SpriteSource == null) return;
 
 			Vector2D orientation = SpriteSource.Orientation.Projection2D;
-			
+
 			orientation.X *= state.OutputWithMargin.Width;
 			orientation.Y *= state.OutputWithMargin.Height;
 			orientation = orientation.Normalize();
-			
+
 			double angle = Math.Atan2(orientation.Y, orientation.X);
 
 			angle = 90 - MathHelper.AngleToDegrees(angle);

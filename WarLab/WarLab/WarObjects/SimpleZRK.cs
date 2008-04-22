@@ -7,10 +7,30 @@ using System.Diagnostics;
 
 namespace WarLab.WarObjects {
 	public sealed class SimpleZRK : StaticObject {
+		/// <summary>
+		/// Создает ЗРК с числом каналов по-умолчанию.
+		/// </summary>
 		public SimpleZRK() {
+			InitChannels();
+		}
+
+		private void InitChannels() {
+			channels = new ZRKChannelInfo[NumOfChannels];
 			for (int i = 0; i < NumOfChannels; i++) {
 				channels[i] = new ZRKChannelInfo();
 			}
+		}
+
+		/// <summary>
+		/// Создает ЗРК с заданным числом каналов.
+		/// </summary>
+		/// <param name="numOfChannels">Число каналов.</param>
+		public SimpleZRK(int numOfChannels) {
+			Verify.IsNonNegative(numOfChannels);
+
+			NumOfChannels = numOfChannels;
+
+			InitChannels();
 		}
 
 		public bool HasFreeChannels {
@@ -19,9 +39,9 @@ namespace WarLab.WarObjects {
 
 		public static readonly TimeSpan ChannelReloadTime = TimeSpan.FromSeconds(4);
 
-		public const int NumOfChannels = 5;
+		public readonly int NumOfChannels = 5;
 
-		private int numOfEquipment = 10;
+		private int numOfEquipment = 500;
 		/// <summary>
 		/// Количество зарядов.
 		/// </summary>
@@ -34,7 +54,7 @@ namespace WarLab.WarObjects {
 			}
 		}
 
-		private ZRKChannelInfo[] channels = new ZRKChannelInfo[NumOfChannels];
+		private ZRKChannelInfo[] channels;
 		public ZRKChannelInfo[] Channels {
 			get { return channels; }
 		}
@@ -49,15 +69,21 @@ namespace WarLab.WarObjects {
 
 			int equipment = numOfEquipment;
 			// продолжаем перезаряжать незаряженные каналы
-			foreach (var channel in channels.Where(ch => !ch.ReadyToFire)) {
+			var unloadedChannels = channels.Where(ch => !ch.ReadyToFire).ToList();
+			
+			unloadedChannels.Sort((c1, c2) => c1.TimeToReload.CompareTo(c2.TimeToReload));
+			
+			foreach (var channel in unloadedChannels) {
 				if (equipment > 0) {
 					equipment--;
 					channel.TimeToReload -= elapsedSeconds;
-				}
-				if (channel.TimeToReload <= TimeSpan.FromSeconds(0)) {
-					if (numOfEquipment > 0) {
-						//numOfEquipment--;
-						channel.Load();
+
+					// канал заряжен
+					if (channel.TimeToReload <= TimeSpan.FromSeconds(0)) {
+						if (numOfEquipment > 0) {
+							numOfEquipment--;
+							channel.Load();
+						}
 					}
 				}
 			}
@@ -68,6 +94,7 @@ namespace WarLab.WarObjects {
 			// обработка траекторий
 			foreach (var target in trajectories) {
 				ZRKChannelInfo channel = channels.FirstOrDefault(ch => ch.ReadyToFire);
+
 				// нашелся свободный канал
 				if (channel != null) {
 
@@ -84,7 +111,7 @@ namespace WarLab.WarObjects {
 					// выпускаем ракету, только если она сможет догнать цель.
 					if (targetSpeedProj < rocketSpeed) {
 						channel.Fire();
-						numOfEquipment--;
+
 						Debug.WriteLine("ЗРК: Firing missile");
 						LaunchRocket(warTime.TotalTime, interpolatedTargetPos);
 					}
@@ -110,7 +137,7 @@ namespace WarLab.WarObjects {
 			double distance = (targetPosition - Position).Length;
 			TimeSpan durationOfFlight = TimeSpan.FromSeconds(distance / rocketSpeed);
 
-			Debug.WriteLine("Rocket: " + durationOfFlight.TotalSeconds + " to fly");
+			Debug.WriteLine("Rocket: " + durationOfFlight.TotalSeconds + " s to fly");
 
 			TimeSpan timeToExplode = durationOfFlight + globalTime;
 

@@ -17,7 +17,10 @@ namespace WarLab.SampleUI.Charts {
 	public class RLSGraph : WarGraph {
 		public StaticObject StaticObject {
 			get { return (StaticObject)GetValue(SpriteSourceProperty); }
-			set { SetValue(SpriteSourceProperty, value); }
+			set {
+				SetValue(SpriteSourceProperty, value);
+				warObject = value;
+			}
 		}
 
 		public static readonly DependencyProperty SpriteSourceProperty =
@@ -71,7 +74,7 @@ namespace WarLab.SampleUI.Charts {
 
 			RLSAI ai = Rls.AI as RLSAI;
 			double turnRatio = ai.FromPrevTurn.TotalSeconds / Rls.RotationPeriod.TotalSeconds;
-			double angle = 360*turnRatio;
+			double angle = 360 * turnRatio;
 
 			dc.PushTransform(new RotateTransform(angle, transformedPos.X, transformedPos.Y));
 

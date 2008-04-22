@@ -61,7 +61,7 @@ namespace WarLab {
 
 			health -= damage;
 
-			Debug.WriteLine(String.Format("Plane: {0} damage taken, {1} health left", damage, health));
+			Debug.WriteLine(String.Format("Plane: {0:F1} damage taken, {1:F1} health left", damage, health));
 			if (health <= 0.01) {
 				RaiseDead();
 			}
