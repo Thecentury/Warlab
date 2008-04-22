@@ -152,8 +152,12 @@ namespace WarLab.SampleUI {
 			VisualListenerControl visualListener = new VisualListenerControl();
 			DockPanel.SetDock(visualListener, Dock.Bottom);
 
+			PropertyInspector inspector = PropertyInspector.Instance;
+			DockPanel.SetDock(inspector, Dock.Top);
+
 			dockPanel.Children.Add(slider);
 			dockPanel.Children.Add(timeBtn);
+			dockPanel.Children.Add(inspector);
 			dockPanel.Children.Add(textBlock);
 			dockPanel.Children.Add(visualListener);
 

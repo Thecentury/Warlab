@@ -6,6 +6,7 @@ using WarLab.AI;
 using System.Diagnostics;
 using System.Windows.Documents;
 using System.Windows.Media;
+using VisualListener;
 
 namespace WarLab.WarObjects {
 	public sealed class SimpleZRK : StaticObject {
@@ -52,6 +53,8 @@ namespace WarLab.WarObjects {
 			set {
 				Verify.IsNonNegative(value);
 
+				PropertyInspector.Instance.AddValue("numOfEquipment", value);
+
 				numOfEquipment = value;
 			}
 		}
@@ -83,7 +86,7 @@ namespace WarLab.WarObjects {
 					// канал заряжен
 					if (channel.TimeToReload <= TimeSpan.FromSeconds(0)) {
 						if (numOfEquipment > 0) {
-							numOfEquipment--;
+							NumOfEquipment--;
 							channel.Load();
 						}
 					}

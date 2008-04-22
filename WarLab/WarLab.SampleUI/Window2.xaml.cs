@@ -21,15 +21,16 @@ namespace WarLab.SampleUI {
 			InitializeComponent();
 		}
 
-				protected override void OnLoadedCore() {
+		protected override void OnLoadedCore() {
 			World.RegisterAIForWarObject<EnemyFighterAI, EnemyFighter>();
 			World.RegisterAIForWarObject<EnemyBomberAI, EnemyBomber>();
 			World.RegisterAIForWarObject<EnemyAirportAI, EnemyAirport>();
 			World.RegisterAIForWarObject<StaticTargetAI, StaticTarget>();
 
-			EnemyAirport ba = new EnemyAirport();
-			EnemyAirport fa = new EnemyAirport();
-			enemyManager = new EnemyManager(ba, fa);
+			EnemyAirport bomberAirport = new EnemyAirport();
+			EnemyAirport fighterAirport = new EnemyAirport();
+
+			enemyManager = new EnemyManager(bomberAirport, fighterAirport);
 
 			double fuel = Distance.FromKilometres(10000);
 
@@ -37,22 +38,28 @@ namespace WarLab.SampleUI {
 			EnemyFighter fighter1 = new EnemyFighter(10, fuel, 140.0);
 			EnemyFighter fighter2 = new EnemyFighter(10, fuel, 120.0);
 			EnemyFighter fighter3 = new EnemyFighter(10, fuel, 120.0);
-			World.AddWarObject(ba, new Vector3D(10, 100, 1));
-			World.AddWarObject(fa, new Vector3D(10, 500, 1));
-			World.AddWarObject(bomber, ba.Position);
-			World.AddWarObject(fighter1, fa.Position);
-			World.AddWarObject(fighter2, fa.Position);
-			World.AddWarObject(fighter3, fa.Position);
-			fa.AddPlane(fighter1);
-			fa.AddPlane(fighter2);
-			fa.AddPlane(fighter3);
-			ba.AddPlane(bomber);
+
+			World.AddWarObject(bomberAirport, new Vector3D(10, 100, 1));
+			World.AddWarObject(fighterAirport, new Vector3D(10, 500, 1));
+
+			World.AddWarObject(bomber, bomberAirport.Position);
+			World.AddWarObject(fighter1, fighterAirport.Position);
+			World.AddWarObject(fighter2, fighterAirport.Position);
+			World.AddWarObject(fighter3, fighterAirport.Position);
+
+			fighterAirport.AddPlane(fighter1);
+			fighterAirport.AddPlane(fighter2);
+			fighterAirport.AddPlane(fighter3);
+
+			bomberAirport.AddPlane(bomber);
 			((EnemyBomberAI)bomber.AI).FightersRadius = 60.0;
-			((EnemyBomberAI)bomber.AI).targetReached += new EnemyBomberAI.TargetReachedDelegate(MainWindow_targetReached);
+			((EnemyBomberAI)bomber.AI).targetReached += MainWindow_targetReached;
+
 			target1 = new StaticTarget();
 			target2 = new StaticTarget();
-			World.AddWarObject(target2, new Vector3D(30, 900, 1));
-			World.AddWarObject(target1, new Vector3D(650, 250, 1));
+			World.AddWarObject(target2, new Vector3D(30, 900, 0));
+			World.AddWarObject(target1, new Vector3D(650, 250, 0));
+
 			enemyManager.Navigate(bomber, target1);
 			enemyManager.Navigate(fighter1, bomber);
 			enemyManager.Navigate(fighter2, bomber);
@@ -63,10 +70,10 @@ namespace WarLab.SampleUI {
 		StaticTarget target2;
 		StaticTarget target1;
 
-		private void MainWindow_targetReached(Args args) {
+		private void MainWindow_targetReached(TargetReacherEventArgs args) {
 			if (args.Target == target1)
 				enemyManager.Navigate(args.Bomber, target2);
-			if (args.Target == target2)
+			else if (args.Target == target2)
 				enemyManager.Navigate(args.Bomber, target1);
 		}
 	}

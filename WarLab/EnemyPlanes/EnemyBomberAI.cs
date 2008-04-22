@@ -23,7 +23,7 @@ namespace EnemyPlanes {
 		/// Радиус окружности, в которой летят истребители рядом с бомберов
 		/// </summary>
 		private double figtersRadius;
-		public delegate void TargetReachedDelegate(Args args);
+		public delegate void TargetReachedDelegate(TargetReacherEventArgs args);
 		public event TargetReachedDelegate targetReached;
 		/// <summary>
 		/// Нижняя высота, на которую можно совершить маневр
@@ -139,7 +139,7 @@ namespace EnemyPlanes {
 						//	FlyToTarget();
 						if (MathHelper.Distance(plane.Position, target.Position) <= 1.0) {
 							if (targetReached != null)
-								targetReached(new Args((EnemyBomber)ControlledDynamicObject, target));
+								targetReached(new TargetReacherEventArgs((EnemyBomber)ControlledDynamicObject, target));
 						}
 						break;
 					case BomberFlightMode.ReturnToBombTarget:

@@ -9,6 +9,7 @@ namespace EnemyPlanes {
 	/// Командный пункт вражеских самолетов
 	/// </summary>
 	public class EnemyManager {
+	
 		#region vars
 		//private Dictionary<EnemyBomber,EnemyBomberAI> bombers;
 		//private Dictionary<EnemyFighter,EnemyFighterAI> fighters;
