@@ -26,6 +26,8 @@ namespace VisualListener {
 			if (!DesignerProperties.GetIsInDesignMode(this)) {
 				listener = new VisualListener(this);
 				Debug.Listeners.Add(listener);
+
+				VisualDebug.Instance.Attach(this);
 			}
 		}
 
@@ -83,6 +85,21 @@ namespace VisualListener {
 
 		public void ClearLog() {
 			stackPanel.Children.Clear();
+		}
+
+		public void AddText(UIElement text) {
+			if (text == null)
+				throw new ArgumentNullException("text");
+	
+			AddMessage(text);
+		}
+
+		public void AddText(Run textRun) {
+			if (textRun == null)
+				throw new ArgumentNullException("textRun");
+
+			TextBlock text = new TextBlock(textRun);
+			AddText(text);
 		}
 	}
 }

@@ -26,7 +26,9 @@ namespace WarLab.SampleUI.Charts {
 				center.X - missileLength * orientation.X,
 				center.Y + missileLength * orientation.Y);
 
-			Pen linePen = new Pen(Brushes.Crimson, 4);
+			Pen linePen = new Pen(Brushes.Crimson, 3.5);
+			Pen outlinePen = new Pen(Brushes.Black, 4);
+			dc.DrawLine(outlinePen, start, end);
 			dc.DrawLine(linePen, start, end);
 		}
 	}
