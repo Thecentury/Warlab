@@ -115,4 +115,10 @@
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\VisualListener\VisualListener.csproj">
+      <Project>{94E6E2D4-1BA0-4D82-87DD-F5DB696DA406}</Project>
+      <Name>VisualListener</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

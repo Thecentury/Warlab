@@ -76,6 +76,9 @@
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="PropertyInfo.cs" />
+    <Compile Include="PropertyInspector.cs" />
+    <Compile Include="PropertyView.cs" />
     <Compile Include="VisualDebug.cs" />
     <Compile Include="VisualListener.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">

@@ -14,7 +14,7 @@ namespace WarLab.SampleUI {
 			base.OnStartup(e);
 
 			string windowName = "";
-#if true
+#if !true
 			windowName = "MainWindow";
 #elif true
 			windowName = "Window2";

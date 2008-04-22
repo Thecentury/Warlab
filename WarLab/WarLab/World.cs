@@ -10,6 +10,7 @@ using System.Windows.Markup;
 using System.ComponentModel;
 using System.Windows;
 using WarLab.WarObjects;
+using VisualListener;
 
 namespace WarLab {
 	/// <summary>
@@ -156,11 +157,20 @@ namespace WarLab {
 		/// </summary>
 		public bool IsUpdating { get { return isUpdating; } }
 
+		private int tick = 0;
+		/// <summary>
+		/// Номер тика обновления мира.
+		/// </summary>
+		public int Tick {
+			get { return tick; }
+		}
+
 		/// <summary>
 		/// Выполняет обновление всех объектов мира.
 		/// Время, прошедшее с предыдущего обновления, рассчитывается автоматически.
 		/// </summary>
 		public void Update() {
+			tick++;
 			warPrevTickTime = warTickTime;
 			realPrevTickTime = realTickTime;
 			realTickTime = watch.Elapsed;
@@ -175,6 +185,10 @@ namespace WarLab {
 			warTickTime = warPrevTickTime + warDelta;
 
 			time = new WarTime(warDelta, warTickTime);
+
+			if (tick % 12 == 0) {
+				PropertyInspector.Instance.AddValue("World time", warTickTime.TotalSeconds);
+			}
 
 			if (time.ElapsedTime.TotalMilliseconds == 0)
 				return;
