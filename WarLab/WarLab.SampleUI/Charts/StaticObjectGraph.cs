@@ -9,7 +9,15 @@ using System.Windows;
 
 namespace WarLab.SampleUI.Charts {
 	public class StaticObjectGraph : WarGraph {
-		public StaticObject StaticObject { get; set; }
+		private StaticObject staticObject;
+		public StaticObject StaticObject {
+			get { return staticObject; }
+			set {
+				staticObject = value;
+				warObject = value;
+			}
+		}
+
 		public ImageSource SpriteImage { get; set; }
 
 		private bool smallSprite = true;
