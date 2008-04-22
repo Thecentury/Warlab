@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Windows.Documents;
+using System.Windows;
 
 namespace VisualListener {
 	internal sealed class VisualListener : TraceListener {
@@ -23,6 +25,18 @@ namespace VisualListener {
 
 		public override bool IsThreadSafe {
 			get { return true; }
+		}
+
+		public override void WriteLine(object o) {
+			if (o is Run) {
+				control.AddText(o as Run);
+			}
+			else if (o is UIElement) {
+				control.AddText(o as UIElement);
+			}
+			else {
+				control.WriteLine(o.ToString());
+			}
 		}
 
 		public override void WriteLine(object o, string category) {

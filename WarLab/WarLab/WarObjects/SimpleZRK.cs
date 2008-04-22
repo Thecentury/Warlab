@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using WarLab.AI;
 using System.Diagnostics;
+using System.Windows.Documents;
+using System.Windows.Media;
 
 namespace WarLab.WarObjects {
 	public sealed class SimpleZRK : StaticObject {
@@ -70,9 +72,9 @@ namespace WarLab.WarObjects {
 			int equipment = numOfEquipment;
 			// продолжаем перезаряжать незаряженные каналы
 			var unloadedChannels = channels.Where(ch => !ch.ReadyToFire).ToList();
-			
+
 			unloadedChannels.Sort((c1, c2) => c1.TimeToReload.CompareTo(c2.TimeToReload));
-			
+
 			foreach (var channel in unloadedChannels) {
 				if (equipment > 0) {
 					equipment--;
@@ -112,7 +114,13 @@ namespace WarLab.WarObjects {
 					if (targetSpeedProj < rocketSpeed) {
 						channel.Fire();
 
-						Debug.WriteLine("ЗРК: Firing missile");
+						Debug.WriteLine(new Run
+						{
+							Text = "ЗРК: Firing missile",
+							Foreground = Brushes.Blue,
+							FontFamily = new FontFamily("Calibri"),
+							FontSize = 14
+						});
 						LaunchRocket(warTime.TotalTime, interpolatedTargetPos);
 					}
 				}

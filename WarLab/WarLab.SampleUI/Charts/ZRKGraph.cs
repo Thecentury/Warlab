@@ -30,16 +30,19 @@ namespace WarLab.SampleUI.Charts {
 			Rect channelRect = MathHelper.CreateRectFromCenterSize(spriteCenter, channelWidth, channelHeight);
 			channelRect.Y -= topMargin + spriteSize.Height / 2;
 
-			Pen channelBoundsPen = new Pen(Brushes.Black, 1);
-			Brush interiorFill = Brushes.Green;
+			Pen channelBoundsPen = new Pen(Brushes.Black, 1.5);
+			Brush interiorFill = Brushes.GreenYellow;
 			var channels = RenderedZRK.Channels;
+			
 			for (int i = 0; i < channels.Length; i++) {
 				Rect bounds = channelRect;
 				bounds.Y -= (channelHeight + channelMargin) * i;
+
+				Rect loadedBounds = bounds;
+				loadedBounds.Width *= 1 - channels[i].TimeToReload.TotalSeconds / SimpleZRK.ChannelReloadTime.TotalSeconds;
+				dc.DrawRectangle(interiorFill, null, loadedBounds);
+
 				dc.DrawRectangle(null, channelBoundsPen, bounds);
-				
-				bounds.Width *= 1 - channels[i].TimeToReload.TotalSeconds / SimpleZRK.ChannelReloadTime.TotalSeconds;
-				dc.DrawRectangle(interiorFill, null, bounds);
 			}
 		}
 	}
