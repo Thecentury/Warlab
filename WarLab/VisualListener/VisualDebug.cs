@@ -7,13 +7,11 @@ using System.Diagnostics;
 using System.Windows.Documents;
 
 namespace VisualListener {
-	public sealed class VisualDebug {
-		private VisualDebug() { }
+	public static class VisualDebug {
 
-		internal static readonly VisualDebug Instance = new VisualDebug();
-		private readonly List<VisualListenerControl> attachedVisualListeners = new List<VisualListenerControl>();
+		private static readonly List<VisualListenerControl> attachedVisualListeners = new List<VisualListenerControl>();
 
-		internal void Attach(VisualListenerControl control) {
+		internal static void Attach(VisualListenerControl control) {
 			if (control == null)
 				throw new ArgumentNullException("control");
 
@@ -25,7 +23,7 @@ namespace VisualListener {
 			if (text == null)
 				throw new ArgumentNullException("text");
 
-			foreach (var visListener in Instance.attachedVisualListeners) {
+			foreach (var visListener in attachedVisualListeners) {
 				visListener.AddText(text);
 			}
 		}
@@ -35,7 +33,7 @@ namespace VisualListener {
 			if (text == null)
 				throw new ArgumentNullException("text");
 
-			foreach (var visListener in Instance.attachedVisualListeners) {
+			foreach (var visListener in attachedVisualListeners) {
 				visListener.AddText(text);
 			}
 		}

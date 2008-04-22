@@ -78,6 +78,7 @@
     </Compile>
     <Compile Include="PropertyInfo.cs" />
     <Compile Include="PropertyInspector.cs" />
+    <Compile Include="PropertyInspectorControl.cs" />
     <Compile Include="PropertyView.cs" />
     <Compile Include="VisualDebug.cs" />
     <Compile Include="VisualListener.cs" />

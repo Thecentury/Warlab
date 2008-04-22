@@ -24,13 +24,6 @@ namespace EnemyPlanes {
 			planes = new List<EnemyPlane>(capacity);
 		}
 
-		/// <summary>
-		/// Создать вражеский аэродром
-		/// </summary>
-		public EnemyAirport() {
-			planes = new List<EnemyPlane>();
-		}
-
 		#region properties
 
 		/// <summary>

@@ -17,7 +17,11 @@ namespace WarLab {
 		private Vector3D orientation;
 		public Vector3D Orientation {
 			get { return orientation; }
-			internal set { orientation = value; }
+			internal set {
+				Verify.IsInSegment(value.Length, 0.99, 1.01);
+
+				orientation = value;
+			}
 		}
 	}
 }

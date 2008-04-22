@@ -152,7 +152,7 @@ namespace WarLab.SampleUI {
 			VisualListenerControl visualListener = new VisualListenerControl();
 			DockPanel.SetDock(visualListener, Dock.Bottom);
 
-			PropertyInspector inspector = PropertyInspector.Instance;
+			PropertyInspectorControl inspector = new PropertyInspectorControl();
 			DockPanel.SetDock(inspector, Dock.Top);
 
 			dockPanel.Children.Add(slider);

@@ -8,8 +8,8 @@ namespace EnemyPlanes {
 	/// <summary>
 	/// Командный пункт вражеских самолетов
 	/// </summary>
-	public class EnemyManager {
-	
+	public class EnemyHeadquaters {
+
 		#region vars
 		//private Dictionary<EnemyBomber,EnemyBomberAI> bombers;
 		//private Dictionary<EnemyFighter,EnemyFighterAI> fighters;
@@ -28,8 +28,12 @@ namespace EnemyPlanes {
 		/// </summary>
 		/// <param name="bombersAirport">Аэродром для бомбардировщиков</param>
 		/// <param name="fightersAirport">Аэродром для истребителей</param>
-		public EnemyManager(EnemyAirport bombersAirport,
-			EnemyAirport fightersAirport) {
+		public EnemyHeadquaters(EnemyAirport bombersAirport, EnemyAirport fightersAirport) {
+			if (bombersAirport == null)
+				throw new ArgumentNullException("bombersAirport");
+			if (fightersAirport == null)
+				throw new ArgumentNullException("fightersAirport");
+	
 			//bombers = new Dictionary<EnemyBomber,EnemyBomberAI>();
 			//fighters = new Dictionary<EnemyFighter,EnemyFighterAI>();
 			this.bombersAirport = bombersAirport;
@@ -68,7 +72,6 @@ namespace EnemyPlanes {
 			}
 			else
 				throw new ArgumentException("Командный пункт не управляет этим бомбардировщиком. Он отсутствует в коллекции Bombers");
-
 		}
 
 		/// <summary>

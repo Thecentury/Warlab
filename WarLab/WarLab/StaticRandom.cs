@@ -11,6 +11,9 @@ namespace WarLab {
 	/// </summary>
 	public static class StaticRandom {
 		private static readonly Random rnd = new Random();
+		public static Random Random {
+			get { return rnd; }
+		}
 
 		/// <summary>
 		/// Возвращает случайное число в интервале от 0 до 1.

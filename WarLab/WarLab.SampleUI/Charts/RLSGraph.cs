@@ -90,7 +90,7 @@ namespace WarLab.SampleUI.Charts {
 #if false
 				Point pos = CoordinateUtils.Transform(t.Position.Projection2D, state.Visible, state.OutputWithMargin);
 #else
-				Point pos = CoordinateUtils.Transform(t.InterpolatedPosition(World.Instance.Time.TotalTime).Projection2D, state.Visible, state.OutputWithMargin);
+				Point pos = CoordinateUtils.Transform(t.ExtrapolatedPosition(World.Instance.Time.TotalTime).Projection2D, state.Visible, state.OutputWithMargin);
 #endif
 				dc.DrawEllipse(brush, null, pos, 3, 3);
 

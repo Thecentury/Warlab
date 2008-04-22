@@ -27,7 +27,7 @@ namespace VisualListener {
 				listener = new VisualListener(this);
 				Debug.Listeners.Add(listener);
 
-				VisualDebug.Instance.Attach(this);
+				VisualDebug.Attach(this);
 			}
 		}
 

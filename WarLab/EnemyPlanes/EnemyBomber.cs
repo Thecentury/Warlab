@@ -32,10 +32,5 @@ namespace EnemyPlanes {
 
 
 		#endregion
-
-		#region Plane implementation
-		protected override void UpdateCore(WarTime warTime) {
-		}
-		#endregion
 	}
 }

@@ -63,7 +63,12 @@ namespace WarLab.AI {
 
 		public static readonly double MaxPlaneSpeed = WarLab.Speed.FromKilometresPerHour(1000);
 
-		public Vector3D InterpolatedPosition(TimeSpan totalTime) {
+		/// <summary>
+		/// Предполагаемое положение цели в момент времени <paramref name="totalTime"/>.
+		/// </summary>
+		/// <param name="totalTime"></param>
+		/// <returns></returns>
+		public Vector3D ExtrapolatedPosition(TimeSpan totalTime) {
 			TimeSpan delta = totalTime - LastUpdateTime;
 			return Position + Speed * delta.TotalSeconds * Direction;
 		}
