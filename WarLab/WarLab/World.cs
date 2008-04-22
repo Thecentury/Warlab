@@ -12,9 +12,18 @@ using System.Windows;
 using WarLab.WarObjects;
 
 namespace WarLab {
+	/// <summary>
+	/// Мир, в котором происходит симуляция.
+	/// Содержит список объектов, позволяет узнавать время мира.
+	/// 
+	/// Это синглтон.
+	/// </summary>
 	public sealed class World : INotifyCollectionChanged {
 
 		private static readonly World instance = new World();
+		/// <summary>
+		/// Возвращает синглтон - объект типа <see cref="World"/>.
+		/// </summary>
 		public static World Instance {
 			get { return instance; }
 		}
@@ -36,7 +45,15 @@ namespace WarLab {
 			RaiseCollectionChanged(e);
 		}
 
+		/// <summary>
+		/// Добавить объект в мир, поместив его в указанную точку.
+		/// </summary>
+		/// <param name="obj"></param>
+		/// <param name="position"></param>
 		public void AddWarObject(WarObject obj, Vector3D position) {
+			if (obj == null)
+				throw new ArgumentNullException("obj");
+	
 			Type warObjectType = obj.GetType();
 
 			if (!aiForWarObjects.ContainsKey(warObjectType))
@@ -81,10 +98,18 @@ namespace WarLab {
 		}
 
 		private readonly ObservableCollection<WarObject> objects = new ObservableCollection<WarObject>();
+		/// <summary>
+		/// Список всех объектов мира.
+		/// </summary>
 		public IEnumerable<WarObject> Objects {
 			get { return objects; }
 		}
 
+		/// <summary>
+		/// Список объектов мира заданного типа <typeparamref name="T"/>
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <returns></returns>
 		public IEnumerable<T> SelectAll<T>() where T : WarObject {
 			return objects.OfType<T>();
 		}
@@ -93,6 +118,12 @@ namespace WarLab {
 			return objects.Where(o => o.AI is T).Select(o => o.AI as T);
 		}
 
+		/// <summary>
+		/// Первый из объектов типа <typeparamref name="T"/>.
+		/// Удобен, если есть уверенность, что в мире есть единственный объект данного типа.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <returns></returns>
 		public T SelectSingle<T>() where T : WarObject {
 			return objects.OfType<T>().First<T>();
 		}
@@ -102,6 +133,9 @@ namespace WarLab {
 		}
 
 		private WarTime time = new WarTime();
+		/// <summary>
+		/// Время мира.
+		/// </summary>
 		public WarTime Time {
 			get { return time; }
 		}
@@ -117,8 +151,15 @@ namespace WarLab {
 		private readonly TimeSpan constDelta = TimeSpan.FromMilliseconds(20);
 
 		private bool isUpdating = false;
+		/// <summary>
+		/// Обновляется ли мир в данный момент.
+		/// </summary>
 		public bool IsUpdating { get { return isUpdating; } }
 
+		/// <summary>
+		/// Выполняет обновление всех объектов мира.
+		/// Время, прошедшее с предыдущего обновления, рассчитывается автоматически.
+		/// </summary>
 		public void Update() {
 			warPrevTickTime = warTickTime;
 			realPrevTickTime = realTickTime;
@@ -178,6 +219,12 @@ namespace WarLab {
 			}
 		}
 
+		/// <summary>
+		/// Взорвать бомбу в указанной точке.
+		/// </summary>
+		/// <param name="position">Место взрыва бомбы.</param>
+		/// <param name="damage">Максимальные повреждения, наносимые бомбой.</param>
+		/// <param name="damageRange">Радиус зоны поражения.</param>
 		public void ExplodeBomb(Vector3D position, double damage, double damageRange) {
 			foreach (var item in SelectAll<StaticObject>()) {
 				IBombDamageable bombDamageable = item as IBombDamageable;
@@ -205,6 +252,12 @@ namespace WarLab {
 
 		private readonly Dictionary<Type, Type> aiForWarObjects = new Dictionary<Type, Type>();
 
+		/// <summary>
+		/// Зарегистрировать ИИ для типа объектов мира.
+		/// Говорит миру, что объекты типа <paramref name="TAI"/> служат ИИ для объектов типа <paramref name="TWarObject"/>
+		/// </summary>
+		/// <typeparam name="TAI"></typeparam>
+		/// <typeparam name="TWarObject"></typeparam>
 		public void RegisterAIForWarObject<TAI, TWarObject>()
 			where TAI : WarAI
 			where TWarObject : WarObject {

@@ -16,8 +16,11 @@ using System.Windows.Threading;
 namespace WarLab.SampleUI {
 	public class WarWindow : Window {
 		public WarWindow() {
+			// объект для управления временем мира.
 			timeControl = world.GetTimeControl();
+			// событие изменения коллекции объектов мира
 			world.CollectionChanged += Objects_CollectionChanged;
+			// событие уничтожения какого-либо из объектов
 			world.ObjectDestroyed += world_ObjectDestroyed;
 			WindowState = WindowState.Maximized;
 
@@ -25,16 +28,26 @@ namespace WarLab.SampleUI {
 		}
 
 		private readonly World world = World.Instance;
+		/// <summary>
+		/// Военный мир, который показывается.
+		/// </summary>
 		public World World {
 			get { return world; }
 		}
 
+		/// <summary>
+		/// Список добавленных объектов для отображения объектов мира - нужен потому,
+		/// что есть служебные графики, не рисующие объеты мира.
+		/// </summary>
 		private readonly List<GraphicalObject> uiGraphs = new List<GraphicalObject>();
 		private void AddUIGraph(GraphicalObject graph) {
 			plotter.AddGraph(graph);
 			uiGraphs.Add(graph);
 		}
 
+		/// <summary>
+		/// Выполнить перерисовку.
+		/// </summary>
 		private void UpdateUI() {
 			foreach (var graph in uiGraphs) {
 				(graph as WarGraph).DoUpdate();
@@ -42,18 +55,23 @@ namespace WarLab.SampleUI {
 		}
 
 		private void world_ObjectDestroyed(object sender, ObjectDestroyedEventArgs e) {
+			// удаляем график, отображавший удаленный объект мира.
 			if (createdGraphs.ContainsKey(e.DestroyedObject)) {
 				GraphicalObject graph = createdGraphs[e.DestroyedObject];
 				plotter.Children.Remove(graph);
 			}
 		}
 
+		/// <summary>
+		/// Словарь созданных графиков.
+		/// Ключ - объект мира, значение - сам график.
+		/// </summary>
 		private readonly Dictionary<WarObject, GraphicalObject> createdGraphs = new Dictionary<WarObject, GraphicalObject>();
 
 		private void Objects_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
 			switch (e.Action) {
 				case NotifyCollectionChangedAction.Add:
-
+					// добавить новый график для свежедобавленного объекта мира.
 					WarObject warObj = (WarObject)e.NewItems[0];
 					GraphicalObject graph = Renderers.CreateGraphForWarObject(warObj);
 					createdGraphs.Add(warObj, graph);
@@ -78,7 +96,16 @@ namespace WarLab.SampleUI {
 		protected ChartPlotter Plotter {
 			get { return plotter; }
 		}
+		/// <summary>
+		/// Таймер, по тику которого происходит обновление мира и перерисовка.
+		/// </summary>
 		private DispatcherTimer dispTimer = new DispatcherTimer();
+
+		/// <summary>
+		/// Создание внутренностей окна - грида, кнопки, графического представления мира и т.п.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void OnLoaded(object sender, RoutedEventArgs e) {
 			Grid grid = new Grid();
 			grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(4, GridUnitType.Star) });
@@ -141,16 +168,29 @@ namespace WarLab.SampleUI {
 			dispTimer.Start();
 		}
 
+		/// <summary>
+		/// Обработчик тика таймера
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void dispTimer_Tick(object sender, EventArgs e) {
 			Tick();
 		}
 
+		/// <summary>
+		/// Обновление мира и его визуального представления.
+		/// </summary>
 		private void Tick() {
 			world.Update();
 			UpdateUI();
 		}
 
 		ITimeControl timeControl;
+		/// <summary>
+		/// Обработчик нажатия на кнопку "Пауза/Возобновление".
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void button_Click(object sender, RoutedEventArgs e) {
 			if (timeControl.IsRunning) {
 				timeControl.Stop();
@@ -166,6 +206,10 @@ namespace WarLab.SampleUI {
 			timeControl.Speed = e.NewValue;
 		}
 
+		/// <summary>
+		/// Метод, вызываемый при загрузке окна.
+		/// В нем можно добавлять различные объекты в мир.
+		/// </summary>
 		protected virtual void OnLoadedCore() { }
 	}
 }
