@@ -45,6 +45,7 @@ namespace WarLab {
 
 		public static void IsNonNegative(int i) {
 			if (i < 0) {
+				Debugger.Break();
 				throw new ArithmeticException("Величина не может быть неотрицательной");
 			}
 		}

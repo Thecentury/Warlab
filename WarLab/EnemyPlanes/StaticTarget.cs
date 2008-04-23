@@ -6,7 +6,7 @@ using WarLab;
 using WarLab.WarObjects;
 
 namespace EnemyPlanes {
-	public class StaticTarget : OurStaticObject, ISpriteSource {
+	public class StaticTarget : OurStaticObject {
 		#region ISpriteSource Members
 
 		public Vector3D Orientation {

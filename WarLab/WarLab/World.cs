@@ -111,7 +111,7 @@ namespace WarLab {
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <returns></returns>
-		public IEnumerable<T> SelectAll<T>() where T : WarObject {
+		public IEnumerable<T> SelectAll<T>() {
 			return objects.OfType<T>();
 		}
 

@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 
 namespace WarLab.WarObjects {
-	public class EnemyPlane : Plane {
+	/// <summary>
+	/// Базовый класс для вражеских самолетов
+	/// </summary>
+	public abstract class EnemyPlane : Plane {
 	}
 }

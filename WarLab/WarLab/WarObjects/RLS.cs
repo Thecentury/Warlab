@@ -7,7 +7,7 @@ using System.Text;
 using System.Diagnostics;
 
 namespace WarLab.WarObjects {
-	public sealed class RLS : StaticObject {
+	public sealed class RLS : OurStaticObject {
 
 #if !full
 		private double radarAngle = 0;

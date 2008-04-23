@@ -6,7 +6,7 @@ using System.Windows;
 
 namespace WarLab {
 	public static class MathHelper {
-		private static readonly double radians2Degrees = 180 / Math.PI;
+		private const double radians2Degrees = 180 / Math.PI;
 		public static double AngleToDegrees(double angleInRadians) {
 			return angleInRadians * radians2Degrees;
 		}

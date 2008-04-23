@@ -9,7 +9,7 @@ using System.Windows.Media;
 using VisualListener;
 
 namespace WarLab.WarObjects {
-	public sealed class SimpleZRK : StaticObject {
+	public sealed class SimpleZRK : OurStaticObject {
 		/// <summary>
 		/// Создает ЗРК с числом каналов по-умолчанию.
 		/// </summary>

@@ -63,7 +63,6 @@
     <Compile Include="EnemyFighterAI.cs" />
     <Compile Include="EnemyAirportAI.cs" />
     <Compile Include="EnemyHeadquaters.cs" />
-    <Compile Include="EnemyPlane.cs" />
     <Compile Include="EnemyPlaneAI.cs" />
     <Compile Include="FighterFlightMode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

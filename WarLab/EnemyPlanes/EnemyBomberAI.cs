@@ -140,7 +140,7 @@ namespace EnemyPlanes {
 						ReturnToBase();
 						break;
 					case BomberFlightMode.MoveToTarget:
-						if (CanBomb()) {
+						if (CanBomb) {
 							DropBomb();
 							RaiseTargetReached(plane);
 						}
@@ -182,14 +182,14 @@ namespace EnemyPlanes {
 			get {
 				return World.Instance.Time.TotalTime > targetReachedTime;
 
-				Vector2D planePos = ControlledDynamicObject.Position.Projection2D;
-				Vector2D targetPos = target.Position.Projection2D;
-				if (MathHelper.Distance(planePos, targetPos) <
-					((StaticTargetAI)target.AI).DamageRadius) {
-					/*мы оказались в зоне поражения*/
-					return true;
-				}
-				return false;
+				//Vector2D planePos = ControlledDynamicObject.Position.Projection2D;
+				//Vector2D targetPos = target.Position.Projection2D;
+				//if (MathHelper.Distance(planePos, targetPos) <
+				//    ((StaticTargetAI)target.AI).DamageRadius) {
+				//    /*мы оказались в зоне поражения*/
+				//    return true;
+				//}
+				//return false;
 			}
 		}
 
@@ -208,7 +208,7 @@ namespace EnemyPlanes {
 			/*остались бомбы*/
 			if (plane.WeaponsLeft > 0) {
 				Vector2D bombPos = plane.Position.Projection2D;
-				
+
 				double plusMinusRandX = rand.NextDouble();
 				double plusMinusRandY = rand.NextDouble();
 				double plusMinusX = (plusMinusRandX > 0.5) ? 1.0 : -1.0;
@@ -217,9 +217,9 @@ namespace EnemyPlanes {
 				double errorY = rand.NextDouble() * errorCoef * plusMinusRandY;
 				bombPos.X += errorX;
 				bombPos.Y += errorY;
-				
+
 				World.Instance.ExplodeBomb(bombPos, BombDamage, BombDamageRange);
-				
+
 				if (target.Health > 0 && plane.WeaponsLeft > 0) {
 					returnToTargetCircleCenter = target.Position + plane.Orientation *
 						returnToTargetRadius;
