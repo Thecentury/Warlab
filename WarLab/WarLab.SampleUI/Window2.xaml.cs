@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using EnemyPlanes;
+using WarLab.WarObjects;
 
 namespace WarLab.SampleUI {
 	/// <summary>
@@ -27,14 +28,16 @@ namespace WarLab.SampleUI {
 			World.RegisterAIForWarObject<EnemyAirportAI, EnemyAirport>();
 			World.RegisterAIForWarObject<StaticTargetAI, StaticTarget>();
 
-			EnemyAirport bomberAirport = new EnemyAirport(3);
-			EnemyAirport fighterAirport = new EnemyAirport(3);
+			EnemyAirport bomberAirport = new EnemyAirport();
+			bomberAirport.AddPlanes(new EnemyBomber());
+			EnemyAirport fighterAirport = new EnemyAirport();
+			fighterAirport.AddPlanes(new EnemyFighter());
 
 			enemyManager = new EnemyHeadquaters(bomberAirport, fighterAirport);
 
 			double fuel = Distance.FromKilometres(10000);
 
-			EnemyBomber bomber = new EnemyBomber(10, fuel, 60);
+			//EnemyBomber bomber = new EnemyBomber(10, fuel, 60);
 			//EnemyFighter fighter1 = new EnemyFighter(10, fuel, 140.0);
 			//EnemyFighter fighter2 = new EnemyFighter(10, fuel, 120.0);
 			//EnemyFighter fighter3 = new EnemyFighter(10, fuel, 120.0);
@@ -42,25 +45,24 @@ namespace WarLab.SampleUI {
 			World.AddWarObject(bomberAirport, new Vector3D(10, 100, 10));
 			World.AddWarObject(fighterAirport, new Vector3D(10, 500, 10));
 
-			World.AddWarObject(bomber, bomberAirport.Position);
+			//World.AddWarObject(bomber, bomberAirport.Position);
 			//World.AddWarObject(fighter1, fighterAirport.Position);
 			//World.AddWarObject(fighter2, fighterAirport.Position);
 			//World.AddWarObject(fighter3, fighterAirport.Position);
 
-			//fighterAirport.AddPlane(fighter1);
-			//fighterAirport.AddPlane(fighter2);
-			//fighterAirport.AddPlane(fighter3);
+			//fighterAirport.AddPlanes(fighter1);
+			//fighterAirport.AddPlanes(fighter2);
+			//fighterAirport.AddPlanes(fighter3);
 
-			bomberAirport.AddPlane(bomber);
-			((EnemyBomberAI)bomber.AI).FightersRadius = 60.0;
-			((EnemyBomberAI)bomber.AI).TargetReached += MainWindow_targetReached;
+			//((EnemyBomberAI)bomber.AI).FightersRadius = 60.0;
+			//((EnemyBomberAI)bomber.AI).TargetReached += MainWindow_targetReached;
 
 			target1 = new StaticTarget();
 			target2 = new StaticTarget();
 			World.AddWarObject(target1, new Vector3D(650, 250));
 			World.AddWarObject(target2, new Vector3D(30, 900));
 
-			enemyManager.Navigate(bomber, target1);
+			//enemyManager.Navigate(bomber, target1);
 			//enemyManager.Navigate(fighter1, bomber);
 			//enemyManager.Navigate(fighter2, bomber);
 			//enemyManager.Navigate(fighter3, bomber);

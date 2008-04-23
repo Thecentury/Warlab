@@ -71,6 +71,10 @@
     <Compile Include="Path\Position.cs" />
     <Compile Include="Speed.cs" />
     <Compile Include="WarDebug.cs" />
+    <Compile Include="WarObjects\Airport.cs" />
+    <Compile Include="WarObjects\AirportCreatePlaneInfo.cs" />
+    <Compile Include="WarObjects\AirportPlaneInfo.cs" />
+    <Compile Include="WarObjects\AirportPlaneState.cs" />
     <Compile Include="WarObjects\EnemyPlane.cs" />
     <Compile Include="WarObjects\IBombDamageable.cs" />
     <Compile Include="WarObjects\DynamicObject.cs" />
@@ -120,5 +124,8 @@
       <Project>{94E6E2D4-1BA0-4D82-87DD-F5DB696DA406}</Project>
       <Name>VisualListener</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
 </Project>

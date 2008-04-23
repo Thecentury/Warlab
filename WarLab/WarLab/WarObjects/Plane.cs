@@ -3,9 +3,16 @@ using System.Collections.Generic;
 using System.Text;
 using System.Diagnostics;
 using VisualListener;
+using WarLab.WarObjects;
 
 namespace WarLab {
 	public abstract class Plane : DynamicObject, IRocketDamageable {
+		private Airport airport;
+		public Airport Airport {
+			get { return airport; }
+			internal set { airport = value; }
+		}
+
 		protected sealed override void UpdateImpl(WarTime warTime) {
 			UpdateCore(warTime);
 
@@ -54,6 +61,35 @@ namespace WarLab {
 				maxFuel = value;
 			}
 		}
+
+		public void Reload() {
+			WeaponsLeft = WeaponsCapacity;
+		}
+
+		/// Сколько может нести вооружения (бомб или ракет)
+		protected readonly int weaponsCapacity = 0;
+		//сколько осталось оружия
+		protected int weaponsLeft;
+
+		/// <summary>
+		/// Количество оставшегося вооружения. Когда его 0 - надо лететь на базу
+		/// </summary>
+		public int WeaponsLeft {
+			get { return weaponsLeft; }
+			private set {
+				Verify.IsNonNegative(value);
+
+				weaponsLeft = value;
+			}
+		}
+
+		/// <summary>
+		/// Возвращает количество оружия, которое может нести истребитель
+		/// </summary>
+		public int WeaponsCapacity {
+			get { return weaponsCapacity; }
+		}
+
 
 		#region IRocketDamageable Members
 

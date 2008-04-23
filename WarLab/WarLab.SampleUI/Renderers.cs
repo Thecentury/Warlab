@@ -50,7 +50,7 @@ namespace WarLab.SampleUI {
 		}
 
 		[Renders(typeof(SimpleZRK))]
-		private static GraphicalObject CreateForStaticObject(WarObject warObj) {
+		private static GraphicalObject CreateForZRK(WarObject warObj) {
 			return new ZRKGraph
 			{
 				StaticObject = (StaticObject)warObj,
@@ -60,7 +60,6 @@ namespace WarLab.SampleUI {
 		}
 
 		[Renders(typeof(EnemyFighter))]
-		[Renders(typeof(EnemyAirport))]
 		[Renders(typeof(EnemyBomber))]
 		private static GraphicalObject CreateForBomber(WarObject warObj) {
 			return new SpriteGraph
@@ -70,11 +69,11 @@ namespace WarLab.SampleUI {
 			};
 		}
 
-		[Renders(typeof(StaticTarget))]
-		private static GraphicalObject CreateForStaticTarget(WarObject warObj) {
-			return new SpriteGraph
+		[Renders(typeof(StaticObject))]
+		private static GraphicalObject CreateForStaticObject(WarObject warObj) {
+			return new StaticObjectGraph
 			{
-				SpriteSource = (ISpriteSource)warObj,
+				StaticObject = (StaticObject)warObj,
 				SpriteImage = ResourceManager.GetBitmap(@"Sprites\EnemyBuilding.png")
 			};
 		}

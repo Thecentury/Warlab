@@ -8,6 +8,7 @@ namespace WarLab.AI {
 	public class ChangeDirectionCommand : IAICommand {
 		private readonly DynamicObject target;
 		private readonly Vector3D direction;
+		private readonly bool correctDirection = true;
 
 		public ChangeDirectionCommand(DynamicObject target, Vector3D direction) {
 			if (target == null)
@@ -15,14 +16,16 @@ namespace WarLab.AI {
 
 			Verify.IsInSegment(direction.Length, 0.99, 1.01);
 			// запрещает слишком резкие повороты
-			Verify.IsTrue((direction & target.Orientation) > -0.9);
+			correctDirection = (direction & target.Orientation) > -0.9;
 
 			this.target = target;
 			this.direction = direction;
 		}
 
 		public void Execute() {
-			target.Orientation = direction;
+			if (correctDirection) {
+				target.Orientation = direction;
+			}
 		}
 
 	}

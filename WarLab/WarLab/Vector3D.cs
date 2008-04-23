@@ -6,7 +6,7 @@ using System.Windows.Markup;
 using WarLab.WarObjects;
 
 namespace WarLab {
-	public struct Vector3D {
+	public struct Vector3D : IEquatable<Vector3D> {
 
 		[DebuggerStepThrough]
 		public Vector3D(double x, double y, double h) {
@@ -171,5 +171,13 @@ namespace WarLab {
 		public double LengthTo(Vector3D point) {
 			return (this - point).Length;
 		}
+
+		#region IEquatable<Vector3D> Members
+
+		public bool Equals(Vector3D other) {
+			return this == other;
+		}
+
+		#endregion
 	}
 }

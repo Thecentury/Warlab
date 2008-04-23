@@ -5,7 +5,7 @@ using System.Windows;
 using System.Diagnostics;
 
 namespace WarLab {
-	public struct Vector2D {
+	public struct Vector2D : IEquatable<Vector2D> {
 		public Vector2D(double x, double y) {
 			this.x = x;
 			this.y = y;
@@ -54,6 +54,27 @@ namespace WarLab {
 			return new Vector2D(
 				v1.x - v2.x,
 				v1.y - v2.y);
+		}
+
+		public static bool operator ==(Vector2D v1, Vector2D v2) {
+			return v1.x == v2.x &&
+				v1.y == v2.y;
+		}
+
+		public static bool operator !=(Vector2D v1, Vector2D v2) {
+			return !(v1 == v2);
+		}
+
+		public override bool Equals(object obj) {
+			if (obj == null) return false;
+			if (!(obj is Vector2D))
+				return false;
+
+			return (Vector2D)obj == this;
+		}
+
+		public override int GetHashCode() {
+			return x.GetHashCode() ^ y.GetHashCode();
 		}
 
 		public double Length {
@@ -105,5 +126,13 @@ namespace WarLab {
 			if (angle < 0) angle += 360;
 			return angle;
 		}
+
+		#region IEquatable<Vector2D> Members
+
+		public bool Equals(Vector2D other) {
+			return this == other;
+		}
+
+		#endregion
 	}
 }

@@ -5,7 +5,7 @@ using System.Text;
 using WarLab.AI;
 
 namespace WarLab.WarObjects {
-	public sealed class ZRK : StaticObject {
+	public sealed class ZRK : OurStaticObject {
 		public ZRK() {
 			for (int i = 0; i < NumOfChannels; i++) {
 				channels[i] = new ZRKChannelInfo();

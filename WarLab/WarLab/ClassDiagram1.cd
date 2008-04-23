@@ -1,0 +1,397 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="WarLab.AI.ChangeDirectionCommand" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="22" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAIAQAIAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AI\ChangeDirectionCommand.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="WarLab.AI.DummyAI" Collapsed="true">
+    <Position X="0.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AI\DummyAI.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WarLab.AI.DynamicObjectAI" Collapsed="true">
+    <Position X="2.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAABAAAAAABAAAAAAAAAAAAAE=</HashCode>
+      <FileName>AI\DynamicObjectAI.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WarLab.AI.ImprovedRocketAI" Collapsed="true">
+    <Position X="2.75" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAIAAAACAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AI\ImprovedRocketAI.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WarLab.AI.RLSAI" Collapsed="true">
+    <Position X="7.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQMEAAAAgAAKABAAAAAAAAAAAFAAEAAAAQAAAAADAA=</HashCode>
+      <FileName>AI\RLSAI.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WarLab.AI.RLSTrajectory" Collapsed="true">
+    <Position X="22" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAQASAgAAwASAAAAABQAAAAAAAAAJAAAAAAtA=</HashCode>
+      <FileName>AI\RLSTrajectory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WarLab.AI.RocketAI" Collapsed="true">
+    <Position X="2.75" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AI\RocketAI.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WarLab.AI.SetSpeedCommand" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="23.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAIAAAAAAAAAAAAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>AI\SetSpeedCommand.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="WarLab.AI.WarAI" Collapsed="true">
+    <Position X="3.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIQAAAAAAAIAAAACQAAAAAAAAIAAEAAEAAAAAAAAAAA=</HashCode>
+      <FileName>AI\WarAI.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WarLab.AI.ZRKAI" Collapsed="true">
+    <Position X="5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AI\ZRKAI.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WarLab.Angle" Collapsed="true">
+    <Position X="20.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Angle.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WarLab.Distance" Collapsed="true">
+    <Position X="23.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Distance.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WarLab.MathHelper" Collapsed="true">
+    <Position X="16.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAAAAAAAAAAAAAQEAAAABAAAAAAAAIAAA=</HashCode>
+      <FileName>MathHelper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WarLab.NormalDistribution" Collapsed="true">
+    <Position X="18.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAEAAAAA=</HashCode>
+      <FileName>NormalDistribution.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WarLab.ObjectDestroyedEventArgs" Collapsed="true">
+    <Position X="20.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ObjectDestroyedEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WarLab.Speed" Collapsed="true">
+    <Position X="16.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Speed.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WarLab.StaticRandom" Collapsed="true">
+    <Position X="18.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAACAA=</HashCode>
+      <FileName>StaticRandom.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WarLab.Verify" Collapsed="true">
+    <Position X="22" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAgAAgAAAIAAAAIAAAAQAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Verify.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WarLab.WarDebug" Collapsed="true">
+    <Position X="23.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAA=</HashCode>
+      <FileName>WarDebug.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WarLab.DynamicObject" Collapsed="true">
+    <Position X="2" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAQAAAAAAAAAAAAABAAAAAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>WarObjects\DynamicObject.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="WarLab.Plane" Collapsed="true">
+    <Position X="3" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAiAAAAAAAAIIQAACDAAAAAAAAAAAIOAQAACgEAIg=</HashCode>
+      <FileName>WarObjects\Plane.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="WarLab.StaticObject" Collapsed="true">
+    <Position X="9.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAiAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAIg=</HashCode>
+      <FileName>WarObjects\StaticObject.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="WarLab.WarObject" Collapsed="true">
+    <Position X="7.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EQEBEAAAABABAAAgAAABIAAAAAAAAAAAAAAAAAABAhA=</HashCode>
+      <FileName>WarObjects\WarObject.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WarLab.WarTime" Collapsed="true">
+    <Position X="18.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAQAAAAAAAAAAAAAAAQAAAAEAAAAAAAAAAAA=</HashCode>
+      <FileName>WarTime.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WarLab.World" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="20.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EBRhACQQCCZAABICAAQAiAAEAQBYkAUARAAQQEAIRQA=</HashCode>
+      <FileName>World.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="WarLab.Path.ArcSegment" Collapsed="true">
+    <Position X="5.25" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAoAAAAACCACAAAAAEAAAABAAAAAAAgAgAAAAAAAAAA=</HashCode>
+      <FileName>Path\ArcSegment.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WarLab.Path.LineSegment" Collapsed="true">
+    <Position X="7.5" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIACAAAACAAQAAAAGAAAABAAAAAAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>Path\LineSegment.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WarLab.Path.PathSegment" Collapsed="true">
+    <Position X="6.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAACAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Path\PathSegment.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WarLab.Path.WarPath" Collapsed="true">
+    <Position X="16.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAACAQAAAAAgAAIAAAAAAAAgAEBAAAAAAAAAA=</HashCode>
+      <FileName>Path\WarPath.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WarLab.WarObjects.Airport" Collapsed="true">
+    <Position X="14.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIiAAAAAAAAAAAAAAAAAAAAAAAAAgBAAgIAAAABAAA=</HashCode>
+      <FileName>WarObjects\Airport.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WarLab.WarObjects.AirportCreatePlaneInfo" Collapsed="true">
+    <Position X="16.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAACAAAAAgAAAAEAAAABAA=</HashCode>
+      <FileName>WarObjects\AirportCreatePlaneInfo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WarLab.WarObjects.AirportPlaneInfo" Collapsed="true">
+    <Position X="18.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAEAAIABAAAAAA=</HashCode>
+      <FileName>WarObjects\AirportPlaneInfo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WarLab.WarObjects.EnemyPlane" Collapsed="true">
+    <Position X="3" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>WarObjects\EnemyPlane.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WarLab.WarObjects.OurHeadQuaters" Collapsed="true">
+    <Position X="5.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>WarObjects\OurHeadQuaters.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WarLab.WarObjects.OurStaticObject" Collapsed="true">
+    <Position X="8.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAIAAAACAAAAAAAAAAAAAA=</HashCode>
+      <FileName>WarObjects\OurStaticObject.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="WarLab.WarObjects.RLS" Collapsed="true">
+    <Position X="7.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAIAAACAAAAAAAAAABAAQBAABEAAAABAEAAACAQAA=</HashCode>
+      <FileName>WarObjects\RLS.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WarLab.WarObjects.Rocket" Collapsed="true">
+    <Position X="0.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAQACSCAAAAAoAAAIAABAQAAAAAAAAAAAAAAAAQAAIA=</HashCode>
+      <FileName>WarObjects\Rocket.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="WarLab.WarObjects.SimpleZRK" Collapsed="true">
+    <Position X="9.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAIAAAAAAAAgABACAABAAAAAAAAAAgAAAgQQACAFAA=</HashCode>
+      <FileName>WarObjects\SimpleZRK.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WarLab.WarObjects.TargetInfo" Collapsed="true">
+    <Position X="20.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAgAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>WarObjects\TargetInfo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WarLab.WarObjects.ZRK" Collapsed="true">
+    <Position X="12" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAIAAAAAAAAAABACAABAAAAAAAAAAoAAAgQAAAAEAA=</HashCode>
+      <FileName>WarObjects\ZRK.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WarLab.WarObjects.ZRKChannelInfo" Collapsed="true">
+    <Position X="22" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABgAAAAQAAACAAAAAAAAAAAAAEAAAAAAAAAAAAIAA=</HashCode>
+      <FileName>WarObjects\ZRKChannelInfo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="WarLab.Vector2D" Collapsed="true">
+    <Position X="18.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAAAAAAgEECEAAABAAABAABAAAABwAAAAYgA=</HashCode>
+      <FileName>Vector2D.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="WarLab.Vector3D" Collapsed="true">
+    <Position X="20.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAASE8AUCQABAAIAAAIAAQABgAEAAYiA=</HashCode>
+      <FileName>Vector3D.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="WarLab.Path.Position" Collapsed="true">
+    <Position X="16.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAACAAQAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Path\Position.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Interface Name="WarLab.AI.IAICommand" Collapsed="true">
+    <Position X="16.75" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AI\IAICommand.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="WarLab.ISpriteSource" Collapsed="true">
+    <Position X="20.25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ISpriteSource.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="WarLab.ITimeControl" Collapsed="true">
+    <Position X="22" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAQAABAAAAAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>ITimeControl.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="WarLab.IBombDamageable" Collapsed="true">
+    <Position X="10.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>WarObjects\IBombDamageable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="WarLab.IDamageable" Collapsed="true">
+    <Position X="11.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIA=</HashCode>
+      <FileName>WarObjects\IDamageable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="WarLab.IRocketDamageable" Collapsed="true">
+    <Position X="12.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>WarObjects\IRocketDamageable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="WarLab.WarObjects.IHasImportance" Collapsed="true">
+    <Position X="18.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>WarObjects\IHasImportance.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="WarLab.Orientation" Collapsed="true">
+    <Position X="20.25" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EQAAAAAAAAAACEAAAAAAAAAAgQgEAgAAAAAAAhDIAAA=</HashCode>
+      <FileName>Orientation.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="WarLab.Path.CircleOrientation" Collapsed="true">
+    <Position X="18.5" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAQAAAAAAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Path\CircleOrientation.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="WarLab.WarObjects.AirportPlaneState" Collapsed="true">
+    <Position X="16.75" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAAAAAAAAAAAAAAQAAAAAAAAAAQAACAAAAAA=</HashCode>
+      <FileName>WarObjects\AirportPlaneState.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Delegate Name="WarLab.ObjectDestroyedEventHandler" Collapsed="true">
+    <Position X="16.75" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ObjectDestroyedEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Font Name="Tahoma" Size="8.25" />
+</ClassDiagram>
