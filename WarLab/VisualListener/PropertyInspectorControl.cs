@@ -10,8 +10,9 @@ namespace VisualListener {
 	public class PropertyInspectorControl : UserControl {
 		public PropertyInspectorControl() {
 			PropertyInspector.AttachControl(this);
-
-			Loaded += PropertyInspector_Loaded;
+			
+			stackPanel = new StackPanel { Background = new SolidColorBrush(Color.FromArgb(100, 100, 50, 180)) };
+			Content = stackPanel;
 		}
 
 		public void AddValue<T>(string descriptiveKey, T value) {
@@ -34,10 +35,6 @@ namespace VisualListener {
 
 		private readonly Dictionary<string, UIInfo> values = new Dictionary<string, UIInfo>();
 
-		private StackPanel stackPanel;
-		private void PropertyInspector_Loaded(object sender, RoutedEventArgs e) {
-			stackPanel = new StackPanel { Background = new SolidColorBrush(Color.FromArgb(100, 100, 50, 180)) };
-			Content = stackPanel;
-		}
+		private readonly StackPanel stackPanel;
 	}
 }

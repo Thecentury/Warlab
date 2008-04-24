@@ -13,18 +13,25 @@ namespace EnemyPlanes {
 		/// <summary>
 		/// максимальная скорость
 		/// </summary>
-		private double maxSpeed;
+		private readonly double maxSpeed;
+
+		public EnemyFighter(int weapons, double fuel, double maxspeed)
+			: base(weapons) {
+			this.maxSpeed = maxspeed;
+			this.FuelLeft = fuel;
+		}
 
 		/// <summary>
 		/// Максимальная скорость. На ней, например, самолет летит на базу.
 		/// </summary>
 		public double MaxSpeed {
 			get { return maxSpeed; }
-			set {
-				Verify.IsPositive(value);
+			//internal set
+			//{
+			//    Verify.IsPositive(value);
 
-				maxSpeed = value;
-			}
+			//    maxSpeed = value;
+			//}
 		}
 	}
 }

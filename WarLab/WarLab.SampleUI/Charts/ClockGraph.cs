@@ -6,11 +6,13 @@ using ScientificStudio.Charting.GraphicalObjects;
 using System.Windows.Media;
 using System.Windows;
 using System.Diagnostics;
+using System.Windows.Controls;
 
 namespace WarLab.SampleUI.Charts {
 	public sealed class ClockGraph : WarGraph {
 		public ClockGraph() {
 			AutoTranslate = false;
+			Panel.SetZIndex(this, 100000);
 		}
 
 		const double diameter = 100;
@@ -49,7 +51,7 @@ namespace WarLab.SampleUI.Charts {
 				Point end = GetRadialPoint(center, TimeToAngle(t), Radius - 7);
 				dc.DrawLine(ticksPen, start, end);
 			}
-			for (int i = 0; i < 12 ; i++) {
+			for (int i = 0; i < 12; i++) {
 				if (i % 3 != 0) {
 					double t = 5 * i;
 					Point start = GetRadialPoint(center, TimeToAngle(t), Radius);

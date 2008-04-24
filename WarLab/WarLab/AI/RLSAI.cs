@@ -13,7 +13,7 @@ namespace WarLab.AI {
 		/// <summary>
 		/// Ошибка, вносимая в реальное положение цели.
 		/// </summary>
-		private readonly double errorDistance = Distance.FromMetres(10);
+		private double errorDistance = Distance.FromMetres(3);
 		/// <summary>
 		/// Размер строба траектории.
 		/// </summary>
@@ -37,18 +37,9 @@ namespace WarLab.AI {
 			get { return trajectories.Where(t => t.NumOfSteps == minNumOfStepsInPreciseTrajectory); }
 		}
 
-		NormalDistribution rnd = new NormalDistribution();
-		private Vector3D RandomVector() {
-
-			double x = rnd.Generate(0, errorDistance);
-			double y = rnd.Generate(0, errorDistance);
-			double z = rnd.Generate(0, errorDistance);
-			return new Vector3D(x, y, z).Normalize();
-		}
-
 		private int turnNum = 0;
 		private TimeSpan fromPrevTurn = new TimeSpan();
-		
+
 		public TimeSpan FromPrevTurn {
 			get { return fromPrevTurn; }
 		}
@@ -72,7 +63,9 @@ namespace WarLab.AI {
 
 				foreach (var traj in trajectories) {
 					var appropriatePlanes = enemyPlanes.
-						Where(plane => traj.IsInStrobe(plane.Position, time.TotalTime, strobeError));
+						Where(plane => traj.IsInStrobe(plane.Position, time.TotalTime, strobeError)
+							&& (plane == traj.Plane || StaticRandom.NextDouble() > 0.95)
+						);
 
 					bool wereContinuations = false;
 					foreach (var plane in appropriatePlanes) {
@@ -84,7 +77,9 @@ namespace WarLab.AI {
 
 						RLSTrajectory newTraj = traj.Clone();
 
-						Vector3D newPos = plane.Position + errorDistance * RandomVector() / newTraj.NumOfSteps;
+						Vector3D newPos = plane.Position + CreateErrorShift(plane);//errorDistance * Vector3D.RandomVectorNormalized(errorDistance) / newTraj.NumOfSteps;
+
+						double len = plane.Position.LengthTo(newPos);
 
 						newTraj.Update(newPos, time.TotalTime, turnNum);
 						newTrajectories.Add(newTraj);
@@ -102,7 +97,7 @@ namespace WarLab.AI {
 				var unexaminedPlanes = enemyPlanes.Where(plane => !examinedPlanes.Contains(plane));
 				foreach (var plane in unexaminedPlanes) {
 					trajectories.Add(new RLSTrajectory(
-						plane.Position + errorDistance * RandomVector(),
+						plane.Position + CreateErrorShift(plane),
 						turnNum,
 						time.TotalTime,
 						plane));
@@ -144,6 +139,11 @@ namespace WarLab.AI {
 			}
 #endif
 
+		}
+
+		private Vector3D CreateErrorShift(Plane plane) {
+			Vector3D v = Vector3D.RandomVectorNormalized(errorDistance) * 0.35 * plane.Speed * World.Instance.Time.ElapsedTime.TotalSeconds;
+			return v;
 		}
 	}
 }

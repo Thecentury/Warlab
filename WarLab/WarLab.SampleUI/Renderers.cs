@@ -49,7 +49,7 @@ namespace WarLab.SampleUI {
 			};
 		}
 
-		[Renders(typeof(SimpleZRK))]
+		[Renders(typeof(ZRK))]
 		private static GraphicalObject CreateForZRK(WarObject warObj) {
 			return new ZRKGraph
 			{

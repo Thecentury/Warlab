@@ -14,7 +14,7 @@ namespace WarLab {
 		private double health = 2;
 		public double Health {
 			get { return health; }
-			internal set { health = value; }
+			set { health = value; }
 		}
 
 		private void RaiseDead() {

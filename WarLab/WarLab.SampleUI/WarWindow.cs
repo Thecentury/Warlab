@@ -18,6 +18,7 @@ namespace WarLab.SampleUI {
 		public WarWindow() {
 			// объект для управления временем мира.
 			timeControl = world.GetTimeControl();
+
 			// событие изменения коллекции объектов мира
 			world.CollectionChanged += Objects_CollectionChanged;
 			// событие уничтожения какого-либо из объектов
@@ -58,8 +59,13 @@ namespace WarLab.SampleUI {
 			// удаляем график, отображавший удаленный объект мира.
 			if (createdGraphs.ContainsKey(e.DestroyedObject)) {
 				GraphicalObject graph = createdGraphs[e.DestroyedObject];
+				RemoveGraph(e.DestroyedObject);
+				
+				uiGraphs.Remove(graph);
+				
 				plotter.Children.Remove(graph);
 			}
+			else { }
 		}
 
 		/// <summary>
@@ -67,20 +73,39 @@ namespace WarLab.SampleUI {
 		/// Ключ - объект мира, значение - сам график.
 		/// </summary>
 		private readonly Dictionary<WarObject, GraphicalObject> createdGraphs = new Dictionary<WarObject, GraphicalObject>();
+		private void RemoveGraph(WarObject warObject) {
+			createdGraphs.Remove(warObject);
+		}
+
+		private void AddGraph(WarObject warObject, GraphicalObject graph) {
+			createdGraphs[warObject] = graph;
+		}
 
 		private void Objects_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
+			WarObject warObj;
+			GraphicalObject graph;
+
 			switch (e.Action) {
 				case NotifyCollectionChangedAction.Add:
 					// добавить новый график для свежедобавленного объекта мира.
-					WarObject warObj = (WarObject)e.NewItems[0];
-					GraphicalObject graph = Renderers.CreateGraphForWarObject(warObj);
-					createdGraphs.Add(warObj, graph);
+					warObj = (WarObject)e.NewItems[0];
+					graph = Renderers.CreateGraphForWarObject(warObj);
+					AddGraph(warObj, graph);
 					AddUIGraph(graph);
 
 					break;
 				case NotifyCollectionChangedAction.Move:
 					break;
 				case NotifyCollectionChangedAction.Remove:
+
+					// удалить график для удаленного объекта мира.
+					warObj = (WarObject)e.OldItems[0];
+					if (createdGraphs.ContainsKey(warObj)) {
+						graph = createdGraphs[warObj];
+						RemoveGraph(warObj);
+						uiGraphs.Remove(graph);
+						plotter.Children.Remove(graph);
+					}
 					break;
 				case NotifyCollectionChangedAction.Replace:
 					break;

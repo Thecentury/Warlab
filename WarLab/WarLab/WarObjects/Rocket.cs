@@ -29,7 +29,7 @@ namespace WarLab.WarObjects {
 			set { damage = value; }
 		}
 
-		private double damageRange = Distance.FromMetres(100);
+		private double damageRange = Distance.FromMetres(30);
 		public double DamageRange {
 			get { return damageRange; }
 			set { damageRange = value; }

@@ -106,7 +106,10 @@ namespace WarLab.SampleUI.Charts {
 				}
 			}
 
-			dc.DrawEllipse(null, new Pen(Brushes.Green, 2), transformedPos, radiusX, radiusY);
+			Color fillColor = Colors.Green;
+			fillColor.A = 60;
+			Brush rlsFill = new SolidColorBrush(fillColor);
+			dc.DrawEllipse(rlsFill, new Pen(Brushes.Green, 2), transformedPos, radiusX, radiusY);
 
 			Color lineColor = Colors.Green;
 			lineColor.A = 160;

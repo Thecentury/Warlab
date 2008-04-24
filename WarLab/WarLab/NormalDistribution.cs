@@ -17,7 +17,7 @@ namespace WarLab {
 				sum += rnd.NextDouble();
 			}
 			sum -= len / 2;
-			sum *= Math.Sqrt(len / 12);
+			sum *= Math.Sqrt(1.0 / 12); // was len / 12
 			sum = sum * sigma + m;
 			return sum;
 		}

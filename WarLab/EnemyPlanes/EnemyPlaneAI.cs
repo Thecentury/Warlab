@@ -5,25 +5,13 @@ using System.Text;
 using WarLab;
 using WarLab.AI;
 
-namespace EnemyPlanes
-{
-	public abstract class EnemyPlaneAI: DynamicObjectAI
-	{
-		#region vars
-		//private Vector3D target;//цель, которую надо бомбардировать
-
-		protected  Vector3D basePosition;//где база
-
-		#endregion
+namespace EnemyPlanes {
+	public abstract class EnemyPlaneAI : PlaneAI {
 
 		//public EnemyPlaneAI(Vector3D basePosition)
 		//{
 		//    this.basePosition = basePosition;
 		//}
-
-		public EnemyPlaneAI()
-		{
-		}
 
 		#region properties
 		///// <summary>
@@ -34,14 +22,6 @@ namespace EnemyPlanes
 		//    get { return target; }
 		//    //set { target = value; }
 		//}
-		/// <summary>
-		/// Возвращает местоположение базы
-		/// </summary>
-		public Vector3D BasePosition
-		{
-			get { return basePosition; }
-			set { basePosition = value; }
-		}
 
 		#endregion
 
@@ -58,7 +38,7 @@ namespace EnemyPlanes
 		//    this.target = t;
 		//    return true;
 		//}
-		
+
 		#endregion
 	}
 }
