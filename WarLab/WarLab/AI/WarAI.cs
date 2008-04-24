@@ -6,7 +6,7 @@ using System.Text;
 namespace WarLab.AI {
 	public abstract class WarAI {
 		private WarObject controlledObject;
-		internal WarObject ControlledObject {
+		public WarObject ControlledObject {
 			get { return controlledObject; }
 		}
 

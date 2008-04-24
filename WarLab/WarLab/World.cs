@@ -46,21 +46,35 @@ namespace WarLab {
 			RaiseCollectionChanged(e);
 		}
 
+		public void RemoveWarObject(WarObject obj) {
+			if (!isUpdating) {
+				objects.Remove(obj);
+			}
+			else {
+				deletedObjects.Add(obj);
+			}
+		}
+
 		/// <summary>
 		/// Добавить объект в мир, поместив его в указанную точку.
 		/// </summary>
 		/// <param name="obj"></param>
 		/// <param name="position"></param>
-		public void AddWarObject(WarObject obj, Vector3D position) {
+		public T AddWarObject<T>(T obj, Vector3D position) where T : WarObject {
 			if (obj == null)
 				throw new ArgumentNullException("obj");
 
 			Type warObjectType = obj.GetType();
 
-			if (!aiForWarObjects.ContainsKey(warObjectType))
-				throw new InvalidOperationException(String.Format("Невозможно добавить объект типа {0}: для объекта типа {0} не найден ИИ. Перед добавлением объектов типа {0} необходимо выполнить метод RegisterAIForWarObject для типа {0}.", warObjectType.Name));
-
-			Type aiType = aiForWarObjects[warObjectType];
+			Type aiType;
+			if (!aiForWarObjects.ContainsKey(warObjectType)) {
+				//throw new InvalidOperationException(String.Format("Невозможно добавить объект типа {0}: для объекта типа {0} не найден ИИ. Перед добавлением объектов типа {0} необходимо выполнить метод RegisterAIForWarObject для типа {0}.", warObjectType.Name));
+				aiType = typeof(DummyAI);
+				Debug.WriteLine(String.Format("Объекту типа {0} добавлен DummyAI.", warObjectType));
+			}
+			else {
+				aiType = aiForWarObjects[warObjectType];
+			}
 			WarAI ai = (WarAI)Activator.CreateInstance(aiType);
 			obj.SetAI(ai);
 
@@ -78,11 +92,14 @@ namespace WarLab {
 			if (damageableObj != null) {
 				damageableObj.Destroyed += OnObjectDestroyed;
 			}
+
+			return obj;
 		}
 
 		private readonly List<WarObject> addedObjects = new List<WarObject>();
-
 		private readonly List<WarObject> destroyedObjects = new List<WarObject>();
+		private readonly List<WarObject> deletedObjects = new List<WarObject>();
+
 		private void OnObjectDestroyed(object sender, EventArgs e) {
 			IDamageable damageable = sender as IDamageable;
 			destroyedObjects.Add(sender as WarObject);
@@ -126,7 +143,7 @@ namespace WarLab {
 		/// <typeparam name="T"></typeparam>
 		/// <returns></returns>
 		public T SelectSingle<T>() where T : WarObject {
-			return objects.OfType<T>().First<T>();
+			return objects.OfType<T>().FirstOrDefault<T>();
 		}
 
 		public T SelectSingleAI<T>() where T : WarAI {
@@ -204,6 +221,12 @@ namespace WarLab {
 				obj.UpdateSelf(time);
 			}
 			isUpdating = false;
+
+
+			foreach (var obj in deletedObjects) {
+				objects.Remove(obj);
+			}
+			deletedObjects.Clear();
 
 			foreach (var obj in addedObjects) {
 				objects.Add(obj);

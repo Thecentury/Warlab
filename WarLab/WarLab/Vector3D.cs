@@ -142,7 +142,7 @@ namespace WarLab {
 		public Vector3D Normalize() {
 			double len = Length;
 			if (len < Double.Epsilon) {
-				return new Vector3D();
+				return new Vector3D(1, 0, 0);
 			}
 			double one_div_len = 1.0 / Length;
 
@@ -179,5 +179,20 @@ namespace WarLab {
 		}
 
 		#endregion
+
+		private static readonly NormalDistribution rnd = new NormalDistribution();
+		public static Vector3D RandomVectorNormalized(double errorDistance) {
+			double x = rnd.Generate(0, errorDistance);
+			double y = rnd.Generate(0, errorDistance);
+			double z = rnd.Generate(0, errorDistance);
+			return new Vector3D(x, y, z).Normalize();
+		}
+
+		public static Vector3D RandomVector(double errorDistance) {
+			double x = rnd.Generate(0, errorDistance);
+			double y = rnd.Generate(0, errorDistance);
+			double z = rnd.Generate(0, errorDistance);
+			return new Vector3D(x, y, z);
+		}
 	}
 }

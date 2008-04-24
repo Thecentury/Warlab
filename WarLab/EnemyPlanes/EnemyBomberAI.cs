@@ -7,6 +7,8 @@ using WarLab.AI;
 using WarLab;
 using WarLab.WarObjects;
 using System.Diagnostics;
+using VisualListener;
+using WarLab.Path;
 
 namespace EnemyPlanes {
 	public class EnemyBomberAI : EnemyPlaneAI {
@@ -19,14 +21,15 @@ namespace EnemyPlanes {
 		/// <summary>
 		/// Бомбардируемая цель
 		/// </summary>
-		private StaticTarget target;
+		private OurStaticObject target;
 
 		/// <summary>
 		/// Радиус окружности, в которой летят истребители рядом с бомберов
 		/// </summary>
-		private double figtersRadius;
-		public delegate void TargetReachedDelegate(object sender, TargetReacherEventArgs args);
-		public event TargetReachedDelegate TargetReached;
+		private double figtersRadius = 20;
+		public delegate void TargetDestroyedDelegate(object sender, TargetDestroyedEventArgs args);
+
+		public event TargetDestroyedDelegate TargetDestroyed;
 		/// <summary>
 		/// Нижняя высота, на которую можно совершить маневр
 		/// </summary>
@@ -61,22 +64,18 @@ namespace EnemyPlanes {
 		/// Коэффициент, умножаемый на случайное число от 0 до 1. Полученное число определяет
 		/// отклонение от цели, в метрах.
 		/// </summary> 
-		public static double errorCoef = 5.0;
+		public double errorCoef = 5.0;
 		/// <summary>
 		/// Радиус окружности, по которой надо пролетететь бомбардировщику, чтоб вернуться
 		/// к бомбометанию
 		/// </summary>
-		public static double returnToTargetRadius = 50.0;
+		public double returnToTargetRadius = 50.0;
 		/// <summary>
 		/// Центр окружности, по которой надо пролететь бомберу, чтоб вернуться
 		/// к бомбометанию
 		/// </summary>
-		private static Vector3D returnToTargetCircleCenter;
+		private Vector3D returnToTargetCircleCenter;
 		#endregion
-
-		//public EnemyBomberAI(Vector3D basePosition):base(basePosition)
-		//{
-		//}
 
 		/// <summary>
 		/// Создать интеллект вражеского бомбера
@@ -104,7 +103,16 @@ namespace EnemyPlanes {
 		/// </summary>
 		public BomberFlightMode Mode {
 			get { return mode; }
-			set { mode = value; }
+			set {
+				mode = value;
+				if (value == BomberFlightMode.ReturnToBase) {
+					TimeSpan toBaseDuration = TimeSpan.FromSeconds(ControlledBomber.Airport.Position.LengthTo(ControlledBomber.Position) / ControlledBomber.Speed);
+					returnToBaseTime = toBaseDuration + World.Instance.Time.TotalTime;
+				}
+				else if (value == BomberFlightMode.ReturnToBombTarget) {
+					targetReachedTime.Add(TimeSpan.FromSeconds(path.TotalLength / ControlledBomber.Speed));
+				}
+			}
 		}
 
 		/// <summary>
@@ -136,31 +144,48 @@ namespace EnemyPlanes {
 
 				switch (mode) {
 					case BomberFlightMode.ReturnToBase:
-						flyTo = basePosition;
+						flyTo = AirportPosition;
 						ReturnToBase();
 						break;
 					case BomberFlightMode.MoveToTarget:
-						if (CanBomb) {
+						if (ShouldBomb) {
 							DropBomb();
-							RaiseTargetReached(plane);
 						}
 						break;
 					case BomberFlightMode.ReturnToBombTarget:
-						ReturnToTarget();
+						flyTo = ReturnToTarget(time);
 						break;
 					default:
 						break;
 				}
 
-				if ((flyTo - plane.Position).Length <= 10)
-					flyTo = extrapolatedTargetPos;
 				MoveInDirectionOf(flyTo);
 			}
 		}
 
-		private void RaiseTargetReached(EnemyBomber plane) {
-			if (TargetReached != null)
-				TargetReached(this, new TargetReacherEventArgs(plane, target));
+		/// <summary>
+		/// Нужно для совершения разворота при бомбометании
+		/// </summary>
+		WarPath path = null;
+
+		/// <summary>
+		/// Вернуться по окружности к бомбометанию
+		/// </summary>
+		private Vector3D ReturnToTarget(WarTime time) {
+			if (!path.IsFinished) {
+				Position newPos = path.GetPosition(time.ElapsedTime.TotalSeconds * ControlledDynamicObject.Speed);
+				return newPos.Point;
+			}
+			else {
+				mode = BomberFlightMode.MoveToTarget;
+				return target.Position;
+			}
+		}
+
+		private void RaiseTargetDestroyed() {
+			if (TargetDestroyed != null) {
+				TargetDestroyed(this, new TargetDestroyedEventArgs(target));
+			}
 		}
 
 		#endregion
@@ -169,16 +194,9 @@ namespace EnemyPlanes {
 		#region Methods
 
 		/// <summary>
-		/// Вернуться по окружности к бомбометанию
-		/// </summary>
-		private void ReturnToTarget() {
-
-		}
-
-		/// <summary>
 		/// Не пора ли проводить бомбометания
 		/// </summary>
-		private bool CanBomb {
+		private bool ShouldBomb {
 			get {
 				return World.Instance.Time.TotalTime > targetReachedTime;
 
@@ -205,7 +223,7 @@ namespace EnemyPlanes {
 		private void DropBomb() {
 			EnemyBomber plane = ControlledBomber;
 
-			/*остались бомбы*/
+			// остались бомбы
 			if (plane.WeaponsLeft > 0) {
 				Vector2D bombPos = plane.Position.Projection2D;
 
@@ -219,11 +237,42 @@ namespace EnemyPlanes {
 				bombPos.Y += errorY;
 
 				World.Instance.ExplodeBomb(bombPos, BombDamage, BombDamageRange);
+				plane.WeaponsLeft--;
+
 
 				if (target.Health > 0 && plane.WeaponsLeft > 0) {
-					returnToTargetCircleCenter = target.Position + plane.Orientation *
+					double a, b;
+
+					/*нужен вектор, направленный под углом в 90 градусов вправо (поэтому a*a+
+					 b*b=1*1 - просто делаем такое допущение). 
+					 * По направлению этого вектора отложим отрезок длины радиуса,
+					 и там будет центр окружности, по которой надо пролететь, чтоб вернуться
+					 к бомбометанию. Берем скалярное произведение векторов, где
+					 первый - вектор позиции самолета (x,y), второй - вектор (a,b).
+					 x*a+y*b=0. Отсюда a=-yb/x; b(1-y/x)=1*/
+
+					b = 1 / (1 - ControlledBomber.Orientation.Y / ControlledBomber.Orientation.X);
+					a = -ControlledBomber.Orientation.Y * b / ControlledBomber.Orientation.X;
+
+					/*теперь создадим на основе a и b вектор, у которого высота - 0,
+					 * потому что это вектор направления. Потом его нормализуем*/
+
+					Vector3D newV = new Vector3D(a, b, 0);
+					Vector3D centerVect = newV.Normalize();
+					returnToTargetCircleCenter = target.Position + centerVect *
 						returnToTargetRadius;
+
+					path = new WarPath(new ArcSegment(returnToTargetCircleCenter,
+						returnToTargetRadius, CircleOrientation.CCW, ControlledBomber.Position, 360));
 					Mode = BomberFlightMode.ReturnToBombTarget;
+				}
+				else {
+					/*Обнулим путь, по которому надо совершать круговое движение, чтоб вернуться
+					 к бомбометанию. Надо его обнулить, потому что в ReturnToTarget()
+					 стоит проверка if (path!=null), и создается новый путь для
+					 возвращения к цели*/
+					path = null;
+					RaiseTargetDestroyed();
 				}
 			}
 		}
@@ -279,7 +328,7 @@ namespace EnemyPlanes {
 		/// </summary>
 		/// <param name="target">статичный объект на земле</param>
 		/// <returns>Удалось ли установить цель для бомбардирования</returns>
-		public bool AttackTarget(StaticTarget target) {
+		public bool AttackTarget(OurStaticObject target) {
 			if (mode != BomberFlightMode.ReturnToBase) {
 				this.target = target;
 				targetReachedTime = World.Instance.Time.TotalTime + TimeSpan.FromSeconds(target.Position.LengthTo(ControlledBomber.Position) / ControlledBomber.Speed);
@@ -288,10 +337,15 @@ namespace EnemyPlanes {
 			return false;
 		}
 
+		private TimeSpan returnToBaseTime;
 		/// <summary>
 		/// Лететь в сторону базы
 		/// </summary>
-		private void ReturnToBase() { }
+		private void ReturnToBase() {
+			if (World.Instance.Time.TotalTime > returnToBaseTime) {
+				ControlledBomber.Airport.LandPlane(ControlledBomber);
+			}
+		}
 
 		/// <summary>
 		/// Может ли бомбер лететь дальше бомбардировать цель
@@ -306,11 +360,10 @@ namespace EnemyPlanes {
 				Vector3D shift = plane.Orientation * warTime.ElapsedTime.TotalSeconds
 					* plane.Speed;
 				/*если после этого мы не сможем вернутся домой, то возвращаемся обратно
-				Другое условие возвращения - кончились ракеты
+				Другое условие возвращения - кончились бомбы
 				 */
-				if (MathHelper.Distance(plane.Position + shift, basePosition) > plane.FuelLeft ||
+				if (MathHelper.Distance(plane.Position + shift, AirportPosition) > plane.FuelLeft ||
 					plane.WeaponsLeft <= 0) {
-					Mode = BomberFlightMode.ReturnToBase;
 					//target = basePosition;
 					return false;
 				}

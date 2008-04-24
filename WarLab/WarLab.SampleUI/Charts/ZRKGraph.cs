@@ -9,8 +9,8 @@ using System.Windows;
 
 namespace WarLab.SampleUI.Charts {
 	public sealed class ZRKGraph : StaticObjectGraph {
-		private SimpleZRK RenderedZRK {
-			get { return StaticObject as SimpleZRK; }
+		private ZRK RenderedZRK {
+			get { return StaticObject as ZRK; }
 		}
 
 		const double topMargin = 5; // px
@@ -39,7 +39,7 @@ namespace WarLab.SampleUI.Charts {
 				bounds.Y -= (channelHeight + channelMargin) * i;
 
 				Rect loadedBounds = bounds;
-				loadedBounds.Width *= 1 - channels[i].TimeToReload.TotalSeconds / SimpleZRK.ChannelReloadTime.TotalSeconds;
+				loadedBounds.Width *= 1 - channels[i].TimeToReload.TotalSeconds / ZRK.ChannelReloadTime.TotalSeconds;
 				dc.DrawRectangle(interiorFill, null, loadedBounds);
 
 				dc.DrawRectangle(null, channelBoundsPen, bounds);

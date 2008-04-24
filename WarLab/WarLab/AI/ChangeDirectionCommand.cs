@@ -23,7 +23,7 @@ namespace WarLab.AI {
 		}
 
 		public void Execute() {
-			if (correctDirection) {
+			if (true || correctDirection) {
 				target.Orientation = direction;
 			}
 		}

@@ -2,22 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using WarLab.WarObjects;
 
 namespace EnemyPlanes {
-	public class TargetReacherEventArgs : EventArgs {
-		EnemyBomber bomber;
-		StaticTarget target;
+	public class TargetDestroyedEventArgs : EventArgs {
+		private readonly OurStaticObject target;
 
-		public TargetReacherEventArgs(EnemyBomber Bomber, StaticTarget Target) {
-			bomber = Bomber;
-			target = Target;
+		public TargetDestroyedEventArgs(OurStaticObject target) {
+			this.target = target;
 		}
 
-		public EnemyBomber Bomber {
-			get { return bomber; }
-		}
-
-		public StaticTarget Target {
+		public OurStaticObject Target {
 			get { return target; }
 		}
 	}

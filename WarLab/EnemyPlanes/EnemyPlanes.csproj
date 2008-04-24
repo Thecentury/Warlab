@@ -70,6 +70,10 @@
     <Compile Include="StaticTargetAI.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\VisualListener\VisualListener.csproj">
+      <Project>{94E6E2D4-1BA0-4D82-87DD-F5DB696DA406}</Project>
+      <Name>VisualListener</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WarLab\WarLab.Base.csproj">
       <Project>{8A13B2BF-4E90-4846-9812-978B21CCCE2B}</Project>
       <Name>WarLab.Base</Name>

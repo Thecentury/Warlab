@@ -8,15 +8,15 @@ namespace WarLab.WarObjects {
 		private bool readyToFire = false;
 		public bool ReadyToFire { get { return readyToFire; } }
 
-		private TimeSpan timeToReload = SimpleZRK.ChannelReloadTime;
+		private TimeSpan timeToReload = ZRK.ChannelReloadTime;
 		public TimeSpan TimeToReload {
 			get { return timeToReload; }
-			set { timeToReload = value; }
+			internal set { timeToReload = value; }
 		}
 
 		internal void Fire() {
 			readyToFire = false;
-			timeToReload = SimpleZRK.ChannelReloadTime;
+			timeToReload = ZRK.ChannelReloadTime;
 		}
 
 		internal void Load() {

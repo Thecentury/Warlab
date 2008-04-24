@@ -13,6 +13,7 @@ using System.Diagnostics;
 using WarLab.SampleUI.AI;
 using WarLab.WarObjects;
 using WarLab.AI;
+using EnemyPlanes;
 
 namespace WarLab.SampleUI {
 
@@ -27,7 +28,7 @@ namespace WarLab.SampleUI {
 			World.RegisterAIForWarObject<PathDrivenAI, SamplePlane>();
 			//World.RegisterAIForWarObject<SamplePlaneAI, SampleEnemyPlane>();
 			World.RegisterAIForWarObject<PathDrivenAI, SampleEnemyPlane>();
-			World.RegisterAIForWarObject<ZRKAI, SimpleZRK>();
+			World.RegisterAIForWarObject<ZRKAI, ZRK>();
 
 			SampleEnemyPlane plane = null;
 			for (int i = 0; i < 3; i++) {
@@ -49,7 +50,8 @@ namespace WarLab.SampleUI {
 			//((ImprovedRocketAI)rocket.AI).Target = plane;
 
 			World.AddWarObject(new RLS(), new Vector3D());
-			World.AddWarObject(new SimpleZRK(10), new Vector3D(30, 100));
+			World.AddWarObject(new ZRK(10), new Vector3D(30, 100));
+			World.AddWarObject(new EnemyHeadquaters(), new Vector3D(500, 500));
 		}
 	}
 }

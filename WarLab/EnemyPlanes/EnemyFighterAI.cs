@@ -75,7 +75,7 @@ namespace EnemyPlanes
 				switch (mode)
 				{
 					case FighterFlightMode.ReturnToBase:
-						flyTo = basePosition;
+						flyTo = AirportPosition;
 						ReturnToBase();
 						break;
 					case FighterFlightMode.FollowBomber:
@@ -129,7 +129,7 @@ namespace EnemyPlanes
 				 * Update вектор Orientation нулевой (потому что именно MoveInDirectionOf
 				 * его меняет). Поэтому сначала есть проверка на ненулевой вектор
 				 */
-				if (MathHelper.Distance(plane.Position + shift, basePosition) < plane.FuelLeft ||
+				if (MathHelper.Distance(plane.Position + shift, AirportPosition) < plane.FuelLeft ||
 					plane.WeaponsLeft < 1)
 				{
 					mode = FighterFlightMode.ReturnToBase;
@@ -212,7 +212,7 @@ namespace EnemyPlanes
 		}
 
 		/// <summary>
-		/// Указать, какого истребителя сопровождать. Возвращает false, если самолет летит на базу
+		/// Указать, какого бомбардировщика сопровождать. Возвращает false, если самолет летит на базу
 		/// </summary>
 		/// <param name="bomber">Сопровождаемый бомбер</param>
 		/// <param name="OffsetDegree">Угол смещения от местанахождения бомбера</param>

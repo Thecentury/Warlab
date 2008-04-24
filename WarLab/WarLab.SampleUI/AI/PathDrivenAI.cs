@@ -13,7 +13,7 @@ namespace WarLab.SampleUI.AI {
 		public override void Update(WarTime time) {
 			if (path == null) {
 				path = new WarPath (
-				new ArcSegment(ControlledDynamicObject.Position, 100, CircleOrientation.CCW, 0, 720),
+				new ArcSegment(ControlledDynamicObject.Position, 100, CircleOrientation.CCW, new Vector3D(), 720),
 				new LineSegment
 				{
 					StartPoint = ControlledDynamicObject.Position,
@@ -24,7 +24,7 @@ namespace WarLab.SampleUI.AI {
 					StartPoint = new Vector3D(0, 0, 0),
 					EndPoint = new Vector3D(950, 0, 0)
 				},
-				new ArcSegment(new Vector3D(950, 50, 0), 50, CircleOrientation.CCW, -90, 0),
+				new ArcSegment(new Vector3D(950, 50, 0), 50, CircleOrientation.CCW, new Vector3D(), 0),
 				new LineSegment
 				{
 					StartPoint = new Vector3D(1000, 50, 0),

@@ -61,7 +61,7 @@ namespace WarLab.AI {
 				(Direction & otherTraj.Direction) > minScalarProj;
 		}
 
-		public static readonly double MaxPlaneSpeed = WarLab.Speed.FromKilometresPerHour(1000);
+		public static readonly double MaxPlaneSpeed = WarLab.Speed.FromKilometresPerHour(300);
 
 		/// <summary>
 		/// Предполагаемое положение цели в момент времени <paramref name="totalTime"/>.
