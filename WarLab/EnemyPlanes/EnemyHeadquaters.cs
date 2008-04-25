@@ -11,6 +11,12 @@ namespace EnemyPlanes {
 	/// </summary>
 	public class EnemyHeadquaters : StaticObject {
 
+		private int fightersAroundBomber = 4;
+		public int FightersAroundBomber {
+			get { return fightersAroundBomber; }
+			set { fightersAroundBomber = value; }
+		}
+
 		private void AnalyzeTargets() {
 			foreach (var airport in World.SelectAll<EnemyAirport>()) {
 				var mostImportantTarget = GetMostImportantTarget();
@@ -22,6 +28,21 @@ namespace EnemyPlanes {
 					bomberAI.TargetDestroyed += EnemyHeadquaters_TargetReached;
 
 					Attack(bomberAI, mostImportantTarget);
+
+					List<EnemyFighter> fighters = new List<EnemyFighter>(fightersAroundBomber);
+					int fightersLaunched = 0;
+					while (fightersLaunched < fightersAroundBomber) {
+						EnemyFighter fighter = airport.QueueLaunchPlane<EnemyFighter>();
+						if (fighter != null) {
+							fighters.Add(fighter);
+							fightersLaunched++;
+						}
+						else {
+							break;
+						}
+					}
+
+					Convoy(fighters, bomber);
 				}
 			}
 		}
@@ -59,7 +80,7 @@ namespace EnemyPlanes {
 				Attack(bomberAI, mostImportantTarget);
 			}
 			else {
-				bomberAI.Mode = BomberFlightMode.ReturnToBase;
+				bomberAI.NoTargetsLeft();
 			}
 		}
 
@@ -83,7 +104,9 @@ namespace EnemyPlanes {
 			}
 			else {
 				var assignedAIs = assignedTargets[target];
-				assignedAIs.Add(planeAI);
+				if (!assignedAIs.Contains(planeAI)) {
+					assignedAIs.Add(planeAI);
+				}
 			}
 			planeAI.AttackTarget(target);
 		}
@@ -129,31 +152,26 @@ namespace EnemyPlanes {
 					((EnemyFighterAI)followingFighters[i].AI).FollowBomber(bomber, angle);
 				}
 			}
-			else
-				((EnemyFighterAI)plane.AI).AttackFighter(target);
-		}
-
-		public void Navigate(List<EnemyFighter> planes, Plane target) {
-			//EnemyFighterAI ai = fighters[plane];
-			if (target is EnemyBomber) {
-				EnemyBomber bomber = (EnemyBomber)target;
-				EnemyBomberAI bomberAI = (EnemyBomberAI)bomber.AI;
-				double radius = bomberAI.FightersRadius;
-
-				double delta = 360.0 / planes.Count; //угол между истребителями
-				for (int i = 0; i < planes.Count; i++) {
-					// задаем смещение истребителю и наводим его
-					double angle = i * delta;
-					((EnemyFighterAI)planes[i].AI).FollowBomber(bomber, angle);
-				}
-			}
 			else {
-				// todo доделать
-				//((EnemyFighterAI)planes.AI).AttackFighter(target);
+				((EnemyFighterAI)plane.AI).AttackFighter(target);
 			}
 		}
 
+		public void Convoy(List<EnemyFighter> fighters, EnemyBomber bomber) {
+			if (fighters == null)
+				throw new ArgumentNullException("fighters");
+			if (fighters.Count == 0) return;
 
+			EnemyBomberAI bomberAI = (EnemyBomberAI)bomber.AI;
+			double radius = bomberAI.FightersRadius;
+
+			double delta = 360.0 / fighters.Count; //угол между истребителями
+			for (int i = 0; i < fighters.Count; i++) {
+				// задаем смещение истребителю и наводим его
+				double angle = i * delta;
+				((EnemyFighterAI)fighters[i].AI).FollowBomber(bomber, angle);
+			}
+		}
 	}
 }
 

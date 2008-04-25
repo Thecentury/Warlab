@@ -194,5 +194,10 @@ namespace WarLab {
 			double z = rnd.Generate(0, errorDistance);
 			return new Vector3D(x, y, z);
 		}
+
+		private static readonly Vector3D zero = new Vector3D(0, 0, 0);
+		public static Vector3D Zero {
+			get { return zero; }
+		} 
 	}
 }

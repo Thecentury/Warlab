@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using EnemyPlanes;
 using WarLab.WarObjects;
+using System.Diagnostics;
 
 namespace WarLab.SampleUI {
 	/// <summary>
@@ -25,60 +26,36 @@ namespace WarLab.SampleUI {
 		protected override void OnLoadedCore() {
 			World.RegisterAIForWarObject<EnemyFighterAI, EnemyFighter>();
 			World.RegisterAIForWarObject<EnemyBomberAI, EnemyBomber>();
-			World.RegisterAIForWarObject<EnemyAirportAI, EnemyAirport>();
 			World.RegisterAIForWarObject<StaticTargetAI, StaticTarget>();
 
 			double fuel = Distance.FromKilometres(3);
 
 			EnemyAirport bomberAirport = new EnemyAirport { PlaneLaunchDelay = TimeSpan.FromSeconds(10) };
-			bomberAirport.AddPlanes((i) => new EnemyBomber(3, fuel, 10), 20);
+			//bomberAirport.AddPlanes((i) => new EnemyBomber(), 20);
+			//bomberAirport.AddPlanes((i) => new EnemyFighter(), 20);
+
 			EnemyAirport fighterAirport = new EnemyAirport();
-			fighterAirport.AddPlanes(new EnemyFighter(1, fuel, 10));
-			fighterAirport.AddPlanes(i => new EnemyBomber(3, fuel, 10), 10);
+			fighterAirport.AddPlanes(new EnemyFighter());
+			fighterAirport.AddPlanes(i => new EnemyBomber { WeaponsCapacity = 20 }, 1);
+
+			World.AddObject(bomberAirport, new Vector3D(-400, 100, 0));
+			World.AddObject(fighterAirport, new Vector3D(-400, 500, 0));
 
 			enemyHeadquaters = new EnemyHeadquaters();
-			World.AddWarObject(enemyHeadquaters, new Vector3D(0, 0));
-
-			//EnemyBomber bomber = new EnemyBomber(10, fuel, 60);
-			//EnemyFighter fighter1 = new EnemyFighter(10, fuel, 140.0);
-			//EnemyFighter fighter2 = new EnemyFighter(10, fuel, 120.0);
-			//EnemyFighter fighter3 = new EnemyFighter(10, fuel, 120.0);
-
-			World.AddWarObject(bomberAirport, new Vector3D(-400, 100, 0));
-			World.AddWarObject(fighterAirport, new Vector3D(-400, 500, 00));
-
-			//World.AddWarObject(bomber, bomberAirport.Position);
-			//World.AddWarObject(fighter1, fighterAirport.Position);
-			//World.AddWarObject(fighter2, fighterAirport.Position);
-			//World.AddWarObject(fighter3, fighterAirport.Position);
-
-			//fighterAirport.AddPlanes(fighter1);
-			//fighterAirport.AddPlanes(fighter2);
-			//fighterAirport.AddPlanes(fighter3);
-
-			//((EnemyBomberAI)bomber.AI).FightersRadius = 60.0;
-			//((EnemyBomberAI)bomber.AI).TargetReached += MainWindow_targetReached;
+			World.AddObject(enemyHeadquaters, new Vector3D(0, 0));
 
 			target1 = new StaticTarget { Health = 10 };
 			target2 = new StaticTarget { Health = 10 };
-			World.AddWarObject(target1, new Vector3D(650, 250));
-			World.AddWarObject(target2, new Vector3D(30, 900));
+			World.AddObject(target1, new Vector3D(650, 250));
+			World.AddObject(target2, new Vector3D(30, 900));
 
-			World.AddWarObject(new RLS
+			World.AddObject(new RLS
 			{
 				Health = 10,
 				CoverageRadius = 500
 			}, new Vector3D(500, 500));
 
-			//World.AddWarObject(new SimpleZRK(1), new Vector3D(550, 450)).NumOfEquipment = 200;
-			World.AddWarObject(new ZRK(100), new Vector3D(450, 550)).NumOfEquipment = 200000;
-			//zrk.NumOfEquipment = 200;
-
-
-			//enemyManager.Navigate(bomber, target1);
-			//enemyManager.Navigate(fighter1, bomber);
-			//enemyManager.Navigate(fighter2, bomber);
-			//enemyManager.Navigate(fighter3, bomber);
+			World.AddObject(new ZRK { NumOfChannels = 10, CoverageRadius = 0 }, new Vector3D(450, 550)).NumOfEquipment = 200000;
 		}
 
 		EnemyHeadquaters enemyHeadquaters;

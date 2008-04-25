@@ -8,7 +8,5 @@ namespace WarLab.WarObjects {
 	/// Базовый класс для вражеских самолетов
 	/// </summary>
 	public abstract class EnemyPlane : Plane {
-		public EnemyPlane(int weapons) : base(weapons) { }
-		public EnemyPlane() { }
 	}
 }

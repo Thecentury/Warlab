@@ -34,7 +34,7 @@ namespace WarLab.SampleUI {
 			for (int i = 0; i < 3; i++) {
 				double x = StaticRandom.NextDouble() * 500 + 250;
 				double y = StaticRandom.NextDouble() * 500 + 250;
-				World.AddWarObject(plane = new SampleEnemyPlane(), new Vector3D(x, y, 1));
+				World.AddObject(plane = new SampleEnemyPlane(), new Vector3D(x, y, 1));
 			}
 
 			Rocket rocket = new Rocket
@@ -49,9 +49,9 @@ namespace WarLab.SampleUI {
 			//World.AddWarObject(rocket, new Vector3D());
 			//((ImprovedRocketAI)rocket.AI).Target = plane;
 
-			World.AddWarObject(new RLS(), new Vector3D());
-			World.AddWarObject(new ZRK(10), new Vector3D(30, 100));
-			World.AddWarObject(new EnemyHeadquaters(), new Vector3D(500, 500));
+			World.AddObject(new RLS(), new Vector3D());
+			World.AddObject(new ZRK { NumOfChannels = 10 }, new Vector3D(30, 100));
+			World.AddObject(new EnemyHeadquaters(), new Vector3D(500, 500));
 		}
 	}
 }

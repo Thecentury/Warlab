@@ -13,25 +13,18 @@ namespace EnemyPlanes {
 		/// <summary>
 		/// максимальная скорость
 		/// </summary>
-		private readonly double maxSpeed;
-
-		public EnemyFighter(int weapons, double fuel, double maxspeed)
-			: base(weapons) {
-			this.maxSpeed = maxspeed;
-			this.FuelLeft = fuel;
-		}
+		private double maxSpeed = WarLab.Speed.FromKilometresPerHour(100);
 
 		/// <summary>
 		/// Максимальная скорость. На ней, например, самолет летит на базу.
 		/// </summary>
 		public double MaxSpeed {
 			get { return maxSpeed; }
-			//internal set
-			//{
-			//    Verify.IsPositive(value);
+			set {
+				Verify.IsPositive(value);
 
-			//    maxSpeed = value;
-			//}
+				maxSpeed = value;
+			}
 		}
 	}
 }

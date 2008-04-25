@@ -6,6 +6,7 @@ using System.Windows.Media;
 using ScientificStudio.Charting.GraphicalObjects;
 using WarLab.WarObjects;
 using System.Windows;
+using ScientificStudio.Charting;
 
 namespace WarLab.SampleUI.Charts {
 	public sealed class ZRKGraph : StaticObjectGraph {
@@ -22,9 +23,25 @@ namespace WarLab.SampleUI.Charts {
 			if (StaticObject == null) return;
 			if (SpriteImage == null) return;
 
-			base.OnRenderCore(dc, state);
+			Color coverageFillColor = Colors.Red;
+			coverageFillColor.A = 40;
+			Brush coverageFill = new SolidColorBrush(coverageFillColor);
+			
+			coverageFillColor.A = 100;
+			Brush coverageOutlineBrush = new SolidColorBrush(coverageFillColor);
+			Pen coverageOutline = new Pen(coverageOutlineBrush, 2);
+
+			Vector2D pos2D = StaticObject.Position.Projection2D;
 
 			Point spriteCenter = GetSpriteCenter(state);
+
+			double radius = RenderedZRK.CoverageRadius;
+			double radiusX = radius / state.Visible.Width * state.OutputWithMargin.Width;
+			double radiusY = radius / state.Visible.Height * state.OutputWithMargin.Height;
+			dc.DrawEllipse(coverageFill, coverageOutline, spriteCenter, radiusX, radiusY);
+
+			base.OnRenderCore(dc, state);
+
 			Size spriteSize = SpriteSize;
 
 			Rect channelRect = MathHelper.CreateRectFromCenterSize(spriteCenter, channelWidth, channelHeight);

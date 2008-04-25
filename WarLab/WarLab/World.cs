@@ -55,30 +55,34 @@ namespace WarLab {
 			}
 		}
 
+		public void PreAddInit<T>(T obj) where T : WarObject {
+			Type warObjectType = obj.GetType();
+			if (obj.AI == null) {
+				Type aiType;
+				if (!aiForWarObjects.ContainsKey(warObjectType)) {
+					aiType = typeof(DummyAI);
+					Debug.WriteLine(String.Format("Объекту типа {0} добавлен DummyAI.", warObjectType));
+				}
+				else {
+					aiType = aiForWarObjects[warObjectType];
+				}
+				WarAI ai = (WarAI)Activator.CreateInstance(aiType);
+				obj.SetAI(ai);
+			}
+
+			obj.World = this;
+		}
+
 		/// <summary>
 		/// Добавить объект в мир, поместив его в указанную точку.
 		/// </summary>
 		/// <param name="obj"></param>
 		/// <param name="position"></param>
-		public T AddWarObject<T>(T obj, Vector3D position) where T : WarObject {
+		public T AddObject<T>(T obj, Vector3D position) where T : WarObject {
 			if (obj == null)
 				throw new ArgumentNullException("obj");
 
-			Type warObjectType = obj.GetType();
-
-			Type aiType;
-			if (!aiForWarObjects.ContainsKey(warObjectType)) {
-				//throw new InvalidOperationException(String.Format("Невозможно добавить объект типа {0}: для объекта типа {0} не найден ИИ. Перед добавлением объектов типа {0} необходимо выполнить метод RegisterAIForWarObject для типа {0}.", warObjectType.Name));
-				aiType = typeof(DummyAI);
-				Debug.WriteLine(String.Format("Объекту типа {0} добавлен DummyAI.", warObjectType));
-			}
-			else {
-				aiType = aiForWarObjects[warObjectType];
-			}
-			WarAI ai = (WarAI)Activator.CreateInstance(aiType);
-			obj.SetAI(ai);
-
-			obj.World = this;
+			PreAddInit(obj);
 
 			obj.Position = position;
 			if (!isUpdating) {
