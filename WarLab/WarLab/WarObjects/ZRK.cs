@@ -18,22 +18,10 @@ namespace WarLab.WarObjects {
 		}
 
 		private void InitChannels() {
-			channels = new ZRKChannelInfo[NumOfChannels];
-			for (int i = 0; i < NumOfChannels; i++) {
+			channels = new ZRKChannelInfo[numOfChannels];
+			for (int i = 0; i < numOfChannels; i++) {
 				channels[i] = new ZRKChannelInfo();
 			}
-		}
-
-		/// <summary>
-		/// Создает ЗРК с заданным числом каналов.
-		/// </summary>
-		/// <param name="numOfChannels">Число каналов.</param>
-		public ZRK(int numOfChannels) {
-			Verify.IsNonNegative(numOfChannels);
-
-			NumOfChannels = numOfChannels;
-
-			InitChannels();
 		}
 
 		public bool HasFreeChannels {
@@ -42,7 +30,15 @@ namespace WarLab.WarObjects {
 
 		public static readonly TimeSpan ChannelReloadTime = TimeSpan.FromSeconds(10);
 
-		public readonly int NumOfChannels = 5;
+		private int numOfChannels = 5;
+		public int NumOfChannels {
+			get { return numOfChannels; }
+			set {
+				Verify.IsNonNegative(value);
+				numOfChannels = value;
+				InitChannels();
+			}
+		}
 
 		private int numOfEquipment = 500;
 		/// <summary>
@@ -108,7 +104,7 @@ namespace WarLab.WarObjects {
 				(rls.AI as RLSAI).AllTrajectories.
 				Where(t => t.NumOfSteps >= RelyableTrajectoryAge).ToList();
 
-			trajectories.Sort((t1, t2) => 
+			trajectories.Sort((t1, t2) =>
 				t1.Position.LengthTo(Position).CompareTo(t2.Position.LengthTo(Position)));
 
 			// обработка траекторий
@@ -185,7 +181,7 @@ namespace WarLab.WarObjects {
 				TargetPoint = targetPosition + targetPositionError
 			};
 
-			World.AddWarObject(rocket, Position);
+			World.AddObject(rocket, Position);
 		}
 	}
 }

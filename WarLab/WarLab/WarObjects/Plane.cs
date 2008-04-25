@@ -13,16 +13,6 @@ namespace WarLab {
 			internal set { airport = value; }
 		}
 
-		protected Plane(int weapons) {
-			this.weaponsCapacity = weapons;
-			this.weaponsLeft = weapons;
-		}
-
-		protected Plane() {
-			this.weaponsCapacity = 0;
-			this.weaponsLeft = 0;
-		}
-
 		public Vector3D AirportPosition {
 			get { return airport.Position; }
 		}
@@ -31,8 +21,6 @@ namespace WarLab {
 			UpdateCore(warTime);
 
 			Vector3D shift = Orientation * warTime.ElapsedTime.TotalSeconds * Speed;
-
-			PropertyInspector.AddValue("Plane orientation", Orientation.Projection2D.ToOrientation());
 
 			FuelLeft -= shift.Length;
 			Position += shift;
@@ -81,7 +69,7 @@ namespace WarLab {
 		}
 
 		/// Сколько может нести вооружения (бомб или ракет)
-		private readonly int weaponsCapacity = 1;
+		private int weaponsCapacity = 1;
 		//сколько осталось оружия
 		private int weaponsLeft = 1;
 
@@ -102,6 +90,12 @@ namespace WarLab {
 		/// </summary>
 		public int WeaponsCapacity {
 			get { return weaponsCapacity; }
+			set {
+				Verify.IsNonNegative(value);
+
+				weaponsCapacity = value;
+				weaponsLeft = value;
+			}
 		}
 
 

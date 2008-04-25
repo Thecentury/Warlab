@@ -60,12 +60,20 @@ namespace WarLab.SampleUI {
 		}
 
 		[Renders(typeof(EnemyFighter))]
-		[Renders(typeof(EnemyBomber))]
-		private static GraphicalObject CreateForBomber(WarObject warObj) {
+		private static GraphicalObject CreateForEnemyPlane(WarObject warObj) {
 			return new SpriteGraph
 			{
 				SpriteSource = (ISpriteSource)warObj,
 				SpriteImage = ResourceManager.GetBitmap(@"Sprites\EnemyPlane.png")
+			};
+		}
+		
+		[Renders(typeof(EnemyBomber))]
+		private static GraphicalObject CreateForEnemyBomber(WarObject warObj) {
+			return new SpriteGraph
+			{
+				SpriteSource = (ISpriteSource)warObj,
+				SpriteImage = ResourceManager.GetBitmap(@"Sprites\EnemyBomber.png")
 			};
 		}
 

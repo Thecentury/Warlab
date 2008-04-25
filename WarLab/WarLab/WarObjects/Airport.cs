@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Diagnostics;
 
 namespace WarLab.WarObjects {
 	public delegate Plane PlaneCreator(int counter);
@@ -57,6 +58,7 @@ namespace WarLab.WarObjects {
 		}
 
 		private TimeSpan fromPrevLaunch = new TimeSpan();
+
 		private TimeSpan planeLaunchDelay = TimeSpan.FromSeconds(5);
 		public TimeSpan PlaneLaunchDelay {
 			get { return planeLaunchDelay; }
@@ -68,23 +70,40 @@ namespace WarLab.WarObjects {
 				fromPrevLaunch -= time.ElapsedTime;
 			}
 			else {
+				// готов к запуску самолета.
 				fromPrevLaunch = TimeSpan.Zero;
+			}
+			if (fromPrevLaunch < TimeSpan.Zero) {
+				fromPrevLaunch = TimeSpan.Zero;
+			}
+
+			if (fromPrevLaunch == TimeSpan.Zero && planesToLaunch.Count != 0) {
+				Plane plane = planesToLaunch.Dequeue();
+				World.AddObject(plane, Position);
+				fromPrevLaunch = planeLaunchDelay;
+
+				Debug.WriteLine("Adding fighter");
 			}
 		}
 
 		public bool CanLaunch<T>() where T : Plane {
-			if (fromPrevLaunch != TimeSpan.Zero) return false;
+			if (fromPrevLaunch > TimeSpan.Zero) return false;
 
 			var planeInfo = SearchReadyPlane<T>();
 			return planeInfo != null;
 		}
 
 		private AirportPlaneInfo SearchReadyPlane<T>() where T : Plane {
-			return planes.FirstOrDefault(info => info.Plane is T && info.State == AirportPlaneState.ReadyToFly);
+			return planes.
+				FirstOrDefault(info => info.Plane is T && info.State == AirportPlaneState.ReadyToFly);
 		}
 
 		public T LaunchPlane<T>() where T : Plane {
-			if (fromPrevLaunch != TimeSpan.Zero)
+			return LaunchPlane<T>(true);
+		}
+
+		private T LaunchPlane<T>(bool addToWorld) where T : Plane {
+			if (addToWorld && fromPrevLaunch != TimeSpan.Zero)
 				throw new InvalidOperationException("Нельзя запускать самолет - еще слишком рано!");
 
 			var planeInfo = SearchReadyPlane<T>();
@@ -93,11 +112,15 @@ namespace WarLab.WarObjects {
 				planeInfo.State = AirportPlaneState.InAir;
 				T plane = (T)planeInfo.Plane;
 
-				World.AddWarObject(plane, Position);
+				if (addToWorld) {
+					World.AddObject(plane, Position);
+					fromPrevLaunch = planeLaunchDelay;
+				}
+				else {
+					World.PreAddInit(plane);
+				}
 
-				LaunchPlaneCore(plane);
-
-				fromPrevLaunch = planeLaunchDelay;
+				plane.Destroyed += OnPlaneDestroyed;
 
 				return plane;
 			}
@@ -105,7 +128,25 @@ namespace WarLab.WarObjects {
 			return null;
 		}
 
-		protected virtual void LaunchPlaneCore(Plane plane) { }
+		private void OnPlaneDestroyed(object sender, EventArgs e) {
+			Plane p = (Plane)sender;
+			p.Destroyed -= OnPlaneDestroyed;
+
+			var planeInfo = planes.Find(pi => pi.Plane == p);
+			planeInfo.State = AirportPlaneState.Dead;
+		}
+
+		private readonly Queue<Plane> planesToLaunch = new Queue<Plane>();
+		public T QueueLaunchPlane<T>() where T : Plane {
+			T plane = LaunchPlane<T>(false);
+
+			if (plane != null) {
+				planesToLaunch.Enqueue(plane);
+				Debug.WriteLine("Enquering fighter");
+			}
+
+			return plane;
+		}
 
 		/// <summary>
 		/// Заправить и перезарядить самолет.
@@ -125,6 +166,8 @@ namespace WarLab.WarObjects {
 			Verify.IsTrue(plane.Airport == this);
 
 			World.RemoveWarObject(plane);
+
+			plane.Destroyed -= OnPlaneDestroyed;
 
 			var planeInfo = planes.Find(info => info.Plane == plane);
 			planeInfo.State = AirportPlaneState.Refueling;

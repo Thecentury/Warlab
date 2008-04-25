@@ -12,5 +12,9 @@ namespace WarLab.AI {
 		public Vector3D AirportPosition {
 			get { return ControlledPlane.AirportPosition; }
 		}
+
+		protected void LandPlane() {
+			ControlledPlane.Airport.LandPlane(ControlledPlane);
+		}
 	}
 }

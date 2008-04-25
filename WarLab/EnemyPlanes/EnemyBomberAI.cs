@@ -11,6 +11,8 @@ using VisualListener;
 using WarLab.Path;
 
 namespace EnemyPlanes {
+	public delegate void TargetDestroyedHandler(object sender, TargetDestroyedEventArgs args);
+
 	public class EnemyBomberAI : EnemyPlaneAI {
 		#region vars
 		/// <summary>
@@ -26,18 +28,17 @@ namespace EnemyPlanes {
 		/// <summary>
 		/// Радиус окружности, в которой летят истребители рядом с бомберов
 		/// </summary>
-		private double figtersRadius = 20;
-		public delegate void TargetDestroyedDelegate(object sender, TargetDestroyedEventArgs args);
+		private double figtersRadius = Distance.FromMetres(100);
 
-		public event TargetDestroyedDelegate TargetDestroyed;
+		public event TargetDestroyedHandler TargetDestroyed;
 		/// <summary>
 		/// Нижняя высота, на которую можно совершить маневр
 		/// </summary>
-		public static double minHeight;
+		public double minHeight = 1000;
 		/// <summary>
 		/// Верхняя высота, на которую можно совершить маневр
 		/// </summary>
-		public static double maxHeight;
+		public double maxHeight = 3000;
 		/// <summary>
 		/// Надо ли делать маневр
 		/// </summary>
@@ -59,7 +60,7 @@ namespace EnemyPlanes {
 		/// <summary>
 		/// генератор случайных чисел
 		/// </summary>
-		private Random rand;
+		private Random rand = StaticRandom.Random;
 		/// <summary>
 		/// Коэффициент, умножаемый на случайное число от 0 до 1. Полученное число определяет
 		/// отклонение от цели, в метрах.
@@ -82,7 +83,6 @@ namespace EnemyPlanes {
 		/// </summary>
 		public EnemyBomberAI() {
 			Mode = BomberFlightMode.MoveToTarget;
-			rand = StaticRandom.Random;
 		}
 
 		#region properties
@@ -101,7 +101,7 @@ namespace EnemyPlanes {
 		/// <summary>
 		/// Возвращает режим полета
 		/// </summary>
-		public BomberFlightMode Mode {
+		private BomberFlightMode Mode {
 			get { return mode; }
 			set {
 				mode = value;
@@ -126,20 +126,18 @@ namespace EnemyPlanes {
 
 		#region EnemyPlaneAI Implementation
 
-		private Vector3D extrapolatedTargetPos;
+		private Vector3D flyTo;
 		public override void Update(WarTime time) {
 			EnemyBomber plane = (EnemyBomber)ControlledDynamicObject;
 			if (target != null) {
-				Vector3D flyTo = target.Position;
-
-				if ((target.Position - plane.Position).Length > 0) {
-					extrapolatedTargetPos = target.Position + plane.Orientation * plane.Speed * 0.5;
-				}
+				flyTo = target.Position;
 
 				if (mode != BomberFlightMode.ReturnToBase) {
-					bool canContinue = CanContinue(time);
-					if (!canContinue)
+					bool canContinue = CanContinueFlyToTarget(time);
+					if (!canContinue) {
+						landingAim = LandingAim.ReloadOrRefuel;
 						Mode = BomberFlightMode.ReturnToBase;
+					}
 				}
 
 				switch (mode) {
@@ -148,6 +146,7 @@ namespace EnemyPlanes {
 						ReturnToBase();
 						break;
 					case BomberFlightMode.MoveToTarget:
+						FlyToTarget();
 						if (ShouldBomb) {
 							DropBomb();
 						}
@@ -257,8 +256,7 @@ namespace EnemyPlanes {
 					/*теперь создадим на основе a и b вектор, у которого высота - 0,
 					 * потому что это вектор направления. Потом его нормализуем*/
 
-					Vector3D newV = new Vector3D(a, b, 0);
-					Vector3D centerVect = newV.Normalize();
+					Vector3D centerVect = new Vector3D(a, b, 0).Normalize();
 					returnToTargetCircleCenter = target.Position + centerVect *
 						returnToTargetRadius;
 
@@ -266,13 +264,17 @@ namespace EnemyPlanes {
 						returnToTargetRadius, CircleOrientation.CCW, ControlledBomber.Position, 360));
 					Mode = BomberFlightMode.ReturnToBombTarget;
 				}
-				else {
+				else if (target.Health <= 0) {
 					/*Обнулим путь, по которому надо совершать круговое движение, чтоб вернуться
 					 к бомбометанию. Надо его обнулить, потому что в ReturnToTarget()
 					 стоит проверка if (path!=null), и создается новый путь для
 					 возвращения к цели*/
 					path = null;
 					RaiseTargetDestroyed();
+				}
+				else if (plane.WeaponsLeft < 1) {
+					Mode = BomberFlightMode.ReturnToBase;
+					landingAim = LandingAim.ReloadOrRefuel;
 				}
 			}
 		}
@@ -281,43 +283,58 @@ namespace EnemyPlanes {
 			get { return (EnemyBomber)ControlledDynamicObject; }
 		}
 
+		private TimeSpan maneuverDuration = TimeSpan.FromSeconds(15);
+		private double maneuverHeight;
+		private bool duringManeuver = false;
+		private bool maneuverCompleted = false;
+
 		/// <summary>
 		/// Лететь к цели с учетом зоны рлс и маневра при входе в нее
 		/// </summary>
 		private void FlyToTarget() {
 			EnemyBomber plane = ControlledBomber;
-			RLS rls = plane.World.SelectAll<RLS>().First();
+			RLS rls = plane.World.SelectSingle<RLS>();
+
+			if (rls == null) return;
+
 			double rlsRadius = rls.CoverageRadius;
 			if (willManeuver) {
-				/*Если нам еще предстоит определить, попали ли мы в зону рлс*/
-				Vector2D plane2DPosition = plane.Position.Projection2D;
-				Vector2D rls2DPosition = rls.Position.Projection2D;
-				double distance = Math.Sqrt((plane2DPosition.X - rls2DPosition.X) *
-					(plane2DPosition.X - rls2DPosition.X) + (plane2DPosition.Y - rls2DPosition.Y) *
-					(plane2DPosition.Y - rls2DPosition.Y));
-				if (distance < rlsRadius) {
+				///*Если нам еще предстоит определить, попали ли мы в зону рлс*/
+
+				if (rls.IsInCoverage(plane.Position)) {
 					/*вошли в зону рлс*/
-					Debug.WriteLine("Bomber in RLS zone");
+					Debug.WriteLine("Бомбардировщик вошел в зону РЛС");
 					willManeuver = false;
 					maneuverTick = rand.Next(minManeuverTick, maxManeuverTick);
 				}
 			}
 			else {
 				/*То есть уже определили, что мы в зоне рлс*/
-				if (maneuverTick == 0) {
-					/*Подошло время самого маневра*/
-					double r = rand.NextDouble();
-					double initH = plane.Position.H;
-
-					Vector3D newPos = new Vector3D(plane.Position.X, plane.Position.Y,
-						minHeight + r * (maxHeight - minHeight));
-
-					MoveInDirectionOf(newPos);
-					Debug.WriteLine("Bomber maneuvring from height " + initH + " to " + plane.Position.H);
-
+				if (!maneuverCompleted && maneuverTick == 0) {
+					if (!duringManeuver) {
+						duringManeuver = true;
+						double r = rand.NextDouble();
+						double initH = plane.Position.H;
+						maneuverHeight = minHeight + r * (maxHeight - minHeight);
+						Debug.WriteLine("Bomber maneuvering from height " + initH + " to " + maneuverHeight);
+					}
 				}
-				else
+				else {
 					maneuverTick--;
+				}
+			}
+
+			if (duringManeuver && maneuverDuration > TimeSpan.Zero) {
+				maneuverDuration -= World.Instance.Time.ElapsedTime;
+
+				Vector3D newPos = target.Position;
+				newPos.H = maneuverHeight;
+
+				flyTo = newPos;
+			}
+			else if (duringManeuver) {
+				duringManeuver = false;
+				maneuverCompleted = true;
 			}
 		}
 
@@ -329,21 +346,32 @@ namespace EnemyPlanes {
 		/// <param name="target">статичный объект на земле</param>
 		/// <returns>Удалось ли установить цель для бомбардирования</returns>
 		public bool AttackTarget(OurStaticObject target) {
-			if (mode != BomberFlightMode.ReturnToBase) {
+			// todo это правильно?
+			if (true || mode != BomberFlightMode.ReturnToBase) {
 				this.target = target;
 				targetReachedTime = World.Instance.Time.TotalTime + TimeSpan.FromSeconds(target.Position.LengthTo(ControlledBomber.Position) / ControlledBomber.Speed);
+				Mode = BomberFlightMode.MoveToTarget;
 				return true;
 			}
 			return false;
 		}
 
+		private LandingAim landingAim = LandingAim.ReloadOrRefuel;
 		private TimeSpan returnToBaseTime;
 		/// <summary>
 		/// Лететь в сторону базы
 		/// </summary>
 		private void ReturnToBase() {
 			if (World.Instance.Time.TotalTime > returnToBaseTime) {
-				ControlledBomber.Airport.LandPlane(ControlledBomber);
+				LandPlane();
+				RaiseLanded(landingAim);
+			}
+		}
+
+		public event EventHandler<LandingEventArgs> Landed;
+		private void RaiseLanded(LandingAim aim) {
+			if (Landed != null) {
+				Landed(this, new LandingEventArgs(aim));
 			}
 		}
 
@@ -352,9 +380,9 @@ namespace EnemyPlanes {
 		/// </summary>
 		/// <param name="warTime"></param>
 		/// <returns></returns>
-		private bool CanContinue(WarTime warTime) {
+		private bool CanContinueFlyToTarget(WarTime warTime) {
 			EnemyBomber plane = (EnemyBomber)ControlledDynamicObject;
-			if (plane.Orientation != null && plane.Orientation.X != 0 && plane.Orientation.Y != 0 &&
+			if (plane.Orientation.X != 0 && plane.Orientation.Y != 0 &&
 				plane.Orientation.H != 0) {
 				//насколько мы улетим по направлению к цели, если продолжим двигаться к ней
 				Vector3D shift = plane.Orientation * warTime.ElapsedTime.TotalSeconds
@@ -371,10 +399,12 @@ namespace EnemyPlanes {
 			return true;
 		}
 
-		public void a() {
-
-		}
 		#endregion
 
+
+		internal void NoTargetsLeft() {
+			Mode = BomberFlightMode.ReturnToBase;
+			landingAim = LandingAim.NoTargets;
+		}
 	}
 }

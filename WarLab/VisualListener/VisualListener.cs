@@ -6,7 +6,7 @@ using System.Windows;
 namespace VisualListener {
 	internal sealed class VisualListener : TraceListener {
 		private readonly VisualListenerControl control;
-		
+
 		public VisualListener(VisualListenerControl control) {
 			if (control == null) throw new ArgumentNullException("control");
 
