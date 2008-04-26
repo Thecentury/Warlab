@@ -46,7 +46,7 @@ namespace EnemyPlanes {
 		/// <summary>
 		/// Через сколько тактов делать маневр после входа в зону рлс
 		/// </summary>
-		private int maneuverTick;
+		private int maneuverTick = 0;
 		/// <summary>
 		/// Через сколько тактов после входа в зону рлс минимум бомбардировщик
 		/// делает маневр
@@ -70,7 +70,8 @@ namespace EnemyPlanes {
 		/// Радиус окружности, по которой надо пролетететь бомбардировщику, чтоб вернуться
 		/// к бомбометанию
 		/// </summary>
-		public double returnToTargetRadius = 50.0;
+		public double returnToTargetRadius = 100.0;
+
 		/// <summary>
 		/// Центр окружности, по которой надо пролететь бомберу, чтоб вернуться
 		/// к бомбометанию
@@ -147,7 +148,7 @@ namespace EnemyPlanes {
 						break;
 					case BomberFlightMode.MoveToTarget:
 						FlyToTarget();
-						if (ShouldBomb) {
+						if (ShouldBomb(time)) {
 							DropBomb();
 						}
 						break;
@@ -192,22 +193,21 @@ namespace EnemyPlanes {
 
 		#region Methods
 
+		private readonly TimeSpan bombDelayTime = TimeSpan.FromSeconds(4);
+		private TimeSpan bombDelay;
 		/// <summary>
 		/// Не пора ли проводить бомбометания
 		/// </summary>
-		private bool ShouldBomb {
-			get {
-				return World.Instance.Time.TotalTime > targetReachedTime;
+		private bool ShouldBomb(WarTime time) {
+			Vector2D planePos = ControlledDynamicObject.Position.Projection2D;
+			Vector2D targetPos = target.Position.Projection2D;
 
-				//Vector2D planePos = ControlledDynamicObject.Position.Projection2D;
-				//Vector2D targetPos = target.Position.Projection2D;
-				//if (MathHelper.Distance(planePos, targetPos) <
-				//    ((StaticTargetAI)target.AI).DamageRadius) {
-				//    /*мы оказались в зоне поражения*/
-				//    return true;
-				//}
-				//return false;
-			}
+			if (bombDelay > TimeSpan.Zero) bombDelay -= time.ElapsedTime;
+			if (bombDelay < TimeSpan.Zero) bombDelay = TimeSpan.Zero;
+
+			return //(World.Instance.Time.TotalTime > targetReachedTime) &&
+				bombDelay <= TimeSpan.Zero &&
+				(planePos.DistanceTo(targetPos) < BombDamageRange);
 		}
 
 		/// <summary>
@@ -236,6 +236,8 @@ namespace EnemyPlanes {
 				bombPos.Y += errorY;
 
 				World.Instance.ExplodeBomb(bombPos, BombDamage, BombDamageRange);
+				Debug.WriteLine("Бомба сброшена");
+				bombDelay = bombDelayTime;
 				plane.WeaponsLeft--;
 
 
@@ -299,7 +301,6 @@ namespace EnemyPlanes {
 
 			double rlsRadius = rls.CoverageRadius;
 			if (willManeuver) {
-				///*Если нам еще предстоит определить, попали ли мы в зону рлс*/
 
 				if (rls.IsInCoverage(plane.Position)) {
 					/*вошли в зону рлс*/

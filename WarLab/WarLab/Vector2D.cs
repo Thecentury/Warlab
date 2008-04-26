@@ -7,6 +7,9 @@ using System.Diagnostics;
 namespace WarLab {
 	public struct Vector2D : IEquatable<Vector2D> {
 		public Vector2D(double x, double y) {
+			Verify.IsFinite(x);
+			Verify.IsFinite(y);
+
 			this.x = x;
 			this.y = y;
 		}
@@ -14,13 +17,19 @@ namespace WarLab {
 		private double x;
 		public double X {
 			get { return x; }
-			set { x = value; }
+			set {
+				Verify.IsFinite(value);
+				x = value;
+			}
 		}
 
 		private double y;
 		public double Y {
 			get { return y; }
-			set { y = value; }
+			set {
+				Verify.IsFinite(value);
+				y = value;
+			}
 		}
 
 		public override string ToString() {
@@ -45,7 +54,7 @@ namespace WarLab {
 			x * one_div_len,
 			y * one_div_len);
 
-			WarDebug.Assert(0.99 < res.Length && res.Length < 1.01);
+			Verify.IsTrue(0.99 < res.Length && res.Length < 1.01);
 
 			return res;
 		}
@@ -85,6 +94,19 @@ namespace WarLab {
 			get { return x * x + y * y; }
 		}
 
+		public double DistanceTo(Vector2D other) {
+			return MathHelper.Distance(this, other);
+		}
+
+		/// <summary>
+		/// Скалярное произведение.
+		/// </summary>
+		/// <param name="v1"></param>
+		/// <param name="v2"></param>
+		/// <returns></returns>
+		public static double operator &(Vector2D v1, Vector2D v2) {
+			return v1.x * v2.x + v1.y * v2.y;
+		}
 
 		public static implicit operator Point(Vector2D v) {
 			return new Point(v.x, v.y);
