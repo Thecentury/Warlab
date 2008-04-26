@@ -8,7 +8,7 @@ namespace EnemyPlanes
 	/// <summary>
 	/// Режим полета вражеского истребителя
 	/// </summary>
-	public enum FighterFlightMode
+	public enum EnemyFighterFlightMode
 	{
 		/// <summary>
 		/// Сопровождение бомбардировщика

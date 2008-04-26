@@ -50,6 +50,7 @@
     <Compile Include="AI\IAICommand.cs" />
     <Compile Include="AI\ImprovedRocketAI.cs" />
     <Compile Include="AI\DynamicObjectAI.cs" />
+    <Compile Include="AI\OurFighterAI.cs" />
     <Compile Include="AI\PlaneAI.cs" />
     <Compile Include="AI\RLSAI.cs" />
     <Compile Include="AI\RLSTrajectory.cs" />
@@ -86,6 +87,7 @@
     <Compile Include="NormalDistribution.cs" />
     <Compile Include="WarObjects\OurAirport.cs" />
     <Compile Include="WarObjects\OurFighter.cs" />
+    <Compile Include="WarObjects\OurFighterFlightMode.cs" />
     <Compile Include="WarObjects\OurHeadQuaters.cs" />
     <Compile Include="WarObjects\OurStaticObject.cs" />
     <Compile Include="WarObjects\Plane.cs" />

@@ -19,6 +19,7 @@ namespace WarLab {
 			this.h = h;
 		}
 
+		[DebuggerStepThrough]
 		public Vector3D(double x, double y) {
 			Verify.IsFinite(x);
 			Verify.IsFinite(y);
@@ -37,6 +38,17 @@ namespace WarLab {
 		public Vector3D(Vector2D v, double height) {
 			x = v.X;
 			y = v.Y;
+
+			Verify.IsFinite(height);
+			h = height;
+		}
+
+		[DebuggerStepThrough]
+		public Vector3D(Vector3D v, double height) {
+			x = v.x;
+			y = v.y;
+
+			Verify.IsFinite(height);
 			h = height;
 		}
 
@@ -134,6 +146,10 @@ namespace WarLab {
 
 		public double DistanceTo(Vector3D otherVec) {
 			return MathHelper.Distance(this, otherVec);
+		}
+
+		public double Distance2D(Vector3D other) {
+			return MathHelper.Distance2D(this, other);
 		}
 
 		public Vector3D LeftVector() {

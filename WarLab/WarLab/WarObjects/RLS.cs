@@ -90,7 +90,8 @@ namespace WarLab.WarObjects {
 		}
 
 		public bool IsInCoverage(Vector3D point) {
-			return MathHelper.Distance(Position, point) <= coverageRadius;
+			// todo учитывать высоту
+			return MathHelper.Distance2D(Position, point) <= coverageRadius;
 		}
 	}
 }

@@ -144,7 +144,7 @@ namespace EnemyPlanes {
 				switch (mode) {
 					case BomberFlightMode.ReturnToBase:
 						flyTo = AirportPosition;
-						ReturnToBase();
+						ReturnToBase(time);
 						break;
 					case BomberFlightMode.MoveToTarget:
 						FlyToTarget();
@@ -362,8 +362,8 @@ namespace EnemyPlanes {
 		/// <summary>
 		/// Лететь в сторону базы
 		/// </summary>
-		private void ReturnToBase() {
-			if (World.Instance.Time.TotalTime > returnToBaseTime) {
+		private void ReturnToBase(WarTime time) {
+			if (time.TotalTime > returnToBaseTime) {
 				LandPlane();
 				RaiseLanded(landingAim);
 			}

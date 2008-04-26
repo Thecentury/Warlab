@@ -40,6 +40,7 @@ namespace WarLab {
 		private void RegisterAIs() {
 			RegisterAIForWarObject<RocketAI, Rocket>();
 			RegisterAIForWarObject<RLSAI, RLS>();
+			RegisterAIForWarObject<OurFighterAI, OurFighter>();
 		}
 
 		private void objects_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {

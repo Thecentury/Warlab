@@ -27,6 +27,10 @@ namespace WarLab {
 			return (point1 - point2).Length;
 		}
 
+		public static double Distance2D(Vector3D point1, Vector3D point2) {
+			return (point1.Projection2D - point2.Projection2D).Length;
+		}
+
 		public static double Distance(Vector2D point1, Vector2D point2) {
 			return (point1 - point2).Length;
 		}
