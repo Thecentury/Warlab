@@ -100,6 +100,12 @@ namespace WarLab.WarObjects {
 			return LaunchPlane<T>(true);
 		}
 
+		private double flightHeight = Distance.FromKilometres(1);
+		public double FlightHeight {
+			get { return flightHeight; }
+			set { flightHeight = value; }
+		}
+
 		private T LaunchPlane<T>(bool addToWorld) where T : Plane {
 			if (addToWorld && fromPrevLaunch != TimeSpan.Zero)
 				throw new InvalidOperationException("Нельзя запускать самолет - еще слишком рано!");
@@ -111,7 +117,8 @@ namespace WarLab.WarObjects {
 				T plane = (T)planeInfo.Plane;
 
 				if (addToWorld) {
-					World.AddObject(plane, Position);
+					World.AddObject(plane, new Vector3D(Position, flightHeight));
+					//World.AddObject(plane, Position);
 					fromPrevLaunch = planeLaunchDelay;
 				}
 				else {

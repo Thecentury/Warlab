@@ -9,7 +9,7 @@ using System.Diagnostics;
 namespace EnemyPlanes {
 	public class EnemyFighterAI : EnemyPlaneAI {
 		private Plane target;
-		private FighterFlightMode mode = FighterFlightMode.FollowBomber;
+		private EnemyFighterFlightMode mode = EnemyFighterFlightMode.FollowBomber;
 		private double offsetDegree;
 
 		private TimeSpan returnToBaseTime;
@@ -17,11 +17,11 @@ namespace EnemyPlanes {
 		/// <summary>
 		/// Возвращает режим полета
 		/// </summary>
-		public FighterFlightMode Mode {
+		public EnemyFighterFlightMode Mode {
 			get { return mode; }
 			private set {
 				mode = value;
-				if (value == FighterFlightMode.ReturnToBase) {
+				if (value == EnemyFighterFlightMode.ReturnToBase) {
 					TimeSpan toBaseDuration = TimeSpan.FromSeconds(ControlledPlane.Airport.Position.LengthTo(ControlledPlane.Position) / ControlledPlane.Speed);
 					returnToBaseTime = toBaseDuration + World.Instance.Time.TotalTime;
 				}
@@ -51,20 +51,20 @@ namespace EnemyPlanes {
 		public override void Update(WarTime time) {
 			if (target != null) {
 				Vector3D flyTo = target.Position;
-				if (mode != FighterFlightMode.ReturnToBase) {
+				if (mode != EnemyFighterFlightMode.ReturnToBase) {
 					bool canContinue = CanContinue(time);
 					if (!canContinue) {
-						Mode = FighterFlightMode.ReturnToBase;
+						Mode = EnemyFighterFlightMode.ReturnToBase;
 						Debug.WriteLine("Истребитель возвращается домой");
 					}
 				}
 
 				switch (mode) {
-					case FighterFlightMode.ReturnToBase:
+					case EnemyFighterFlightMode.ReturnToBase:
 						flyTo = AirportPosition;
-						ReturnToBase();
+						ReturnToBase(time);
 						break;
-					case FighterFlightMode.FollowBomber:
+					case EnemyFighterFlightMode.FollowBomber:
 						flyTo = FollowBomber(time);
 						break;
 					default: break;
@@ -81,7 +81,7 @@ namespace EnemyPlanes {
 		/// <param name="t">Местоположение цели</param>
 		/// <returns>удалось ли установить</returns>
 		private bool SetTarget(Plane t) {
-			if (mode != FighterFlightMode.ReturnToBase) {
+			if (mode != EnemyFighterFlightMode.ReturnToBase) {
 				target = t;
 				EnemyFighter plane = (EnemyFighter)ControlledDynamicObject;
 				plane.Speed = plane.MaxSpeed;
@@ -114,8 +114,8 @@ namespace EnemyPlanes {
 				 */
 				if (MathHelper.Distance(plane.Position + shift, AirportPosition) > plane.FuelLeft ||
 					plane.WeaponsLeft < 1) {
-					
-					Mode = FighterFlightMode.ReturnToBase;
+
+					Mode = EnemyFighterFlightMode.ReturnToBase;
 					plane.Speed = plane.MaxSpeed; //домой летим на максимальной скорости
 					return false;
 				}
@@ -126,8 +126,8 @@ namespace EnemyPlanes {
 		/// <summary>
 		/// Лететь в сторону базы
 		/// </summary>
-		private void ReturnToBase() {
-			if (returnToBaseTime < World.Instance.Time.TotalTime) {
+		private void ReturnToBase(WarTime time) {
+			if (returnToBaseTime < time.TotalTime) {
 				LandPlane();
 				DetachFromBomberEvents((EnemyBomber)target);
 			}
@@ -153,23 +153,27 @@ namespace EnemyPlanes {
 			EnemyBomber bomber = (EnemyBomber)target;
 
 			//насколько мы улетим по направлению к бомбардировщику
-			Vector3D shift = plane.Orientation * warTime.ElapsedTime.TotalSeconds
-				* plane.Speed;
-			Vector3D newPosition = new Vector3D();// точка на окружности вокруг бомбера, где должен оказаться истребите
+			double shift = warTime.ElapsedTime.TotalSeconds * plane.Speed;
+
 			double orientationAngle = 180.0 *
 				Math.Atan2(bomber.Orientation.Y, bomber.Orientation.X) / Math.PI;// угол между направлением на восток и вектором ориентации бомбера
 			double newAngle = offsetDegree + orientationAngle;/* угол между направлением на восток 
 				и местом, где должен оказаться истребитель = угол между направление бомбера 
 				и направленим на восток (orientationAngle)+ угол смещения относительно 
 				бомбера (offsetDegree)*/
-			Vector3D offsetVector = new Vector3D(Math.Cos(newAngle * Math.PI / 180.0),
-				Math.Sin(newAngle * Math.PI / 180.0), 0.0); /* вектор направления смещения 
+
+			newAngle = MathHelper.AngleToRadians(newAngle);
+
+			Vector3D offsetVector = new Vector3D(Math.Cos(newAngle),
+				Math.Sin(newAngle)); /* вектор направления смещения 
 													    * (как Orientation у бомбера)*/
-			newPosition = bomber.Position + ((EnemyBomberAI)bomber.AI).FightersRadius *
+
+			// точка на окружности вокруг бомбера, где должен оказаться истребитель
+			Vector3D newPosition = bomber.Position + ((EnemyBomberAI)bomber.AI).FightersRadius *
 				offsetVector;
 
-			double distance = (MathHelper.Distance(plane.Position, newPosition));
-			if (distance <= shift.Length) {
+			double distance = plane.Position.Distance2D(newPosition);
+			if (distance <= shift) {
 				// если мы за один такт подлетим к бомберу, снижаем скорость
 				plane.Speed = bomber.Speed;
 			}
@@ -178,8 +182,8 @@ namespace EnemyPlanes {
 					/* мы уже летели на скорости бомбера (потому что Speed<MaxSpeed),
 					но мы отстали от него (потому что if (distance < shift.Length) не 
 					 * сработал, а это значит, что за один такт нам не долететь до бомбера*/
-					plane.Speed = 1.5 * bomber.Speed; // (distance * plane.Speed / shift.Length);
-					
+					plane.Speed = Math.Min(2 * bomber.Speed, (distance * plane.Speed / shift));
+
 					/* увеличиваем 
 						скорость, чтоб догнать бомбера*/
 				}
@@ -211,14 +215,14 @@ namespace EnemyPlanes {
 		private void OnBomberDestroyed(object sender, EventArgs e) {
 			EnemyBomber bomber = (EnemyBomber)sender;
 			DetachFromBomberEvents(bomber);
-			Mode = FighterFlightMode.ReturnToBase;
+			Mode = EnemyFighterFlightMode.ReturnToBase;
 		}
 
 		private void OnBomberLanded(object sender, LandingEventArgs e) {
 			if (e.LandingAim == LandingAim.NoTargets) {
 				EnemyBomberAI bomberAI = (EnemyBomberAI)sender;
 				DetachFromBomberEvents((EnemyBomber)bomberAI.ControlledPlane);
-				Mode = FighterFlightMode.ReturnToBase;
+				Mode = EnemyFighterFlightMode.ReturnToBase;
 			}
 		}
 

@@ -32,6 +32,7 @@ namespace WarLab.SampleUI {
 
 		[Renders(typeof(SampleEnemyPlane))]
 		[Renders(typeof(SamplePlane))]
+		[Renders(typeof(OurFighter))]
 		private static GraphicalObject CreateForSamplePlane(WarObject warObj) {
 			return new SpriteGraph
 			{
