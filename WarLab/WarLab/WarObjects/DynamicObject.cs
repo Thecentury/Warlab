@@ -14,7 +14,7 @@ namespace WarLab {
 			set { speed = value; }
 		}
 
-		private Vector3D orientation;
+		private Vector3D orientation = new Vector3D(1, 0, 0);
 		public Vector3D Orientation {
 			get { return orientation; }
 			internal set {

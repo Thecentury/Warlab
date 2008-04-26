@@ -117,10 +117,27 @@ namespace WarLab {
 			return v1.x * v2.x + v1.y * v2.y + v1.h * v2.h;
 		}
 
+		/// <summary>
+		/// Векторное произведение
+		/// </summary>
+		/// <param name="v1"></param>
+		/// <param name="v2"></param>
+		/// <returns></returns>
+		public static Vector3D operator ^(Vector3D v1, Vector3D v2) {
+			return new Vector3D(
+				v1.y * v2.h - v1.h * v2.y,
+				v1.h * v2.x - v1.x * v2.h,
+				v1.x * v2.y - v1.y * v2.x);
+		}
+
 		#endregion
 
 		public double DistanceTo(Vector3D otherVec) {
 			return MathHelper.Distance(this, otherVec);
+		}
+
+		public Vector3D LeftVector() {
+			return this ^ Up;
 		}
 
 		public override bool Equals(object obj) {
@@ -151,7 +168,7 @@ namespace WarLab {
 			y * one_div_len,
 			h * one_div_len);
 
-			WarDebug.Assert(0.99 < res.Length && res.Length < 1.01);
+			Verify.IsTrue(0.99 < res.Length && res.Length < 1.01);
 
 			return res;
 		}
@@ -195,9 +212,7 @@ namespace WarLab {
 			return new Vector3D(x, y, z);
 		}
 
-		private static readonly Vector3D zero = new Vector3D(0, 0, 0);
-		public static Vector3D Zero {
-			get { return zero; }
-		} 
+		public static readonly Vector3D Zero = new Vector3D(0, 0, 0);
+		public static readonly Vector3D Up = new Vector3D(0, 0, 1);
 	}
 }

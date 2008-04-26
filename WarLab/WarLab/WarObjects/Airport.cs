@@ -81,8 +81,6 @@ namespace WarLab.WarObjects {
 				Plane plane = planesToLaunch.Dequeue();
 				World.AddObject(plane, Position);
 				fromPrevLaunch = planeLaunchDelay;
-
-				Debug.WriteLine("Adding fighter");
 			}
 		}
 
@@ -142,7 +140,6 @@ namespace WarLab.WarObjects {
 
 			if (plane != null) {
 				planesToLaunch.Enqueue(plane);
-				Debug.WriteLine("Enquering fighter");
 			}
 
 			return plane;
