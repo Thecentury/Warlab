@@ -269,5 +269,9 @@ namespace EnemyPlanes {
 		protected override void BeginReturnToBase() {
 			Mode = EnemyFighterFlightMode.ReturnToBase;
 		}
+
+		protected override Side GetSide() {
+			return Side.Enemy;
+		}
 	}
 }

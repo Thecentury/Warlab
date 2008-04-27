@@ -33,8 +33,8 @@ namespace WarLab {
 
 			health -= damage;
 
-			Debug.WriteLine(String.Format("StaticObject: {0:F1} damage taken, {1:F1} health left", damage, health));
-			if (health <= 0.01) {
+			Debug.WriteLine(String.Format("{2}: урон {0:F1}, осталось {1:F1}", damage, health, this));
+			if (health <= 0) {
 				RaiseDead();
 			}
 		}

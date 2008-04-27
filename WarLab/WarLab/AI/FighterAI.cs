@@ -59,7 +59,8 @@ namespace WarLab.AI {
 					Speed = rocketSpeed,
 					TimeOfExposion = timeToExplode,
 					TargetPoint = extrapolatedPos, //targetPlane.Position,
-					Host = RocketHost.Plane
+					Host = RocketHost.Plane,
+					Side = GetSide()
 				};
 
 				World.Instance.AddObject(rocket, Position);
@@ -73,6 +74,8 @@ namespace WarLab.AI {
 				}
 			}
 		}
+
+		protected abstract Side GetSide();
 
 		protected abstract void BeginReturnToBase();
 

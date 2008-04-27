@@ -9,6 +9,11 @@ namespace WarLab.WarObjects {
 		ZRK
 	}
 
+	public enum Side { 
+		Our,
+		Enemy
+	}
+
 	public sealed class Rocket : DynamicObject, IDamageable {
 		private Vector3D targetPoint;
 		public Vector3D TargetPoint {
@@ -57,6 +62,12 @@ namespace WarLab.WarObjects {
 		public RocketHost Host {
 			get { return host; }
 			set { host = value; }
+		}
+
+		private Side side = Side.Our;
+		public Side Side {
+			get { return side; }
+			set { side = value; }
 		}
 
 		protected override void UpdateImpl(WarTime warTime) {

@@ -36,7 +36,7 @@ namespace WarLab.SampleUI.Charts {
 				dc.DrawLine(linePen, start, end);
 			}
 			else {
-				Brush brush = Brushes.Crimson;
+				Brush brush = SpriteSource.Side == Side.Our ? Brushes.Crimson : Brushes.OliveDrab;
 				Pen pen = new Pen(Brushes.Black, 1);
 				dc.DrawEllipse(brush, pen, center, missileRadius, missileRadius);
 			}
