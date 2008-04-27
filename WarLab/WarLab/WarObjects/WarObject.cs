@@ -4,6 +4,7 @@ using System.Text;
 using WarLab.AI;
 using System.Windows.Markup;
 using System.Windows;
+using System.ComponentModel;
 
 namespace WarLab {
 	/// <summary>
@@ -14,6 +15,7 @@ namespace WarLab {
 		private int id = global_id++;
 
 		private World world;
+		[Browsable(false)]
 		public World World {
 			get { return world; }
 			internal set { world = value; }
@@ -25,7 +27,7 @@ namespace WarLab {
 		/// </summary>
 		public Vector3D Position {
 			get { return position; }
-			internal set { position = value; }
+			set { position = value; }
 		}
 
 		internal void UpdateAI(WarTime time) {

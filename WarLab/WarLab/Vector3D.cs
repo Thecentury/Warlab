@@ -4,8 +4,10 @@ using System.Text;
 using System.Diagnostics;
 using System.Windows.Markup;
 using WarLab.WarObjects;
+using System.ComponentModel;
 
 namespace WarLab {
+	[TypeConverter(typeof(Vector3DConverter))]
 	public struct Vector3D : IEquatable<Vector3D> {
 
 		[DebuggerStepThrough]
@@ -193,6 +195,7 @@ namespace WarLab {
 			get { return Math.Sqrt(LengthSquared); }
 		}
 
+		[Browsable(false)]
 		public double LengthSquared {
 			get { return x * x + y * y + h * h; }
 		}

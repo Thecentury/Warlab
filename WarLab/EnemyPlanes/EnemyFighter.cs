@@ -12,6 +12,7 @@ namespace EnemyPlanes {
 	public class EnemyFighter : EnemyPlane {
 		public EnemyFighter() {
 			WeaponsCapacity = Default.EnemyFighterWeapons;
+			Health = Default.EnemyFighterHealth;
 		}
 
 		/// <summary>

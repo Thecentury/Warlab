@@ -12,10 +12,6 @@ using WarLab.WarObjects;
 
 namespace WarLab.SampleUI.Charts {
 	public class SpriteGraph : WarGraph {
-		public SpriteGraph() {
-			IsHitTestVisible = false;
-		}
-
 		public ISpriteSource SpriteSource {
 			get { return (ISpriteSource)GetValue(SpriteSourceProperty); }
 			set {

@@ -84,9 +84,11 @@ namespace WarLab.WarObjects {
 			return (planeToStart & planeToEnd) < 0;
 		}
 
-		public IEnumerable<EnemyPlane> GetPlanesInCoverage() {
-			return World.SelectAll<EnemyPlane>().
-				Where(plane => IsInCoverage(plane.Position) && IsCaught(plane.Position) && plane.Health > 0);
+		public IEnumerable<EnemyPlane> PlanesInCoverage {
+			get {
+				return World.SelectAll<EnemyPlane>().
+					Where(plane => IsInCoverage(plane.Position) && IsCaught(plane.Position) && plane.Health > 0 && !plane.IsLanded);
+			}
 		}
 
 		public bool IsInCoverage(Vector3D point) {
