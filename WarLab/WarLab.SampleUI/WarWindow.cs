@@ -60,9 +60,9 @@ namespace WarLab.SampleUI {
 			if (createdGraphs.ContainsKey(e.DestroyedObject)) {
 				GraphicalObject graph = createdGraphs[e.DestroyedObject];
 				RemoveGraph(e.DestroyedObject);
-				
+
 				uiGraphs.Remove(graph);
-				
+
 				plotter.Children.Remove(graph);
 			}
 			else { }
@@ -142,6 +142,14 @@ namespace WarLab.SampleUI {
 			AddUIGraph(new ClockGraph());
 
 			grid.Children.Add(plotter);
+
+			GridSplitter splitter = new GridSplitter
+			{
+				Background = Brushes.LightGray,
+				Width = 4
+			};
+			//grid.Children.Add(splitter);
+			Grid.SetColumn(splitter, 1);
 
 			Border border = new Border
 			{

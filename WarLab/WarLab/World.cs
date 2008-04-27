@@ -115,7 +115,7 @@ namespace WarLab {
 			damageable.Destroyed -= OnObjectDestroyed;
 
 			if (!(sender is Rocket)) {
-				Debug.WriteLine(String.Format("{0} was destroyed", sender.GetType().Name));
+				Debug.WriteLine(String.Format("{0} was destroyed", sender.ToString()));
 			}
 		}
 

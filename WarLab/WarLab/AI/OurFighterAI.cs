@@ -121,5 +121,9 @@ namespace WarLab.AI {
 		protected override void BeginReturnToBase() {
 			Mode = OurFighterFlightMode.ReturnToBase;
 		}
+
+		protected override Side GetSide() {
+			return Side.Our;
+		}
 	}
 }
