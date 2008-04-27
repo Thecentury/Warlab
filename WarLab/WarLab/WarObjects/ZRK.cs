@@ -17,6 +17,10 @@ namespace WarLab.WarObjects {
 			InitChannels();
 		}
 
+		protected override string NameCore {
+			get { return "ЗРК"; }
+		}
+
 		private void InitChannels() {
 			channels = new ZRKChannelInfo[numOfChannels];
 			for (int i = 0; i < numOfChannels; i++) {

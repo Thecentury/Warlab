@@ -9,5 +9,11 @@ namespace WarLab.WarObjects {
 			WeaponsCapacity = Default.OurFighterWeapons;
 			Speed = Default.FighterSpeed;
 		}
+
+		protected override string NameCore {
+			get {
+				return "Истребитель обороны";
+			}
+		}
 	}
 }

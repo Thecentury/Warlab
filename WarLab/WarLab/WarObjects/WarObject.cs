@@ -10,9 +10,19 @@ namespace WarLab {
 	/// <summary>
 	/// Базовый класс для любого объекта мира.
 	/// </summary>
-	public abstract class WarObject  {
-		private static int global_id = 0;
-		private int id = global_id++;
+	public abstract class WarObject {
+		private readonly int index;
+		public WarObject() {
+			Type type = GetType();
+			if (!counters.ContainsKey(type)) {
+				counters[type] = 1;
+				index = 1;
+			}
+			else {
+				counters[type]++;
+				index = counters[type];
+			}
+		}
 
 		private World world;
 		[Browsable(false)]
@@ -61,5 +71,19 @@ namespace WarLab {
 		protected internal virtual void OnAddedToWorld() { }
 
 		protected internal virtual void OnRemovedFromWorld() { }
+
+		private static readonly Dictionary<Type, int> counters = new Dictionary<Type, int>();
+
+		public string Name {
+			get { return NameCore + " #" + index; }
+		}
+
+		public sealed override string ToString() {
+			return Name;
+		}
+
+		protected virtual string NameCore {
+			get { return GetType().Name; }
+		}
 	}
 }
