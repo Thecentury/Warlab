@@ -79,8 +79,6 @@ namespace WarLab.AI {
 
 						Vector3D newPos = plane.Position + CreateErrorShift(plane);//errorDistance * Vector3D.RandomVectorNormalized(errorDistance) / newTraj.NumOfSteps;
 
-						double len = plane.Position.LengthTo(newPos);
-
 						newTraj.Update(newPos, time.TotalTime, turnNum);
 						newTrajectories.Add(newTraj);
 					}

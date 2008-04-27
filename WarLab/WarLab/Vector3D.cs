@@ -201,10 +201,6 @@ namespace WarLab {
 			get { return new Vector2D(x, y); }
 		}
 
-		public double LengthTo(Vector3D point) {
-			return (this - point).Length;
-		}
-
 		#region IEquatable<Vector3D> Members
 
 		public bool Equals(Vector3D other) {

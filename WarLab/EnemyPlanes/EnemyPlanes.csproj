@@ -55,7 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="LandingEventArgs.cs" />
-    <Compile Include="TargetReachedEventArgs.cs" />
+    <Compile Include="TargetDestroyedEventArgs.cs" />
     <Compile Include="EnemyAirport.cs" />
     <Compile Include="BomberFlightMode.cs" />
     <Compile Include="EnemyBomber.cs" />

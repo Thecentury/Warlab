@@ -89,6 +89,7 @@
     <Compile Include="AI\SamplePlaneAI.cs" />
     <Compile Include="AssemblyXmlns.cs" />
     <Compile Include="Charts\ClockGraph.cs" />
+    <Compile Include="Charts\DefaultGraph.cs" />
     <Compile Include="Charts\MissileGraph.cs" />
     <Compile Include="Charts\RLSGraph.cs" />
     <Compile Include="Charts\SpriteGraph.cs" />

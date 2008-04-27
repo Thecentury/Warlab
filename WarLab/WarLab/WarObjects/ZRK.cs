@@ -105,7 +105,7 @@ namespace WarLab.WarObjects {
 				Where(t => t.NumOfSteps >= RelyableTrajectoryAge).ToList();
 
 			trajectories.Sort((t1, t2) =>
-				t1.Position.LengthTo(Position).CompareTo(t2.Position.LengthTo(Position)));
+				t1.Position.DistanceTo(Position).CompareTo(t2.Position.DistanceTo(Position)));
 
 			// обработка траекторий
 			foreach (var traject in trajectories) {
@@ -125,7 +125,7 @@ namespace WarLab.WarObjects {
 					double targetSpeedProj = rocketDir & traject.Direction * traject.Speed;
 
 					// выпускаем ракету, только если она сможет догнать цель.
-					if (targetSpeedProj < rocketSpeed && interpolatedTargetPos.LengthTo(Position) < CoverageRadius) {
+					if (targetSpeedProj < rocketSpeed && interpolatedTargetPos.Distance2D(Position) < CoverageRadius) {
 						channel.Fire();
 
 						Debug.WriteLine(new Run
@@ -178,7 +178,8 @@ namespace WarLab.WarObjects {
 			{
 				Speed = rocketSpeed,
 				TimeOfExposion = timeToExplode,
-				TargetPoint = targetPosition + targetPositionError
+				TargetPoint = targetPosition + targetPositionError,
+				Host = RocketHost.ZRK
 			};
 
 			World.AddObject(rocket, Position);

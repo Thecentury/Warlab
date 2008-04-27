@@ -31,8 +31,8 @@ namespace WarLab.SampleUI {
 			double fuel = Distance.FromKilometres(3);
 
 			EnemyAirport bomberAirport = new EnemyAirport { PlaneLaunchDelay = TimeSpan.FromSeconds(10) };
-			//bomberAirport.AddPlanes((i) => new EnemyBomber { WeaponsCapacity = 3 }, 1);
-			bomberAirport.AddPlanes((i) => new EnemyFighter(), 5);
+			bomberAirport.AddPlanes((i) => new EnemyBomber { WeaponsCapacity = 3 }, 1);
+			bomberAirport.AddPlanes((i) => new EnemyFighter(), 1);
 
 			EnemyAirport fighterAirport = new EnemyAirport();
 			//fighterAirport.AddPlanes(new EnemyFighter());
@@ -55,10 +55,10 @@ namespace WarLab.SampleUI {
 				CoverageRadius = 500
 			}, new Vector3D(500, 500));
 
-			World.AddObject(new ZRK { NumOfChannels = 10, CoverageRadius = 0 }, new Vector3D(450, 550)).NumOfEquipment = 200000;
-			World.AddObject(new OurHeadQuaters(), new Vector3D(300, 800));
+			// World.AddObject(new ZRK { NumOfChannels = 1, CoverageRadius = 300, NumOfEquipment = 20000, Health = 1000 }, new Vector3D(450, 550));
+			World.AddObject(new OurHeadquaters(), new Vector3D(300, 800));
 			OurAirport ourAirport = new OurAirport();
-			ourAirport.AddPlanes(new OurFighter());
+			ourAirport.AddPlanes((i) => new OurFighter(), 10);
 			World.AddObject(ourAirport, new Vector3D(800, 300));
 		}
 

@@ -19,7 +19,7 @@ namespace WarLab.SampleUI.Charts {
 			get { return (StaticObject)GetValue(SpriteSourceProperty); }
 			set {
 				SetValue(SpriteSourceProperty, value);
-				warObject = value;
+				WarObject = value;
 			}
 		}
 

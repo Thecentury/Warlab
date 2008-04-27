@@ -49,11 +49,15 @@ namespace WarLab {
 
 		internal void SetAI(WarAI ai) {
 			this.ai = ai;
-			ai.Attach(this);
+			ai.AttachControlledObject(this);
 		}
 
 		internal void ExecuteAICommands() {
 			ai.ExecuteCommands();
 		}
+
+		protected internal virtual void OnAddedToWorld() { }
+
+		protected internal virtual void OnRemovedFromWorld() { }
 	}
 }

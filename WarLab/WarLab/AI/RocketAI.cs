@@ -11,7 +11,7 @@ namespace WarLab.AI {
 		}
 
 		public override void Update(WarTime time) {
-			MoveInDirectionOf(ControlledRocket.TargetPoint);
+			MoveInDirectionNotSmooth(ControlledRocket.TargetPoint);
 		}
 	}
 }

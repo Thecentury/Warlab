@@ -10,6 +10,10 @@ namespace EnemyPlanes {
 	/// Вражеский истребитель
 	/// </summary>
 	public class EnemyFighter : EnemyPlane {
+		public EnemyFighter() {
+			WeaponsCapacity = Default.EnemyFighterWeapons;
+		}
+
 		/// <summary>
 		/// максимальная скорость
 		/// </summary>
