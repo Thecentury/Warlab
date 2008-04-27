@@ -10,7 +10,7 @@ namespace WarLab.AI {
 			get { return controlledObject; }
 		}
 
-		internal void Attach(WarObject controlledObject) {
+		internal void AttachControlledObject(WarObject controlledObject) {
 			this.controlledObject = controlledObject;
 			AttachCore(controlledObject);
 		}

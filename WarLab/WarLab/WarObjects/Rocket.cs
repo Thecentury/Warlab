@@ -4,9 +4,20 @@ using System.Linq;
 using System.Text;
 
 namespace WarLab.WarObjects {
+	public enum RocketHost {
+		Plane,
+		ZRK
+	}
+
 	public sealed class Rocket : DynamicObject, IDamageable {
-		private Vector3D target;
+		private Vector3D targetPoint;
 		public Vector3D TargetPoint {
+			get { return targetPoint; }
+			set { targetPoint = value; }
+		}
+
+		private WarObject target;
+		public WarObject Target {
 			get { return target; }
 			set { target = value; }
 		}
@@ -35,16 +46,29 @@ namespace WarLab.WarObjects {
 			set { damageRange = value; }
 		}
 
-		protected override void UpdateImpl(WarTime warTime) {
-			if (timeOfExplosion < warTime.TotalTime) {
-				if (StaticRandom.NextDouble() < possibilityOfExplosion) {
-					World.RocketExploded(this);
-				}
-				RaiseDestroyed();
+		public void Explode() {
+			if (StaticRandom.NextDouble() < possibilityOfExplosion) {
+				World.RocketExploded(this);
 			}
+			RaiseDestroyed();
+		}
 
-			Vector3D shift = Orientation * warTime.ElapsedTime.TotalSeconds * Speed;
-			Position += shift;
+		private RocketHost host = RocketHost.ZRK;
+		public RocketHost Host {
+			get { return host; }
+			set { host = value; }
+		}
+
+		protected override void UpdateImpl(WarTime warTime) {
+			double distance = Position.DistanceTo(TargetPoint);
+			// взрыв по времени или при достаточной близости к цели
+			if (timeOfExplosion < warTime.TotalTime || distance < damageRange / 2) {
+				Explode();
+			}
+			else {
+				Vector3D shift = Orientation * warTime.ElapsedTime.TotalSeconds * Speed;
+				Position += shift;
+			}
 		}
 
 		#region IDamageable Members

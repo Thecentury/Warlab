@@ -7,8 +7,6 @@ using WarLab.WarObjects;
 namespace WarLab.AI {
 	public sealed class ZRKAI : WarAI {
 		public override void Update(WarTime time) {
-			// todo 
-			//throw new NotImplementedException();
 		}
 	}
 }

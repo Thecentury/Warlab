@@ -6,31 +6,33 @@ using WarLab.WarObjects;
 using System.Diagnostics;
 
 namespace WarLab.AI {
-	public sealed class OurFighterAI : PlaneAI {
-
-		private TimeSpan returnToBaseTime;
+	public sealed class OurFighterAI : FighterAI<EnemyPlane> {
 
 		private OurFighterFlightMode mode = OurFighterFlightMode.Attack;
 		public OurFighterFlightMode Mode {
 			get { return mode; }
 			private set {
 				mode = value;
+				if (value == OurFighterFlightMode.ReturnToBase) {
+					SetReturnToBaseTime();
+				}
 			}
 		}
 
-		private EnemyPlane targetPlane;
-		public EnemyPlane TargetPlane {
-			get { return targetPlane; }
-		}
-
 		public override void Update(WarTime time) {
-			if (targetPlane != null) {
-				Vector3D flyTo = targetPlane.Position;
+			if (ControlledPlane.Orientation.Projection2D.ToOrientation() == Orientation.E) {
+			}
+
+			if (TargetPlane == null) { }
+			if (TargetPlane != null) {
+				Vector3D flyTo = TargetPlane.Position;
 				if (mode != OurFighterFlightMode.ReturnToBase) {
 					bool canContinue = CanContinue(time);
 
 					if (!canContinue) {
 						Mode = OurFighterFlightMode.ReturnToBase;
+						aim = ReturnToBaseAim.ReloadOrRefuel;
+
 						Debug.WriteLine("Истребитель возвращается домой");
 					}
 				}
@@ -50,26 +52,6 @@ namespace WarLab.AI {
 			}
 		}
 
-		private Vector3D FollowTarget(WarTime time) {
-			Vector3D position = targetPlane.Position;
-			return position;
-		}
-
-
-		/// <summary>
-		/// Установить цель: либо бомбардировщик, либо истребитель
-		/// </summary>
-		/// <param name="t">Местоположение цели</param>
-		/// <returns>удалось ли установить</returns>
-		private bool SetTarget(EnemyPlane targetPlane) {
-			if (mode != OurFighterFlightMode.ReturnToBase) {
-				this.targetPlane = targetPlane;
-				// todo подписываться на события.
-				return true;
-			}
-			return false;
-		}
-
 		/// <summary>
 		/// Определить, можем ли лететь дальше, или пора лететь на базу для дозаправки
 		/// или перезарядки
@@ -84,10 +66,11 @@ namespace WarLab.AI {
 
 			//если после этого мы не сможем вернутся домой, то возвращаемся обратно
 			//Другое условие возвращения - кончились ракеты. 
-			if ((plane.Position + shift).DistanceTo(AirportPosition) > plane.FuelLeft ||
+			if ((plane.Position + shift).Distance2D(AirportPosition) > plane.FuelLeft ||
 				plane.WeaponsLeft < 1) {
 
 				Mode = OurFighterFlightMode.ReturnToBase;
+				aim = ReturnToBaseAim.ReloadOrRefuel;
 				return false;
 			}
 			return true;
@@ -97,8 +80,10 @@ namespace WarLab.AI {
 		/// Лететь в сторону базы
 		/// </summary>
 		private void ReturnToBase(WarTime time) {
-			if (returnToBaseTime < time.TotalTime) {
+			if (ShouldLand(time)) {
 				LandPlane();
+				Mode = OurFighterFlightMode.Attack;
+				aim = ReturnToBaseAim.NoTargets;
 			}
 		}
 
@@ -107,9 +92,28 @@ namespace WarLab.AI {
 		/// </summary>
 		/// <param name="plane"></param>
 		/// <returns></returns>
-		public bool AttackFighter(EnemyPlane plane) {
-			return SetTarget(plane);
+		public bool AttackTarget(EnemyPlane plane) {
+			if (CanRetarget) {
+				TargetPlane = plane;
+				return true;
+			}
+			return false;
 		}
 
+		public bool CanRetarget {
+			get {
+				return mode == OurFighterFlightMode.ReturnToBase && aim == ReturnToBaseAim.NoTargets ||
+					mode == OurFighterFlightMode.Attack;
+			}
+		}
+
+		internal void ReturnToBase() {
+			Mode = OurFighterFlightMode.ReturnToBase;
+			aim = ReturnToBaseAim.NoTargets;
+		}
+
+		protected override void BeginReturnToBase() {
+			Mode = OurFighterFlightMode.ReturnToBase;
+		}
 	}
 }

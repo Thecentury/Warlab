@@ -10,7 +10,11 @@ namespace WarLab.AI {
 		}
 
 		public void MoveInDirectionOf(Vector3D moveTo) {
-			AddCommand(new ChangeDirectionCommand(ControlledDynamicObject, (moveTo - ControlledDynamicObject.Position).Normalize()));
+			AddCommand(new ChangeDirectionCommand(ControlledDynamicObject, (moveTo - ControlledDynamicObject.Position).Normalize(), true));
+		}
+
+		internal void MoveInDirectionNotSmooth(Vector3D moveTo) {
+			AddCommand(new ChangeDirectionCommand(ControlledDynamicObject, (moveTo - ControlledDynamicObject.Position).Normalize(), false));
 		}
 
 		public void SetSpeed(double speed) {

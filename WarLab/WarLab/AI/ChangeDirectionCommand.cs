@@ -10,13 +10,13 @@ namespace WarLab.AI {
 		private readonly Vector3D direction;
 		private const double minScalarProj = 0.9995;
 
-		public ChangeDirectionCommand(DynamicObject target, Vector3D direction) {
+		public ChangeDirectionCommand(DynamicObject target, Vector3D direction, bool smooth) {
 			if (target == null)
 				throw new ArgumentNullException("target");
 
 			Verify.IsInSegment(direction.Length, 0.99, 1.01);
 
-			if ((target.Orientation.Projection2D & direction.Projection2D) < minScalarProj) {
+			if (smooth && (target.Orientation.Projection2D & direction.Projection2D) < minScalarProj) {
 				Vector3D sideVec = target.Orientation.LeftVector();
 				double angle = Math.Acos(minScalarProj);
 

@@ -8,5 +8,10 @@ namespace WarLab.WarObjects {
 	/// Базовый класс для вражеских самолетов
 	/// </summary>
 	public abstract class EnemyPlane : Plane {
+		private double planeImportance = 1;
+		public double PlaneImportance {
+			get { return planeImportance; }
+			protected set { planeImportance = value; }
+		}
 	}
 }

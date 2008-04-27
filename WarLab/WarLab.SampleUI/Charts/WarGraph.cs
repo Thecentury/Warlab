@@ -7,7 +7,11 @@ using System.Windows.Controls;
 
 namespace WarLab.SampleUI.Charts {
 	public abstract class WarGraph : GraphicalObject {
-		protected WarObject warObject;
+		private WarObject warObject;
+		public WarObject WarObject {
+			get { return warObject; }
+			set { warObject = value; }
+		}
 
 		public void DoUpdate() {
 			if (warObject != null) {

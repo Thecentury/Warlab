@@ -107,7 +107,7 @@ namespace EnemyPlanes {
 			set {
 				mode = value;
 				if (value == BomberFlightMode.ReturnToBase) {
-					TimeSpan toBaseDuration = TimeSpan.FromSeconds(ControlledBomber.Airport.Position.LengthTo(ControlledBomber.Position) / ControlledBomber.Speed);
+					TimeSpan toBaseDuration = TimeSpan.FromSeconds(ControlledBomber.Airport.Position.DistanceTo(ControlledBomber.Position) / ControlledBomber.Speed);
 					returnToBaseTime = toBaseDuration + World.Instance.Time.TotalTime;
 				}
 				else if (value == BomberFlightMode.ReturnToBombTarget) {
@@ -136,7 +136,7 @@ namespace EnemyPlanes {
 				if (mode != BomberFlightMode.ReturnToBase) {
 					bool canContinue = CanContinueFlyToTarget(time);
 					if (!canContinue) {
-						landingAim = LandingAim.ReloadOrRefuel;
+						landingAim = ReturnToBaseAim.ReloadOrRefuel;
 						Mode = BomberFlightMode.ReturnToBase;
 					}
 				}
@@ -276,7 +276,7 @@ namespace EnemyPlanes {
 				}
 				else if (plane.WeaponsLeft < 1) {
 					Mode = BomberFlightMode.ReturnToBase;
-					landingAim = LandingAim.ReloadOrRefuel;
+					landingAim = ReturnToBaseAim.ReloadOrRefuel;
 				}
 			}
 		}
@@ -350,14 +350,14 @@ namespace EnemyPlanes {
 			// todo это правильно?
 			if (true || mode != BomberFlightMode.ReturnToBase) {
 				this.target = target;
-				targetReachedTime = World.Instance.Time.TotalTime + TimeSpan.FromSeconds(target.Position.LengthTo(ControlledBomber.Position) / ControlledBomber.Speed);
+				targetReachedTime = World.Instance.Time.TotalTime + TimeSpan.FromSeconds(target.Position.DistanceTo(ControlledBomber.Position) / ControlledBomber.Speed);
 				Mode = BomberFlightMode.MoveToTarget;
 				return true;
 			}
 			return false;
 		}
 
-		private LandingAim landingAim = LandingAim.ReloadOrRefuel;
+		private ReturnToBaseAim landingAim = ReturnToBaseAim.ReloadOrRefuel;
 		private TimeSpan returnToBaseTime;
 		/// <summary>
 		/// Лететь в сторону базы
@@ -370,7 +370,7 @@ namespace EnemyPlanes {
 		}
 
 		public event EventHandler<LandingEventArgs> Landed;
-		private void RaiseLanded(LandingAim aim) {
+		private void RaiseLanded(ReturnToBaseAim aim) {
 			if (Landed != null) {
 				Landed(this, new LandingEventArgs(aim));
 			}
@@ -405,7 +405,7 @@ namespace EnemyPlanes {
 
 		internal void NoTargetsLeft() {
 			Mode = BomberFlightMode.ReturnToBase;
-			landingAim = LandingAim.NoTargets;
+			landingAim = ReturnToBaseAim.NoTargets;
 		}
 	}
 }

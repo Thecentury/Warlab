@@ -7,5 +7,9 @@ using WarLab.WarObjects;
 
 namespace EnemyPlanes {
 	public class EnemyBomber : EnemyPlane {
+		public EnemyBomber() {
+			PlaneImportance = Default.EnemyBomberImportance;
+			Health = Default.EnemyBomberHealth;
+		}
 	}
 }

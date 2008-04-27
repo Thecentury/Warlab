@@ -42,7 +42,12 @@ namespace WarLab.SampleUI.Charts {
 		protected override void OnRenderCore(DrawingContext dc, RenderState state) {
 			Point center = GetPosition(state);
 			Pen circlePen = new Pen(Brushes.Violet, 2);
-			dc.DrawEllipse(null, circlePen, center, Radius, Radius);
+
+			Color fillColor = Colors.Violet;
+			fillColor.A = 40;
+			SolidColorBrush fillBrush = new SolidColorBrush(fillColor);
+
+			dc.DrawEllipse(fillBrush, circlePen, center, Radius, Radius);
 
 			Pen ticksPen = new Pen(Brushes.Violet, 1);
 			for (int i = 0; i < 4; i++) {

@@ -48,6 +48,8 @@ namespace WarLab {
 		}
 
 		public void RemoveWarObject(WarObject obj) {
+			obj.OnRemovedFromWorld();
+
 			if (!isUpdating) {
 				objects.Remove(obj);
 			}
@@ -93,6 +95,8 @@ namespace WarLab {
 				addedObjects.Add(obj);
 			}
 
+			obj.OnAddedToWorld();
+
 			IDamageable damageableObj = obj as IDamageable;
 			if (damageableObj != null) {
 				damageableObj.Destroyed += OnObjectDestroyed;
@@ -110,7 +114,9 @@ namespace WarLab {
 			destroyedObjects.Add(sender as WarObject);
 			damageable.Destroyed -= OnObjectDestroyed;
 
-			Debug.WriteLine(String.Format("{0} was destroyed", sender.GetType().Name));
+			if (!(sender is Rocket)) {
+				Debug.WriteLine(String.Format("{0} was destroyed", sender.GetType().Name));
+			}
 		}
 
 		public event ObjectDestroyedEventHandler ObjectDestroyed;

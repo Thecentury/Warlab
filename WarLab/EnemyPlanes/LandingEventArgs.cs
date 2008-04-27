@@ -2,23 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using WarLab.AI;
 
 namespace EnemyPlanes {
-	/// <summary>
-	/// Цель посадки
-	/// </summary>
-	public enum LandingAim {
-		ReloadOrRefuel,
-		NoTargets
-	}
-
 	public sealed class LandingEventArgs : EventArgs {
-		private readonly LandingAim landingAim = LandingAim.ReloadOrRefuel;
-		public LandingAim LandingAim {
+		private readonly ReturnToBaseAim landingAim = ReturnToBaseAim.ReloadOrRefuel;
+		public ReturnToBaseAim LandingAim {
 			get { return landingAim; }
 		} 
 
-		public LandingEventArgs(LandingAim landingAim) {
+		public LandingEventArgs(ReturnToBaseAim landingAim) {
 			this.landingAim = landingAim;
 		}
 	}

@@ -15,7 +15,7 @@ namespace EnemyPlanes
 		/// </summary>
 		FollowBomber,
 		/// <summary>
-		/// атака истребителя обороняющейся стороны
+		/// Атака истребителя обороняющейся стороны
 		/// </summary>
 		Attack,
 		/// <summary>

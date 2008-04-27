@@ -100,7 +100,7 @@ namespace WarLab.SampleUI {
 		private static GraphicalObject CreateForMissile(WarObject warObj) {
 			return new MissileGraph
 			{
-				SpriteSource = (ISpriteSource)warObj,
+				SpriteSource = (Rocket)warObj,
 			};
 		}
 
@@ -111,12 +111,13 @@ namespace WarLab.SampleUI {
 				return creator(warObject);
 			}
 			else {
-				var keyType = renderers.Keys.Where(t => t.IsAssignableFrom(type)).First();
+				var keyType = renderers.Keys.Where(t => t.IsAssignableFrom(type)).FirstOrDefault();
 				if (keyType != null) {
 					return renderers[keyType](warObject);
 				}
 				else {
-					throw new ArgumentException(String.Format("Не найден рендерер для объектов типа {0}."), type.Name);
+					Debug.WriteLine(String.Format("Объекту типа {0} назначен DefaultGraph.", type.Name));
+					return new DefaultGraph { WarObject = warObject };
 				}
 			}
 		}

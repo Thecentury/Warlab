@@ -56,5 +56,7 @@ namespace WarLab {
 				throw new ArgumentException("Условие не выполнено.");
 			}
 		}
+
+
 	}
 }

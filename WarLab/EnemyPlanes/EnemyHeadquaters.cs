@@ -139,7 +139,7 @@ namespace EnemyPlanes {
 
 				//находим все самолеты, уже сопровождающие этот бомбер
 				foreach (EnemyFighter fighter in World.SelectAll<EnemyFighter>()) {
-					if (((EnemyFighterAI)fighter.AI).Target == target)
+					if (((EnemyFighterAI)fighter.AI).TargetPlane == target)
 						followingFighters.Add(fighter);
 				}
 

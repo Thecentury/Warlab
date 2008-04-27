@@ -14,7 +14,7 @@ namespace WarLab.SampleUI.Charts {
 			get { return staticObject; }
 			set {
 				staticObject = value;
-				warObject = value;
+				WarObject = value;
 			}
 		}
 

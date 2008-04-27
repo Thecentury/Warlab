@@ -47,11 +47,13 @@
   <ItemGroup>
     <Compile Include="AI\ChangeDirectionCommand.cs" />
     <Compile Include="AI\DummyAI.cs" />
+    <Compile Include="AI\FighterAI.cs" />
     <Compile Include="AI\IAICommand.cs" />
     <Compile Include="AI\ImprovedRocketAI.cs" />
     <Compile Include="AI\DynamicObjectAI.cs" />
     <Compile Include="AI\OurFighterAI.cs" />
     <Compile Include="AI\PlaneAI.cs" />
+    <Compile Include="AI\ReturnToBaseAim.cs" />
     <Compile Include="AI\RLSAI.cs" />
     <Compile Include="AI\RLSTrajectory.cs" />
     <Compile Include="AI\RocketAI.cs" />
@@ -60,6 +62,7 @@
     <Compile Include="AI\ZRKAI.cs" />
     <Compile Include="Angle.cs" />
     <Compile Include="AssemblyXmlns.cs" />
+    <Compile Include="Default.cs" />
     <Compile Include="Distance.cs" />
     <Compile Include="ITimeControl.cs" />
     <Compile Include="ObjectDestroyedEventArgs.cs" />
@@ -70,6 +73,7 @@
     <Compile Include="Path\WarPath.cs" />
     <Compile Include="Path\PathSegment.cs" />
     <Compile Include="Path\Position.cs" />
+    <Compile Include="RandomComparer.cs" />
     <Compile Include="Speed.cs" />
     <Compile Include="WarDebug.cs" />
     <Compile Include="WarObjects\Airport.cs" />
@@ -88,7 +92,7 @@
     <Compile Include="WarObjects\OurAirport.cs" />
     <Compile Include="WarObjects\OurFighter.cs" />
     <Compile Include="WarObjects\OurFighterFlightMode.cs" />
-    <Compile Include="WarObjects\OurHeadQuaters.cs" />
+    <Compile Include="WarObjects\OurHeadquaters.cs" />
     <Compile Include="WarObjects\OurStaticObject.cs" />
     <Compile Include="WarObjects\Plane.cs" />
     <Compile Include="WarObjects\RLS.cs" />
@@ -127,8 +131,5 @@
       <Project>{94E6E2D4-1BA0-4D82-87DD-F5DB696DA406}</Project>
       <Name>VisualListener</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
 </Project>
