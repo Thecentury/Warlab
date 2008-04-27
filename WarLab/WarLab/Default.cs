@@ -6,11 +6,14 @@ using System.Text;
 namespace WarLab {
 	public static class Default {
 		public static readonly double EnemyBomberHealth = 10;
+		public static readonly double EnemyFighterHealth = 10;
 
 		public static readonly double EnemyBomberImportance = 2;
 
 		public static readonly int EnemyFighterWeapons = 10;
 
 		public static readonly int OurFighterWeapons = 30;
+
+		public static readonly double FighterSpeed = Speed.FromKilometresPerHour(40);
 	}
 }

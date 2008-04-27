@@ -118,7 +118,6 @@ namespace WarLab.WarObjects {
 
 				if (addToWorld) {
 					World.AddObject(plane, new Vector3D(Position, flightHeight));
-					//World.AddObject(plane, Position);
 					fromPrevLaunch = planeLaunchDelay;
 				}
 				else {

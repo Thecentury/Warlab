@@ -54,7 +54,7 @@ namespace WarLab.AI {
 #if !full
 				var enemyPlanes = RLS.GetPlanesInSector();
 #else
-				var enemyPlanes = RLS.GetPlanesInCoverage();
+				var enemyPlanes = RLS.PlanesInCoverage;
 #endif
 
 				var examinedPlanes = new List<EnemyPlane>();

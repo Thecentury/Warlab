@@ -10,11 +10,18 @@ namespace WarLab.AI {
 		public TTarget TargetPlane {
 			get { return targetPlane; }
 			protected set {
+				if (value == null)
+					throw new ArgumentNullException("value");
+
 				targetPlane = value;
 			}
 		}
 
-		protected ReturnToBaseAim aim;
+		private ReturnToBaseAim aim;
+		public ReturnToBaseAim Aim {
+			get { return aim; }
+			set { aim = value; }
+		}
 
 		protected Vector3D Position {
 			get { return ControlledPlane.Position; }
@@ -26,8 +33,9 @@ namespace WarLab.AI {
 				TimeSpan.FromSeconds(AirportPosition.Distance2D(ControlledPlane.Position) / ControlledPlane.Speed);
 		}
 
+		protected readonly double LandDistance = Distance.FromMetres(50);
 		protected bool ShouldLand(WarTime time) {
-			return returnToBaseTime < time.TotalTime && AirportPosition.Distance2D(ControlledPlane.Position) < 200;
+			return returnToBaseTime < time.TotalTime && AirportPosition.Distance2D(ControlledPlane.Position) < LandDistance;
 		}
 
 		protected readonly TimeSpan rocketLaunchDelayValue = TimeSpan.FromSeconds(5);
@@ -76,10 +84,28 @@ namespace WarLab.AI {
 			if (rocketLaunchDelay < TimeSpan.Zero)
 				rocketLaunchDelay = TimeSpan.Zero;
 
-			if (TargetPlane.Position.Distance2D(Position) < attackDistance
+			double distanceToTarget = TargetPlane.Position.Distance2D(Position);
+			if (distanceToTarget < attackDistance
 				&& rocketLaunchDelay == TimeSpan.Zero) {
 				LaunchRocket();
 			}
+
+			double speed = ControlledPlane.Speed;
+			if (distanceToTarget < attackDistance / 2) {
+				speed = TargetPlane.Speed;
+			}
+			else if (distanceToTarget < attackDistance) {
+				speed = TargetPlane.Speed * 1.3;
+			}
+			else {
+				speed = TargetPlane.Speed * 1.5;
+			}
+			
+			if (speed > 2 * Default.FighterSpeed) {
+				speed = 2 * Default.FighterSpeed;
+			}
+
+			ControlledPlane.Speed = speed;
 
 			Vector3D position = TargetPlane.Position;
 			return position;

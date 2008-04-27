@@ -98,6 +98,18 @@ namespace WarLab {
 			}
 		}
 
+		private bool isLanded = false;
+		public bool IsLanded {
+			get { return isLanded; }
+		}
+
+		protected internal override void OnAddedToWorld() {
+			isLanded = false;
+		}
+
+		protected internal override void OnRemovedFromWorld() {
+			isLanded = true;
+		}
 
 		#region IRocketDamageable Members
 

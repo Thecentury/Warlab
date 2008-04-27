@@ -75,6 +75,8 @@
     <Compile Include="Path\Position.cs" />
     <Compile Include="RandomComparer.cs" />
     <Compile Include="Speed.cs" />
+    <Compile Include="Vector2DConverter.cs" />
+    <Compile Include="Vector3DConverter.cs" />
     <Compile Include="WarDebug.cs" />
     <Compile Include="WarObjects\Airport.cs" />
     <Compile Include="WarObjects\AirportCreatePlaneInfo.cs" />
@@ -108,6 +110,7 @@
     <Compile Include="WarObjects\ZRKChannelInfo.cs" />
     <Compile Include="WarTime.cs" />
     <Compile Include="World.cs" />
+    <Compile Include="ZRKChannelInfoConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="PresentationCore">

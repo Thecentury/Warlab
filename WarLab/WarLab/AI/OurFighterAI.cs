@@ -7,6 +7,8 @@ using System.Diagnostics;
 
 namespace WarLab.AI {
 	public sealed class OurFighterAI : FighterAI<EnemyPlane> {
+		public OurFighterAI() {
+		}
 
 		private OurFighterFlightMode mode = OurFighterFlightMode.Attack;
 		public OurFighterFlightMode Mode {
@@ -20,36 +22,30 @@ namespace WarLab.AI {
 		}
 
 		public override void Update(WarTime time) {
-			if (ControlledPlane.Orientation.Projection2D.ToOrientation() == Orientation.E) {
+			Vector3D flyTo = TargetPlane.Position;
+			if (mode != OurFighterFlightMode.ReturnToBase) {
+				bool canContinue = CanContinue(time);
+
+				if (!canContinue) {
+					//Mode = OurFighterFlightMode.ReturnToBase;
+					//aim = ReturnToBaseAim.ReloadOrRefuel;
+
+					Debug.WriteLine("Истребитель возвращается домой");
+				}
+			}
+			switch (mode) {
+				case OurFighterFlightMode.ReturnToBase:
+					flyTo = AirportPosition;
+					ReturnToBase(time);
+					break;
+				case OurFighterFlightMode.Attack:
+					flyTo = FollowTarget(time);
+					break;
+				default:
+					break;
 			}
 
-			if (TargetPlane == null) { }
-			if (TargetPlane != null) {
-				Vector3D flyTo = TargetPlane.Position;
-				if (mode != OurFighterFlightMode.ReturnToBase) {
-					bool canContinue = CanContinue(time);
-
-					if (!canContinue) {
-						Mode = OurFighterFlightMode.ReturnToBase;
-						aim = ReturnToBaseAim.ReloadOrRefuel;
-
-						Debug.WriteLine("Истребитель возвращается домой");
-					}
-				}
-				switch (mode) {
-					case OurFighterFlightMode.ReturnToBase:
-						flyTo = AirportPosition;
-						ReturnToBase(time);
-						break;
-					case OurFighterFlightMode.Attack:
-						flyTo = FollowTarget(time);
-						break;
-					default:
-						break;
-				}
-
-				MoveInDirectionOf(flyTo);
-			}
+			MoveInDirectionOf(flyTo);
 		}
 
 		/// <summary>
@@ -58,6 +54,12 @@ namespace WarLab.AI {
 		/// </summary>
 		/// <returns></returns>
 		private bool CanContinue(WarTime warTime) {
+			if (TargetPlane.Health <= 0) {
+				Mode = OurFighterFlightMode.ReturnToBase;
+				Aim = ReturnToBaseAim.NoTargets;
+				return false;
+			}
+
 			Plane plane = (OurFighter)ControlledPlane;
 
 			//насколько мы улетим по направлению к цели, если продолжим двигаться к ней
@@ -70,7 +72,7 @@ namespace WarLab.AI {
 				plane.WeaponsLeft < 1) {
 
 				Mode = OurFighterFlightMode.ReturnToBase;
-				aim = ReturnToBaseAim.ReloadOrRefuel;
+				Aim = ReturnToBaseAim.ReloadOrRefuel;
 				return false;
 			}
 			return true;
@@ -83,7 +85,7 @@ namespace WarLab.AI {
 			if (ShouldLand(time)) {
 				LandPlane();
 				Mode = OurFighterFlightMode.Attack;
-				aim = ReturnToBaseAim.NoTargets;
+				Aim = ReturnToBaseAim.NoTargets;
 			}
 		}
 
@@ -93,6 +95,9 @@ namespace WarLab.AI {
 		/// <param name="plane"></param>
 		/// <returns></returns>
 		public bool AttackTarget(EnemyPlane plane) {
+			if (plane == null)
+				throw new ArgumentNullException("plane");
+
 			if (CanRetarget) {
 				TargetPlane = plane;
 				return true;
@@ -102,14 +107,15 @@ namespace WarLab.AI {
 
 		public bool CanRetarget {
 			get {
-				return mode == OurFighterFlightMode.ReturnToBase && aim == ReturnToBaseAim.NoTargets ||
-					mode == OurFighterFlightMode.Attack;
+				return mode == OurFighterFlightMode.ReturnToBase && Aim == ReturnToBaseAim.NoTargets
+					|| //mode == OurFighterFlightMode.Attack ||
+					TargetPlane == null;
 			}
 		}
 
 		internal void ReturnToBase() {
 			Mode = OurFighterFlightMode.ReturnToBase;
-			aim = ReturnToBaseAim.NoTargets;
+			Aim = ReturnToBaseAim.NoTargets;
 		}
 
 		protected override void BeginReturnToBase() {

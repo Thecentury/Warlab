@@ -84,7 +84,7 @@ namespace EnemyPlanes {
 		private bool CanRetarget {
 			get {
 				return Mode != EnemyFighterFlightMode.ReturnToBase ||
-				Mode == EnemyFighterFlightMode.ReturnToBase && aim == ReturnToBaseAim.NoTargets;
+				Mode == EnemyFighterFlightMode.ReturnToBase && Aim == ReturnToBaseAim.NoTargets;
 			}
 		}
 
@@ -128,6 +128,7 @@ namespace EnemyPlanes {
 		/// <returns></returns>
 		private bool CanContinue(WarTime warTime) {
 			EnemyFighter plane = (EnemyFighter)ControlledDynamicObject;
+			
 			if (plane.Orientation != Vector3D.Zero) {
 				//насколько мы улетим по направлению к цели, если продолжим двигаться к ней
 				Vector3D shift = plane.Orientation * warTime.ElapsedTime.TotalSeconds
@@ -143,6 +144,8 @@ namespace EnemyPlanes {
 					plane.WeaponsLeft < 1) {
 
 					Mode = EnemyFighterFlightMode.ReturnToBase;
+					Aim = ReturnToBaseAim.ReloadOrRefuel;
+					
 					plane.Speed = plane.MaxSpeed; //домой летим на максимальной скорости
 					return false;
 				}
