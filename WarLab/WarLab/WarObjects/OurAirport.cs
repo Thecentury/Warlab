@@ -10,6 +10,12 @@ namespace WarLab.WarObjects {
 			return plane is OurFighter;
 		}
 
+		protected override string NameCore {
+			get {
+				return "Аэродром обороны";
+			}
+		}
+
 		#region IHasImportance Members
 
 		private double importance = 1;
