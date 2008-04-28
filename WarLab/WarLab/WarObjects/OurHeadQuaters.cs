@@ -111,17 +111,15 @@ namespace WarLab.WarObjects {
 		private List<EnemyPlane> GetClosestEnemyPlanes(Plane plane) {
 			var enemyPlanes = GetVisibleEnemyPlanes().ToList();
 
-			//if (enemyPlanes.Count == 0) return null;
 			Vector3D planePos = plane.Position;
 			enemyPlanes.Sort((p1, p2) => p1.Position.Distance2D(planePos).CompareTo(p2.Position.Distance2D(planePos)));
 
-			//return enemyPlanes[0];
 			return enemyPlanes;
 		}
 
 		Dictionary<EnemyPlane, List<OurFighterAI>> assignedPlanes = new Dictionary<EnemyPlane, List<OurFighterAI>>();
 
-		private readonly int maxPlanesPerTarget = 3;
+		private readonly int maxPlanesPerTarget = 2;
 
 		private bool AssignPlane(EnemyPlane target, OurFighterAI plane) {
 			if (!assignedPlanes.ContainsKey(target)) {
@@ -134,6 +132,7 @@ namespace WarLab.WarObjects {
 
 			// на данную цель уже нацелено слишком много самолетов
 			// if (planesForTarget.Count > target.PlaneImportance * maxPlanesPerTarget) return false;
+			if (IsAssignedTooMuchPlanes(target)) return false;
 			if (planesForTarget.Contains(plane)) return true;
 
 			if (plane.AttackTarget(target)) {
