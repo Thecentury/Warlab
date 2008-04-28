@@ -98,10 +98,10 @@ namespace WarLab.AI {
 				speed = TargetPlane.Speed;
 			}
 			else if (distanceToTarget < attackDistance) {
-				speed = TargetPlane.Speed * 1.3;
+				speed = TargetPlane.Speed * 1.15;
 			}
 			else {
-				speed = TargetPlane.Speed * 1.5;
+				speed = TargetPlane.Speed * 1.3;
 			}
 			
 			if (speed > 2 * Default.FighterSpeed) {

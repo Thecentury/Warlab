@@ -35,18 +35,15 @@ namespace WarLab.SampleUI {
 			bomberAirport.AddPlanes((i) => new EnemyFighter(), 10);
 
 			EnemyAirport fighterAirport = new EnemyAirport();
-			//fighterAirport.AddPlanes(new EnemyFighter());
+			fighterAirport.AddPlanes(i => new EnemyFighter(), 6);
 			fighterAirport.AddPlanes(i => new EnemyBomber { WeaponsCapacity = 20 }, 1);
 
-			World.AddObject(bomberAirport, new Vector3D(-400, 100, 0));
-			World.AddObject(fighterAirport, new Vector3D(-400, 500, 0));
+			World.AddObject(bomberAirport, new Vector3D(-1400, 100, 0));
+			World.AddObject(fighterAirport, new Vector3D(-1400, 500, 0));
 
 			World.AddObject(new EnemyHeadquaters(), new Vector3D(0, 0));
 
-			target1 = new StaticTarget { Health = 10 };
-			target2 = new StaticTarget { Health = 10 };
-			World.AddObject(target1, new Vector3D(650, 250));
-			World.AddObject(target2, new Vector3D(30, 900));
+			World.AddObject(new StaticTarget { Health = 20, Importance = 3 }, new Vector3D(1650, 50));
 
 			World.AddObject(new RLS
 			{
@@ -60,8 +57,5 @@ namespace WarLab.SampleUI {
 			ourAirport.AddPlanes((i) => new OurFighter(), 10);
 			World.AddObject(ourAirport, new Vector3D(800, 300));
 		}
-
-		StaticTarget target2;
-		StaticTarget target1;
 	}
 }

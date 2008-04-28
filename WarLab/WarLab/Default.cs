@@ -8,7 +8,7 @@ namespace WarLab {
 		public static readonly double EnemyBomberHealth = 10;
 		public static readonly double EnemyFighterHealth = 10;
 
-		public static readonly double EnemyBomberImportance = 2;
+		public static readonly double EnemyBomberImportance = 3;
 
 		public static readonly int EnemyFighterWeapons = 10;
 

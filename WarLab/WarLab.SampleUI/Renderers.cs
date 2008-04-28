@@ -87,6 +87,24 @@ namespace WarLab.SampleUI {
 			};
 		}
 
+		[Renders(typeof(OurAirport))]
+		private static GraphicalObject CreateForOurAirportObject(WarObject warObj) {
+			return new StaticObjectGraph
+			{
+				StaticObject = (StaticObject)warObj,
+				SpriteImage = ResourceManager.GetBitmap(@"Sprites\OurAirport.png")
+			};
+		}
+
+		[Renders(typeof(EnemyAirport))]
+		private static GraphicalObject CreateForEnemyAirportObject(WarObject warObj) {
+			return new StaticObjectGraph
+			{
+				StaticObject = (StaticObject)warObj,
+				SpriteImage = ResourceManager.GetBitmap(@"Sprites\EnemyAirport.png")
+			};
+		}
+
 		//[Renders(typeof(Rocket))]
 		private static GraphicalObject CreateForRocket(WarObject warObj) {
 			return new SpriteGraph
