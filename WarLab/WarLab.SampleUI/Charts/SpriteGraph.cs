@@ -70,17 +70,26 @@ namespace WarLab.SampleUI.Charts {
 				size = new Size(100, 90);
 			}
 
+			double ratio = 1;
+			CameraGraph camera = ParentPlotter.Children.OfType<CameraGraph>().FirstOrDefault();
+			if (camera != null) {
+				double cameraHeigth = camera.CameraHeight;
+				if (cameraHeigth < CameraGraph.DefaultCameraHeigth) {
+					ratio = CameraGraph.DefaultCameraHeigth / cameraHeigth;
+				}
+			}
+
 			if (smallSprite) {
 				size = new Size(size.Width / 3, size.Height / 3);
 			}
+			//size = new Size(size.Width * ratio, size.Height * ratio);
 
 			dc.PushTransform(new RotateTransform(angle, transformedPos.X, transformedPos.Y));
-#if !true
-			const double ellipseSize = 5;
-			dc.DrawEllipse(Brushes.Red, null, transformedPos, ellipseSize, ellipseSize);
-#else
+			//dc.PushTransform(new ScaleTransform(1 / ratio, 1 / ratio, transformedPos.X, transformedPos.Y));
+
 			dc.DrawImage(SpriteImage, MathHelper.CreateRectFromCenterSize(transformedPos, size));
-#endif
+
+			//dc.Pop();
 			dc.Pop();
 		}
 	}

@@ -5,6 +5,7 @@ using System.Text;
 using ScientificStudio.Charting.GraphicalObjects;
 using System.Windows.Controls;
 using System.Windows;
+using ScientificStudio.Charting;
 
 namespace WarLab.SampleUI.Charts {
 	public abstract class WarGraph : GraphicalObject {
@@ -31,6 +32,10 @@ namespace WarLab.SampleUI.Charts {
 		public WarObject WarObject {
 			get { return warObject; }
 			set { warObject = value; }
+		}
+
+		protected ChartPlotter ParentPlotter {
+			get { return (ChartPlotter)Parent; }
 		}
 
 		public void DoUpdate() {

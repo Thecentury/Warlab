@@ -96,6 +96,7 @@
     <Compile Include="AI\PathDrivenAI.cs" />
     <Compile Include="AI\SamplePlaneAI.cs" />
     <Compile Include="AssemblyXmlns.cs" />
+    <Compile Include="Charts\CameraGraph.cs" />
     <Compile Include="Charts\ClockGraph.cs" />
     <Compile Include="Charts\DefaultGraph.cs" />
     <Compile Include="Charts\MissileGraph.cs" />
@@ -185,6 +186,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Sprites\EnemyBomber.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\EnemyAirport.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\OurAirport.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

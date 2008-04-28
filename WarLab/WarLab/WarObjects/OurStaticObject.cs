@@ -10,7 +10,7 @@ namespace WarLab.WarObjects {
 		private double importance = 1;
 		public double Importance {
 			get { return importance; }
-			protected set {
+			set {
 				Verify.IsNonNegative(value);
 
 				importance = value;

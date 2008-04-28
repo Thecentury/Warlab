@@ -139,6 +139,7 @@ namespace WarLab.SampleUI {
 			plotter.Viewport.Visible = new Rect(0, 0, 1000, 1000);
 			plotter.Viewport.Margin = new Thickness(30);
 			plotter.AddGraph(new Axises());
+			plotter.AddGraph(new CameraGraph());
 			AddUIGraph(new ClockGraph());
 
 			grid.Children.Add(plotter);
