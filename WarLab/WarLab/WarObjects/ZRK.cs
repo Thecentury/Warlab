@@ -100,12 +100,10 @@ namespace WarLab.WarObjects {
 				}
 			}
 
-			var rls = World.SelectSingle<RLS>();
-			if (rls == null) return;
+			var rlses = World.SelectAll<RLS>();
 
 			// todo это грязный хак
-			trajectories =
-				(rls.AI as RLSAI).AllTrajectories.
+			trajectories = rlses.Select(rls => (RLSAI)rls.AI).SelectMany(rlsai => rlsai.AllTrajectories).
 				Where(t => t.NumOfSteps >= RelyableTrajectoryAge).ToList();
 
 			trajectories.Sort((t1, t2) =>

@@ -295,33 +295,37 @@ namespace EnemyPlanes {
 		/// </summary>
 		private void FlyToTarget() {
 			EnemyBomber plane = ControlledBomber;
-			RLS rls = plane.World.SelectSingle<RLS>();
+			var rlses = plane.World.SelectAll<RLS>().ToList();
 
-			if (rls == null) return;
+			if (rlses.Count == 0) return;
 
-			double rlsRadius = rls.CoverageRadius;
-			if (willManeuver) {
+			foreach (var rls in rlses) {
+				double rlsRadius = rls.CoverageRadius;
+				if (willManeuver) {
 
-				if (rls.IsInCoverage(plane.Position)) {
-					/*вошли в зону рлс*/
-					Debug.WriteLine("Бомбардировщик вошел в зону РЛС");
-					willManeuver = false;
-					maneuverTick = rand.Next(minManeuverTick, maxManeuverTick);
-				}
-			}
-			else {
-				/*То есть уже определили, что мы в зоне рлс*/
-				if (!maneuverCompleted && maneuverTick == 0) {
-					if (!duringManeuver) {
-						duringManeuver = true;
-						double r = rand.NextDouble();
-						double initH = plane.Position.H;
-						maneuverHeight = minHeight + r * (maxHeight - minHeight);
-						Debug.WriteLine("Bomber maneuvering from height " + initH + " to " + maneuverHeight);
+					if (rls.IsInCoverage(plane.Position)) {
+						/*вошли в зону рлс*/
+						Debug.WriteLine("Бомбардировщик вошел в зону РЛС");
+						willManeuver = false;
+						maneuverTick = rand.Next(minManeuverTick, maxManeuverTick);
+
+						break;
 					}
 				}
 				else {
-					maneuverTick--;
+					/*То есть уже определили, что мы в зоне рлс*/
+					if (!maneuverCompleted && maneuverTick == 0) {
+						if (!duringManeuver) {
+							duringManeuver = true;
+							double r = rand.NextDouble();
+							double initH = plane.Position.H;
+							maneuverHeight = minHeight + r * (maxHeight - minHeight);
+							Debug.WriteLine("Bomber maneuvering from height " + initH + " to " + maneuverHeight);
+						}
+					}
+					else {
+						maneuverTick--;
+					}
 				}
 			}
 
