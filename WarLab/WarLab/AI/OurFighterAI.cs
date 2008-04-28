@@ -30,7 +30,7 @@ namespace WarLab.AI {
 					//Mode = OurFighterFlightMode.ReturnToBase;
 					//aim = ReturnToBaseAim.ReloadOrRefuel;
 
-					Debug.WriteLine("Истребитель возвращается домой");
+					Debug.WriteLine("Истребитель возвращается домой - " + Aim);
 				}
 			}
 			switch (mode) {
@@ -100,6 +100,8 @@ namespace WarLab.AI {
 
 			if (CanRetarget) {
 				TargetPlane = plane;
+				Mode = OurFighterFlightMode.Attack;
+				Aim = ReturnToBaseAim.NoTargets;
 				return true;
 			}
 			return false;

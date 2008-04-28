@@ -54,7 +54,7 @@ namespace WarLab.SampleUI {
 			World.AddObject(new ZRK { NumOfChannels = 1, CoverageRadius = 300, NumOfEquipment = 20000, Health = 1000 }, new Vector3D(450, 550));
 			World.AddObject(new OurHeadquaters(), new Vector3D(300, 800));
 			OurAirport ourAirport = new OurAirport();
-			ourAirport.AddPlanes((i) => new OurFighter(), 10);
+			ourAirport.AddPlanes((i) => new OurFighter(), 20);
 			World.AddObject(ourAirport, new Vector3D(800, 300));
 		}
 	}
