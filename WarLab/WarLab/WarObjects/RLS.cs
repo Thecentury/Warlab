@@ -91,9 +91,11 @@ namespace WarLab.WarObjects {
 			}
 		}
 
+		public double MaxHeigth = Distance.FromKilometres(2);
 		public bool IsInCoverage(Vector3D point) {
 			// todo учитывать высоту
-			return MathHelper.Distance2D(Position, point) <= coverageRadius;
+			return MathHelper.Distance2D(Position, point) <= coverageRadius &&
+				point.H < MaxHeigth;
 		}
 	}
 }

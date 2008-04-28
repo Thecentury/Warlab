@@ -17,7 +17,7 @@ namespace WarLab.WarObjects {
 			// перемешиваем врагов случайным образом
 			// enemyPlanes.Sort(new RandomComparer<EnemyPlane>());
 
-			enemyPlanes.Sort((p1, p2) => p1.PlaneImportance.CompareTo(p2.PlaneImportance));
+			enemyPlanes.Sort((p1, p2) => -p1.PlaneImportance.CompareTo(p2.PlaneImportance));
 
 			// поднимаем самолеты в воздух
 			if (ourAirports.Count != 0) {

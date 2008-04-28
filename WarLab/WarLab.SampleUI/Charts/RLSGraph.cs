@@ -62,6 +62,12 @@ namespace WarLab.SampleUI.Charts {
 			get { return Rls.AI as RLSAI; }
 		}
 
+		private bool showLines;
+		public bool ShowLines {
+			get { return showLines; }
+			set { showLines = value; }
+		}
+
 		readonly Brush brush = Brushes.Red;
 		protected override void OnRenderCore(DrawingContext dc, RenderState state) {
 			if (StaticObject == null) return;
@@ -76,15 +82,14 @@ namespace WarLab.SampleUI.Charts {
 			double turnRatio = ai.FromPrevTurn.TotalSeconds / Rls.RotationPeriod.TotalSeconds;
 			double angle = 360 * turnRatio;
 
-			dc.PushTransform(new RotateTransform(angle, transformedPos.X, transformedPos.Y));
-
-			dc.DrawImage(SpriteImage, MathHelper.CreateRectFromCenterSize(transformedPos, size));
-
-			dc.Pop();
 
 			double radius = Rls.CoverageRadius;
 			double radiusX = radius / state.Visible.Width * state.OutputWithMargin.Width;
 			double radiusY = radius / state.Visible.Height * state.OutputWithMargin.Height;
+
+			Color lineColor = Colors.Blue;
+			lineColor.A = 160;
+			Pen linePen = new Pen(new SolidColorBrush(lineColor), 1);
 
 			foreach (var t in Ai.AllTrajectories) {
 #if false
@@ -104,6 +109,8 @@ namespace WarLab.SampleUI.Charts {
 
 					dc.DrawLine(pen, pos, p2);
 				}
+
+				dc.DrawLine(linePen, pos, transformedPos);
 			}
 
 			Color fillColor = Colors.Green;
@@ -111,8 +118,13 @@ namespace WarLab.SampleUI.Charts {
 			Brush rlsFill = new SolidColorBrush(fillColor);
 			dc.DrawEllipse(rlsFill, new Pen(Brushes.Green, 2), transformedPos, radiusX, radiusY);
 
-			Color lineColor = Colors.Green;
-			lineColor.A = 160;
+			dc.PushTransform(new RotateTransform(angle, transformedPos.X, transformedPos.Y));
+
+			dc.DrawImage(SpriteImage, MathHelper.CreateRectFromCenterSize(transformedPos, size));
+
+			dc.Pop();
+
+
 
 #if !full
 			Point radarLineEnd = new Point(transformedPos.X + radiusX * Math.Cos(Rls.RadarAngle), transformedPos.Y - radiusY * Math.Sin(Rls.RadarAngle));
