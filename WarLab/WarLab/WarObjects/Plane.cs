@@ -4,6 +4,7 @@ using System.Text;
 using System.Diagnostics;
 using VisualListener;
 using WarLab.WarObjects;
+using System.ComponentModel;
 
 namespace WarLab {
 	public abstract class Plane : DynamicObject, IRocketDamageable {
@@ -13,6 +14,7 @@ namespace WarLab {
 			internal set { airport = value; }
 		}
 
+		[Browsable(false)]
 		public Vector3D AirportPosition {
 			get { return airport.Position; }
 		}
@@ -41,7 +43,7 @@ namespace WarLab {
 
 				fuelLeft = value;
 
-				if (fuelLeft < 0.01) {
+				if (fuelLeft <= 0) {
 					RaiseDead();
 				}
 			}
@@ -61,6 +63,7 @@ namespace WarLab {
 				Verify.IsPositive(value);
 
 				maxFuel = value;
+				fuelLeft = value;
 			}
 		}
 
@@ -114,7 +117,7 @@ namespace WarLab {
 		#region IRocketDamageable Members
 
 		public bool IsDestroyed {
-			get { return health <= 0.01; }
+			get { return health <= 0; }
 		}
 
 		void IRocketDamageable.MakeDamage(double damage) {
@@ -136,8 +139,10 @@ namespace WarLab {
 		public double Health {
 			get { return health; }
 			set {
-				Verify.IsPositive(value);
 				health = value;
+				if (health <= 0) {
+					RaiseDead();
+				}
 			}
 		}
 

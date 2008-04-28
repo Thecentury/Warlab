@@ -95,6 +95,16 @@ namespace WarLab.SampleUI {
 				SpriteImage = ResourceManager.GetBitmap(@"Sprites\OurAirport.png")
 			};
 		}
+		
+		[Renders(typeof(EnemyHeadquaters))]
+		private static GraphicalObject CreateForEnemyHeadquarters(WarObject warObj) {
+			return new StaticObjectGraph
+			{
+				StaticObject = (StaticObject)warObj,
+				SpriteImage = ResourceManager.GetBitmap(@"Sprites\EnemyHeadquarters.png"),
+				SmallSprite = true
+			};
+		}
 
 		[Renders(typeof(EnemyAirport))]
 		private static GraphicalObject CreateForEnemyAirportObject(WarObject warObj) {
@@ -102,15 +112,6 @@ namespace WarLab.SampleUI {
 			{
 				StaticObject = (StaticObject)warObj,
 				SpriteImage = ResourceManager.GetBitmap(@"Sprites\EnemyAirport.png")
-			};
-		}
-
-		//[Renders(typeof(Rocket))]
-		private static GraphicalObject CreateForRocket(WarObject warObj) {
-			return new SpriteGraph
-			{
-				SpriteSource = (ISpriteSource)warObj,
-				SpriteImage = ResourceManager.GetBitmap(@"Sprites\Rocket.png")
 			};
 		}
 

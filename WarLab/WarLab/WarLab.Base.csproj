@@ -66,6 +66,7 @@
     <Compile Include="Distance.cs" />
     <Compile Include="ITimeControl.cs" />
     <Compile Include="ObjectDestroyedEventArgs.cs" />
+    <Compile Include="ObjectExtensions.cs" />
     <Compile Include="Orientation.cs" />
     <Compile Include="Path\ArcSegment.cs" />
     <Compile Include="Path\CircleOrientation.cs" />
@@ -73,6 +74,7 @@
     <Compile Include="Path\WarPath.cs" />
     <Compile Include="Path\PathSegment.cs" />
     <Compile Include="Path\Position.cs" />
+    <Compile Include="PropertiesVisibleTypeConverter.cs" />
     <Compile Include="RandomComparer.cs" />
     <Compile Include="Speed.cs" />
     <Compile Include="Vector2DConverter.cs" />

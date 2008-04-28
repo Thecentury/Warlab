@@ -8,13 +8,18 @@ namespace WarLab {
 	/// Неподвижный объект мира, видимый на игровой карте.
 	/// </summary>
 	public abstract class StaticObject : WarObject, IBombDamageable {
-		
+
 		#region IDamageable Members
 
 		private double health = 2;
 		public double Health {
 			get { return health; }
-			set { health = value; }
+			set {
+				health = value;
+				if (health <= 0) {
+					RaiseDead();
+				}
+			}
 		}
 
 		private void RaiseDead() {
