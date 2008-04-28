@@ -116,7 +116,6 @@ namespace WarLab.SampleUI.Charts {
 			Color fillColor = Colors.Green;
 			fillColor.A = 60;
 			Brush rlsFill = new SolidColorBrush(fillColor);
-			dc.DrawEllipse(rlsFill, new Pen(Brushes.Green, 2), transformedPos, radiusX, radiusY);
 
 			dc.PushTransform(new RotateTransform(angle, transformedPos.X, transformedPos.Y));
 
@@ -124,7 +123,7 @@ namespace WarLab.SampleUI.Charts {
 
 			dc.Pop();
 
-
+			dc.DrawEllipse(rlsFill, new Pen(Brushes.Green, 2), transformedPos, radiusX, radiusY);
 
 #if !full
 			Point radarLineEnd = new Point(transformedPos.X + radiusX * Math.Cos(Rls.RadarAngle), transformedPos.Y - radiusY * Math.Sin(Rls.RadarAngle));

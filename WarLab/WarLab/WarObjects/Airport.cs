@@ -151,6 +151,19 @@ namespace WarLab.WarObjects {
 			return plane;
 		}
 
+		public bool QueueLaunchPlane<T>(T plane) where T : Plane {
+			Verify.IsTrue(plane.Airport == this);
+
+			AirportPlaneInfo info = planes.Find(pi => pi.Plane == plane);
+			bool res = info.State == AirportPlaneState.ReadyToFly || info.State == AirportPlaneState.InAir;
+
+			if (res && !(info.State == AirportPlaneState.InAir)) {
+				planesToLaunch.Enqueue(plane);
+			}
+
+			return res;
+		}
+
 		/// <summary>
 		/// Заправить и перезарядить самолет.
 		/// </summary>
@@ -176,6 +189,14 @@ namespace WarLab.WarObjects {
 			planeInfo.State = AirportPlaneState.Refueling;
 			BeginReloadAndRefuel(plane);
 			planeInfo.State = AirportPlaneState.ReadyToFly;
+		}
+
+		public void ReloadAndRefuelInAir(Plane plane) {
+			if (plane == null)
+				throw new ArgumentNullException("plane");
+	
+			Verify.IsTrue(plane.Airport == this);
+			BeginReloadAndRefuel(plane);
 		}
 	}
 }

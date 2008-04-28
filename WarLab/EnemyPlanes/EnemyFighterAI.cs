@@ -56,6 +56,7 @@ namespace EnemyPlanes {
 					TargetPlane = closestFighter;
 				}
 				else if (!canBeginAttack && Mode == EnemyFighterFlightMode.Attack) {
+					// если слишком далеко улетели от бомбардировщика - вернуться к нему.
 					TargetPlane = bomber;
 					Mode = EnemyFighterFlightMode.FollowBomber;
 				}
@@ -81,6 +82,8 @@ namespace EnemyPlanes {
 			}
 		}
 
+		private readonly double returnToBomberDistance = Distance.FromKilometres(0.8);
+
 		private bool CanRetarget {
 			get {
 				return Mode != EnemyFighterFlightMode.ReturnToBase ||
@@ -100,7 +103,14 @@ namespace EnemyPlanes {
 				closestFighter = ourFighters[0];
 				// минимальное расстояние до нашего самолета
 				double minDistance = ourFighters[0].Position.Distance2D(Position);
-				return minDistance < 2 * attackDistance;
+				return minDistance < 2 * attackDistance && !IsTooFarFromBomber;
+			}
+		}
+
+		private bool IsTooFarFromBomber {
+			get {
+				EnemyBomber bomber = this.bomber ?? (EnemyBomber)TargetPlane;
+				return bomber.Position.Distance2D(ControlledPlane.Position) > returnToBomberDistance;
 			}
 		}
 
@@ -128,7 +138,7 @@ namespace EnemyPlanes {
 		/// <returns></returns>
 		private bool CanContinue(WarTime warTime) {
 			EnemyFighter plane = (EnemyFighter)ControlledDynamicObject;
-			
+
 			if (plane.Orientation != Vector3D.Zero) {
 				//насколько мы улетим по направлению к цели, если продолжим двигаться к ней
 				Vector3D shift = plane.Orientation * warTime.ElapsedTime.TotalSeconds
@@ -145,7 +155,7 @@ namespace EnemyPlanes {
 
 					Mode = EnemyFighterFlightMode.ReturnToBase;
 					Aim = ReturnToBaseAim.ReloadOrRefuel;
-					
+
 					plane.Speed = plane.MaxSpeed; //домой летим на максимальной скорости
 					return false;
 				}
@@ -158,9 +168,16 @@ namespace EnemyPlanes {
 		/// </summary>
 		private void ReturnToBase(WarTime time) {
 			if (ShouldLand(time)) {
-				LandPlane();
-				if (TargetPlane is EnemyBomber) {
-					DetachFromBomberEvents((EnemyBomber)TargetPlane);
+				EnemyBomber bomber = this.bomber ?? (EnemyBomber)TargetPlane;
+				EnemyBomberAI bomberAI = (EnemyBomberAI)bomber.AI;
+				if (!bomber.IsLanded && !bomber.IsDestroyed && bomberAI.Mode != BomberFlightMode.ReturnToBase) {
+					// нужно вернуться к своему бомбардировщику
+					ReloadAndRefuelInAir();
+					Mode = EnemyFighterFlightMode.FollowBomber;
+				}
+				else {
+					LandPlane();
+					DetachFromBomberEvents(bomber);
 				}
 			}
 		}
@@ -225,6 +242,7 @@ namespace EnemyPlanes {
 		/// <returns>Удалось ли установить бомбера и перейти в режим сопровождения</returns>
 		public bool FollowBomber(EnemyBomber bomber, double offsetDegree) {
 			this.offsetDegree = offsetDegree;
+			Mode = EnemyFighterFlightMode.FollowBomber;
 
 			EnemyBomberAI bomberAI = (EnemyBomberAI)bomber.AI;
 			bomberAI.Landed += OnBomberLanded;

@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using WarLab.WarObjects;
 using System.Diagnostics;
+using System.ComponentModel;
+using System.Collections.ObjectModel;
 
 namespace WarLab.AI {
 	public sealed class RLSAI : WarAI {
@@ -24,17 +26,17 @@ namespace WarLab.AI {
 			get { return ControlledObject as RLS; }
 		}
 
-		public IEnumerable<RLSTrajectory> AllTrajectories {
-			get { return trajectories; }
+		public ReadOnlyCollection<RLSTrajectory> AllTrajectories {
+			get { return trajectories.AsReadOnly(); }
 		}
 
 		private int minNumOfStepsInPreciseTrajectory = 5;
-		public IEnumerable<RLSTrajectory> OldTrajectories {
-			get { return trajectories.Where(t => t.NumOfSteps != minNumOfStepsInPreciseTrajectory); }
+		public ReadOnlyCollection<RLSTrajectory> OldTrajectories {
+			get { return trajectories.Where(t => t.NumOfSteps != minNumOfStepsInPreciseTrajectory).ToList().AsReadOnly(); }
 		}
 
-		public IEnumerable<RLSTrajectory> NewlyCreatedTrajectories {
-			get { return trajectories.Where(t => t.NumOfSteps == minNumOfStepsInPreciseTrajectory); }
+		public ReadOnlyCollection<RLSTrajectory> NewlyCreatedTrajectories {
+			get { return trajectories.Where(t => t.NumOfSteps == minNumOfStepsInPreciseTrajectory).ToList().AsReadOnly(); }
 		}
 
 		private int turnNum = 0;

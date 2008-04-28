@@ -12,6 +12,7 @@ using VisualListener;
 using System.Collections.Specialized;
 using WarLab.SampleUI.Charts;
 using System.Windows.Threading;
+using ScientificStudio.Charting.Layers;
 
 namespace WarLab.SampleUI {
 	public class WarWindow : Window {
@@ -160,7 +161,7 @@ namespace WarLab.SampleUI {
 			Grid.SetColumn(border, 1);
 
 			DockPanel dockPanel = new DockPanel();
-			Slider slider = new Slider
+			WheelSlider slider = new WheelSlider
 			{
 				Minimum = 0,
 				Maximum = 10,

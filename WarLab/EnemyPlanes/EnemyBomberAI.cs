@@ -102,9 +102,9 @@ namespace EnemyPlanes {
 		/// <summary>
 		/// Возвращает режим полета
 		/// </summary>
-		private BomberFlightMode Mode {
+		public BomberFlightMode Mode {
 			get { return mode; }
-			set {
+			private set {
 				mode = value;
 				if (value == BomberFlightMode.ReturnToBase) {
 					TimeSpan toBaseDuration = TimeSpan.FromSeconds(ControlledBomber.Airport.Position.DistanceTo(ControlledBomber.Position) / ControlledBomber.Speed);
@@ -383,8 +383,7 @@ namespace EnemyPlanes {
 		/// <returns></returns>
 		private bool CanContinueFlyToTarget(WarTime warTime) {
 			EnemyBomber plane = (EnemyBomber)ControlledDynamicObject;
-			if (plane.Orientation.X != 0 && plane.Orientation.Y != 0 &&
-				plane.Orientation.H != 0) {
+			if (plane.Orientation != Vector3D.Zero) {
 				//насколько мы улетим по направлению к цели, если продолжим двигаться к ней
 				Vector3D shift = plane.Orientation * warTime.ElapsedTime.TotalSeconds
 					* plane.Speed;
@@ -393,7 +392,6 @@ namespace EnemyPlanes {
 				 */
 				if (MathHelper.Distance(plane.Position + shift, AirportPosition) > plane.FuelLeft ||
 					plane.WeaponsLeft <= 0) {
-					//target = basePosition;
 					return false;
 				}
 			}

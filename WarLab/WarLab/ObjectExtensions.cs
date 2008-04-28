@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.ComponentModel;
 
 namespace WarLab {
-	public sealed class ZRKChannelInfoConverter : PropertiesVisibleTypeConverter {
+	public static class ObjectExtensions {
+		public static T Cast<T>(this object obj) {
+			return (T)obj;
+		}
 	}
 }

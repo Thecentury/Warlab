@@ -13,7 +13,7 @@ namespace ScientificStudio.Charting.Layers {
 		private void Slider_MouseWheel(object sender, MouseWheelEventArgs e) {
 			if (e.Delta != 0) {
 				double delta = e.Delta / 120.0;
-				Value += 5 * delta * LargeChange;
+				Value += 5 * delta * SmallChange;
 			}
 		}
 	}

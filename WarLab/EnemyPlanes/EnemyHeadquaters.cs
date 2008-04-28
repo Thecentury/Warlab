@@ -17,6 +17,12 @@ namespace EnemyPlanes {
 			set { fightersAroundBomber = value; }
 		}
 
+		protected override string NameCore {
+			get {
+				return "Вражеский КП";
+			}
+		}
+
 		private void AnalyzeTargets() {
 			foreach (var airport in World.SelectAll<EnemyAirport>()) {
 				var mostImportantTarget = GetMostImportantTarget();
@@ -29,8 +35,20 @@ namespace EnemyPlanes {
 
 					Attack(bomberAI, mostImportantTarget);
 
-					List<EnemyFighter> fighters = new List<EnemyFighter>(fightersAroundBomber);
+					var alreadyConvoyingPlanes = airport.Planes.
+						Where(pi => pi.Plane.AI is EnemyFighterAI && 
+							pi.Plane.AI.Cast<EnemyFighterAI>().TargetPlane == bomber &&
+							(pi.State == AirportPlaneState.ReadyToFly || pi.State == AirportPlaneState.InAir));
+
 					int fightersLaunched = 0;
+					List<EnemyFighter> fighters = new List<EnemyFighter>(fightersAroundBomber);
+					foreach (var fighterInfo in alreadyConvoyingPlanes) {
+						if (airport.QueueLaunchPlane(fighterInfo.Plane)) {
+							fightersLaunched++;
+							fighters.Add(fighterInfo.Plane.Cast<EnemyFighter>());
+						}
+					}
+
 					while (fightersLaunched < fightersAroundBomber) {
 						EnemyFighter fighter = airport.QueueLaunchPlane<EnemyFighter>();
 						if (fighter != null) {

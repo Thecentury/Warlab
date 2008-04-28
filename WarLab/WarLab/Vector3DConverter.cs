@@ -6,7 +6,7 @@ using System.ComponentModel;
 using System.Globalization;
 
 namespace WarLab {
-	public sealed class Vector3DConverter : TypeConverter {
+	public sealed class Vector3DConverter : PropertiesVisibleTypeConverter {
 		public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType) {
 			//return base.CanConvertFrom(context, sourceType);
 			return sourceType == typeof(string);
@@ -45,15 +45,6 @@ namespace WarLab {
 
 		public override bool GetCreateInstanceSupported(ITypeDescriptorContext context) {
 			return true;
-		}
-
-		public override bool GetPropertiesSupported(ITypeDescriptorContext context) {
-			return true;
-		}
-
-		public override PropertyDescriptorCollection GetProperties(ITypeDescriptorContext context, object value, Attribute[] attributes) {
-			PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(value, attributes);
-			return properties;
 		}
 	}
 }

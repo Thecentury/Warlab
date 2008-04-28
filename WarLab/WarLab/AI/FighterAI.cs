@@ -35,7 +35,8 @@ namespace WarLab.AI {
 
 		protected readonly double LandDistance = Distance.FromMetres(50);
 		protected bool ShouldLand(WarTime time) {
-			return returnToBaseTime < time.TotalTime && AirportPosition.Distance2D(ControlledPlane.Position) < LandDistance;
+			return returnToBaseTime < time.TotalTime
+				&& AirportPosition.Distance2D(ControlledPlane.Position) < LandDistance;
 		}
 
 		protected readonly TimeSpan rocketLaunchDelayValue = TimeSpan.FromSeconds(5);
@@ -47,13 +48,13 @@ namespace WarLab.AI {
 
 			TimeSpan timeToExplode = durationOfFlight + World.Instance.Time.TotalTime;
 
-			Vector2D toTarget = (targetPlane.Position - ControlledPlane.Position).Projection2D.Normalize();
+			TimeSpan realDurationOfFlight = TimeSpan.FromSeconds(distance / rocketSpeed);
+			Vector3D extrapolatedPos = targetPlane.Position + targetPlane.Speed * targetPlane.Orientation * realDurationOfFlight.TotalSeconds;
+			Vector2D toTarget = (extrapolatedPos - ControlledPlane.Position).Projection2D.Normalize();
 			// не стрелять в заднюю полусферу - только по направлению полета
 			if ((ControlledPlane.Orientation.Projection2D & toTarget) > 0.1) {
 
-				TimeSpan realDurationOfFlight = TimeSpan.FromSeconds(distance / rocketSpeed);
 
-				Vector3D extrapolatedPos = targetPlane.Position + targetPlane.Speed * targetPlane.Orientation * realDurationOfFlight.TotalSeconds;
 				Rocket rocket = new Rocket
 				{
 					Speed = rocketSpeed,
@@ -79,7 +80,7 @@ namespace WarLab.AI {
 
 		protected abstract void BeginReturnToBase();
 
-		protected readonly double attackDistance = Distance.FromKilometres(0.5);
+		protected readonly double attackDistance = Distance.FromKilometres(0.3);
 		protected Vector3D FollowTarget(WarTime time) {
 			if (rocketLaunchDelay > TimeSpan.Zero)
 				rocketLaunchDelay -= time.ElapsedTime;
@@ -101,11 +102,11 @@ namespace WarLab.AI {
 				speed = TargetPlane.Speed * 1.15;
 			}
 			else {
-				speed = TargetPlane.Speed * 1.3;
+				//speed = TargetPlane.Speed * 1.3;
 			}
-			
-			if (speed > 2 * Default.FighterSpeed) {
-				speed = 2 * Default.FighterSpeed;
+
+			if (speed > 1.4 * Default.FighterSpeed) {
+				speed = 1.4 * Default.FighterSpeed;
 			}
 
 			ControlledPlane.Speed = speed;

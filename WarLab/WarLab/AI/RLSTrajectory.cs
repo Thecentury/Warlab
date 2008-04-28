@@ -4,15 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Diagnostics;
 using WarLab.WarObjects;
+using System.ComponentModel;
 
 namespace WarLab.AI {
+	[TypeConverter(typeof(PropertiesVisibleTypeConverter))]
 	public class RLSTrajectory {
-		private static int global_id = 0;
-		private int id = global_id++;
-		public int ID {
-			get { return id; }
-		}
-
 		public RLSTrajectory(Vector3D position, int createdRLSTurn, TimeSpan createdTime, EnemyPlane plane) {
 			Position = position;
 			HasDirection = false;
@@ -51,7 +47,6 @@ namespace WarLab.AI {
 
 		public RLSTrajectory Clone() {
 			RLSTrajectory t = (RLSTrajectory)MemberwiseClone();
-			t.id = global_id++;
 
 			return t;
 		}

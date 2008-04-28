@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.ComponentModel;
 
 namespace WarLab.AI {
+	[TypeConverter(typeof(PropertiesVisibleTypeConverter))]
 	public abstract class WarAI {
 		private WarObject controlledObject;
+		[Browsable(false)]
 		public WarObject ControlledObject {
 			get { return controlledObject; }
 		}
