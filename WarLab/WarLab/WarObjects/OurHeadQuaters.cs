@@ -7,6 +7,12 @@ using WarLab.AI;
 namespace WarLab.WarObjects {
 	public sealed class OurHeadquaters : WarObject {
 
+		protected override string NameCore {
+			get {
+				return "КП обороны";
+			}
+		}
+
 		protected override void UpdateImpl(WarTime time) {
 			RetargetIfTargetLanded();
 
@@ -102,10 +108,7 @@ namespace WarLab.WarObjects {
 		}
 
 		private IEnumerable<EnemyPlane> GetVisibleEnemyPlanes() {
-			var rls = World.SelectSingle<RLS>();
-			if (rls == null) return new List<EnemyPlane>();
-
-			return rls.PlanesInCoverage;
+			return World.SelectAll<RLS>().SelectMany(rls => rls.PlanesInCoverage);
 		}
 
 		private List<EnemyPlane> GetClosestEnemyPlanes(Plane plane) {

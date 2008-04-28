@@ -55,7 +55,7 @@ namespace WarLab.SampleUI {
 			return new ZRKGraph
 			{
 				StaticObject = (StaticObject)warObj,
-				SpriteImage = ResourceManager.GetBitmap(@"Sprites\EnemyBuilding.png"),
+				SpriteImage = ResourceManager.GetBitmap(@"Sprites\ZRK.png"),
 				SmallSprite = false
 			};
 		}
@@ -83,7 +83,8 @@ namespace WarLab.SampleUI {
 			return new StaticObjectGraph
 			{
 				StaticObject = (StaticObject)warObj,
-				SpriteImage = ResourceManager.GetBitmap(@"Sprites\EnemyBuilding.png")
+				SpriteImage = ResourceManager.GetBitmap(@"Sprites\Port.png"),
+				SmallSprite = false
 			};
 		}
 

@@ -45,11 +45,8 @@ namespace WarLab.SampleUI {
 
 			World.AddObject(new StaticTarget { Health = 20, Importance = 3 }, new Vector3D(1650, 50));
 
-			World.AddObject(new RLS
-			{
-				Health = 10,
-				CoverageRadius = 500
-			}, new Vector3D(500, 500));
+			World.AddObject(new RLS { Health = 10, CoverageRadius = 500 }, new Vector3D(500, 500));
+			World.AddObject(new RLS { Health = 10, CoverageRadius = 500 }, new Vector3D(500, -400));
 
 			World.AddObject(new ZRK { NumOfChannels = 1, CoverageRadius = 300, NumOfEquipment = 20000, Health = 1000 }, new Vector3D(450, 550));
 			World.AddObject(new OurHeadquaters(), new Vector3D(300, 800));
