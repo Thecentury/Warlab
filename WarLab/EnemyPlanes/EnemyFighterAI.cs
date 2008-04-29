@@ -189,7 +189,7 @@ namespace EnemyPlanes {
 		/// </summary>
 		private Vector3D FollowBomber(WarTime warTime) {
 			EnemyFighter plane = (EnemyFighter)ControlledDynamicObject;
-			EnemyBomber bomber = (EnemyBomber)TargetPlane;
+			EnemyBomber bomber = this.bomber ?? (EnemyBomber)TargetPlane;
 
 			//насколько мы улетим по направлению к бомбардировщику
 			double shift = 10; //warTime.ElapsedTime.TotalSeconds * plane.Speed;
