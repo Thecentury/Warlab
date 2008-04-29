@@ -26,6 +26,14 @@ namespace WarLab.SampleUI {
 			host.Child = propertyGrid;
 		}
 
+		protected override void OnKeyDown(System.Windows.Input.KeyEventArgs e) {
+			base.OnKeyDown(e);
+
+			if (e.Key == Key.Escape) {
+				Close();
+			}
+		}
+
 		public object SelectedObject {
 			get { return propertyGrid.SelectedObject; }
 			set {

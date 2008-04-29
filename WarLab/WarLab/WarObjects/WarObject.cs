@@ -75,7 +75,12 @@ namespace WarLab {
 		private static readonly Dictionary<Type, int> counters = new Dictionary<Type, int>();
 
 		public string Name {
-			get { return NameCore + " #" + index; }
+			get {
+				string name = NameCore;
+				if (counters.ContainsKey(GetType()) && counters[GetType()] > 1)
+					name += " №" + index;
+				return name;
+			}
 		}
 
 		public sealed override string ToString() {
