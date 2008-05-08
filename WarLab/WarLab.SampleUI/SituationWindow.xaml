@@ -1,0 +1,8 @@
+﻿<Window x:Class="WarLab.SampleUI.SituationWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="SituationWindow" Height="300" Width="300">
+	<StackPanel>
+		<Button Name="B1" Click="B1_Click" Content="Враги уничтожены"/>
+	</StackPanel>
+</Window>

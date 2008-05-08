@@ -8,6 +8,7 @@ namespace WarLab.WarObjects {
 		public OurFighter() {
 			WeaponsCapacity = Default.OurFighterWeapons;
 			Speed = Default.FighterSpeed;
+			Health = Default.OurFighterHealth;
 		}
 
 		protected override string NameCore {

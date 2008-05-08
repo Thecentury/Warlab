@@ -21,7 +21,10 @@ namespace WarLab.WarObjects {
 		private double importance = 1;
 		public double Importance {
 			get { return importance; }
-			set { importance = value; }
+			set {
+				Verify.IsPositive(value);
+				importance = value;
+			}
 		}
 
 		#endregion
