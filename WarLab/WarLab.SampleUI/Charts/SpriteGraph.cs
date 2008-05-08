@@ -9,6 +9,7 @@ using ScientificStudio.Charting;
 using System.Diagnostics;
 using WarLab.SampleUI.WarObjects;
 using WarLab.WarObjects;
+using System.Globalization;
 
 namespace WarLab.SampleUI.Charts {
 	public class SpriteGraph : WarGraph {
@@ -91,6 +92,16 @@ namespace WarLab.SampleUI.Charts {
 
 			//dc.Pop();
 			dc.Pop();
+
+			// todo убрать
+			FormattedText heigthText = CreateFormattedText(SpriteSource.Position.H.ToString("F0"));
+			Point textPos = Point.Add(transformedPos, new Vector(-10,-10));
+			dc.DrawText(heigthText, textPos);
+		}
+
+		private static FormattedText CreateFormattedText(string text) {
+			return new FormattedText(text, CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
+				new Typeface(new FontFamily("Arial"), FontStyles.Normal, FontWeights.Bold, FontStretches.Normal), 12, Brushes.Red);
 		}
 	}
 }

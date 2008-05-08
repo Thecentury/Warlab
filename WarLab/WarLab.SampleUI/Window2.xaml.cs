@@ -31,27 +31,28 @@ namespace WarLab.SampleUI {
 			double fuel = Distance.FromKilometres(3);
 
 			EnemyAirport bomberAirport = new EnemyAirport { PlaneLaunchDelay = TimeSpan.FromSeconds(10) };
-			bomberAirport.AddPlanes((i) => new EnemyBomber { WeaponsCapacity = 3 }, 1);
-			bomberAirport.AddPlanes((i) => new EnemyFighter(), 10);
+			bomberAirport.AddPlanes((i) => new EnemyBomber { WeaponsCapacity = 3 }, 2);
+			bomberAirport.AddPlanes((i) => new EnemyFighter(), 300);
 
 			EnemyAirport fighterAirport = new EnemyAirport();
-			//fighterAirport.AddPlanes(i => new EnemyFighter(), 6);
-			//fighterAirport.AddPlanes(i => new EnemyBomber { WeaponsCapacity = 20 }, 1);
+			//fighterAirport.AddPlanes(i => new EnemyFighter(), 15);
+			//fighterAirport.AddPlanes(i => new EnemyBomber { WeaponsCapacity = 3 }, 5);
 
 			World.AddObject(bomberAirport, new Vector3D(-1400, 100, 0));
-			World.AddObject(fighterAirport, new Vector3D(-1400, 500, 0));
+			World.AddObject(fighterAirport, new Vector3D(-1200, 1000, 0));
 
 			World.AddObject(new EnemyHeadquaters(), new Vector3D(0, 0));
 
 			World.AddObject(new StaticTarget { Health = 20, Importance = 3 }, new Vector3D(1650, 50));
 
-			World.AddObject(new RLS { Health = 10, CoverageRadius = 500 }, new Vector3D(500, 500));
-			World.AddObject(new RLS { Health = 10, CoverageRadius = 500 }, new Vector3D(500, -400));
+			World.AddObject(new RLS { Health = 10, CoverageRadius = 1000 }, new Vector3D(500, 500));
+			//World.AddObject(new RLS { Health = 10, CoverageRadius = 500 }, new Vector3D(500, -400));
 
-			World.AddObject(new ZRK { NumOfChannels = 1, CoverageRadius = 300, NumOfEquipment = 20000, Health = 1000 }, new Vector3D(450, 550));
-			World.AddObject(new OurHeadquaters(), new Vector3D(300, 800));
+			//World.AddObject(new ZRK { NumOfChannels = 1, CoverageRadius = 300, NumOfEquipment = 200, Health = 10 }, new Vector3D(500, -350));
+			World.AddObject(new ZRK { NumOfChannels = 4, CoverageRadius = 300, NumOfEquipment = 200, Health = 10 }, new Vector3D(450, 550));
+			World.AddObject(new OurHeadquaters(), new Vector3D(500, 500));
 			OurAirport ourAirport = new OurAirport();
-			ourAirport.AddPlanes((i) => new OurFighter(), 1);
+			ourAirport.AddPlanes((i) => new OurFighter(), 4);
 			World.AddObject(ourAirport, new Vector3D(800, 300));
 		}
 	}

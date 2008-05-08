@@ -5,15 +5,19 @@ using System.Text;
 
 namespace WarLab {
 	public static class Default {
-		public static readonly double EnemyBomberHealth = 10;
-		public static readonly double EnemyFighterHealth = 10;
+		public static double EnemyBomberHealth = 300; // 3
+		public static double EnemyFighterHealth = 200; // 2
 
-		public static readonly double EnemyBomberImportance = 3;
+		public static double OurFighterHealth = 200; // 2
 
-		public static readonly int EnemyFighterWeapons = 10;
+		public static double EnemyBomberImportance = 3;
 
-		public static readonly int OurFighterWeapons = 30;
+		public static int EnemyFighterWeapons = 10;
 
-		public static readonly double FighterSpeed = Speed.FromKilometresPerHour(40);
+		public static int OurFighterWeapons = 30;
+
+		public static double FighterSpeed = Speed.FromKilometresPerHour(40);
+
+		public static double ZRKImportance = 10;
 	}
 }

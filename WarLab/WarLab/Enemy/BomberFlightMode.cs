@@ -17,7 +17,7 @@ namespace EnemyPlanes
 		/// <summary>
 		/// Лететь к цели для ее бомбардирования
 		/// </summary>
-		MoveToTarget,
+		MoveToBombTarget,
 		/// <summary>
 		/// После бомбометания вернуться к цели и бросить бомбу еще раз
 		/// </summary>

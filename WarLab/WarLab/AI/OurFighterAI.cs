@@ -7,8 +7,6 @@ using System.Diagnostics;
 
 namespace WarLab.AI {
 	public sealed class OurFighterAI : FighterAI<EnemyPlane> {
-		public OurFighterAI() {
-		}
 
 		private OurFighterFlightMode mode = OurFighterFlightMode.Attack;
 		public OurFighterFlightMode Mode {
@@ -22,15 +20,26 @@ namespace WarLab.AI {
 		}
 
 		public override void Update(WarTime time) {
-			Vector3D flyTo = TargetPlane.Position;
+			//if (TargetPlane == null) 
+			//    return;
+
+			Vector3D flyTo = new Vector3D();
+			if (TargetPlane != null) {
+				flyTo = TargetPlane.Position;
+			}
+			else {
+				Mode = OurFighterFlightMode.ReturnToBase;
+			}
 			if (mode != OurFighterFlightMode.ReturnToBase) {
-				bool canContinue = CanContinue(time);
+				if (TargetPlane != null) {
+					bool canContinue = CanContinue(time);
 
-				if (!canContinue) {
-					//Mode = OurFighterFlightMode.ReturnToBase;
-					//aim = ReturnToBaseAim.ReloadOrRefuel;
+					if (!canContinue) {
+						//Mode = OurFighterFlightMode.ReturnToBase;
+						//aim = ReturnToBaseAim.ReloadOrRefuel;
 
-					Debug.WriteLine("Истребитель возвращается домой - " + Aim);
+						Debug.WriteLine("Истребитель возвращается домой - " + Aim);
+					}
 				}
 			}
 			switch (mode) {
@@ -58,9 +67,23 @@ namespace WarLab.AI {
 				Mode = OurFighterFlightMode.ReturnToBase;
 				Aim = ReturnToBaseAim.NoTargets;
 				return false;
-			}
+			};
 
 			Plane plane = (OurFighter)ControlledPlane;
+
+			// возврат на базу если нет РЛС или если вне зоны действия РЛС - сам или цель 
+			var rlses = World.Instance.SelectAll<RLS>().ToArray();
+			bool shouldReturnDueRLS = rlses.Length == 0 ||
+				rlses.Length > 0 &&
+				(!rlses.Any(rls => rls.IsInCoverage(plane.Position)) ||
+				!rlses.Any(rls => rls.IsInCoverage(TargetPlane.Position)));
+
+			if (shouldReturnDueRLS) {
+				Mode = OurFighterFlightMode.ReturnToBase;
+				Aim = ReturnToBaseAim.NoTargets;
+				return false;
+			}
+
 
 			//насколько мы улетим по направлению к цели, если продолжим двигаться к ней
 			Vector3D shift = plane.Orientation * warTime.ElapsedTime.TotalSeconds
@@ -95,10 +118,11 @@ namespace WarLab.AI {
 		/// <param name="plane"></param>
 		/// <returns></returns>
 		public bool AttackTarget(EnemyPlane plane) {
+			
 			if (plane == null)
 				throw new ArgumentNullException("plane");
 
-			if (CanRetarget) {
+			if (CanRetarget(plane)) {
 				TargetPlane = plane;
 				Mode = OurFighterFlightMode.Attack;
 				Aim = ReturnToBaseAim.NoTargets;
@@ -107,12 +131,11 @@ namespace WarLab.AI {
 			return false;
 		}
 
-		public bool CanRetarget {
-			get {
-				return mode == OurFighterFlightMode.ReturnToBase && Aim == ReturnToBaseAim.NoTargets
-					|| //mode == OurFighterFlightMode.Attack ||
-					TargetPlane == null;
-			}
+		public bool CanRetarget(EnemyPlane anotherPlane) {
+			return mode == OurFighterFlightMode.ReturnToBase && Aim == ReturnToBaseAim.NoTargets
+				|| TargetPlane == null
+				|| mode == OurFighterFlightMode.Attack &&
+				(TargetPlane.PlaneImportance <= anotherPlane.PlaneImportance || TargetPlane.Health <= 0);
 		}
 
 		internal void ReturnToBase() {

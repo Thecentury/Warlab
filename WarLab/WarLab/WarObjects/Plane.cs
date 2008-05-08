@@ -20,6 +20,9 @@ namespace WarLab {
 		}
 
 		protected sealed override void UpdateImpl(WarTime warTime) {
+			if (Airport.Health <= 0) {
+				Health = 0;
+			}
 			UpdateCore(warTime);
 
 			Vector3D shift = Orientation * warTime.ElapsedTime.TotalSeconds * Speed;

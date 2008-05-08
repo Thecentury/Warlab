@@ -20,6 +20,7 @@ namespace WarLab.SampleUI {
 			// объект для управления временем мира.
 			timeControl = world.GetTimeControl();
 
+			world.AddObject(new Finish(), new Vector3D());
 			// событие изменения коллекции объектов мира
 			world.CollectionChanged += Objects_CollectionChanged;
 			// событие уничтожения какого-либо из объектов
@@ -164,7 +165,7 @@ namespace WarLab.SampleUI {
 			WheelSlider slider = new WheelSlider
 			{
 				Minimum = 0,
-				Maximum = 10,
+				Maximum = 20,
 				Value = 1,
 				AutoToolTipPlacement = AutoToolTipPlacement.BottomRight,
 				TickPlacement = TickPlacement.BottomRight

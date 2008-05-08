@@ -79,6 +79,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="SituationWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Window2.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -99,6 +103,7 @@
     <Compile Include="Charts\CameraGraph.cs" />
     <Compile Include="Charts\ClockGraph.cs" />
     <Compile Include="Charts\DefaultGraph.cs" />
+    <Compile Include="Charts\Finish.cs" />
     <Compile Include="Charts\MissileGraph.cs" />
     <Compile Include="Charts\RLSGraph.cs" />
     <Compile Include="Charts\SpriteGraph.cs" />
@@ -124,6 +129,9 @@
     <Compile Include="Renderers.cs" />
     <Compile Include="RendersAttribute.cs" />
     <Compile Include="ResourceManager.cs" />
+    <Compile Include="SituationWindow.xaml.cs">
+      <DependentUpon>SituationWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WarObjects\SampleEnemyPlane.cs" />
     <Compile Include="WarObjects\SamplePlane.cs" />
     <Compile Include="WarWindow.cs" />
@@ -145,10 +153,6 @@
     <ProjectReference Include="..\Chart.Base\ScientificStudio.Charting.csproj">
       <Project>{2EE43325-B490-49C2-AE90-4B99B8104685}</Project>
       <Name>ScientificStudio.Charting</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\EnemyPlanes\EnemyPlanes.csproj">
-      <Project>{A1D1E68B-FDF8-4954-B214-B4CCE4DFDDFA}</Project>
-      <Name>EnemyPlanes</Name>
     </ProjectReference>
     <ProjectReference Include="..\VisualListener\VisualListener.csproj">
       <Project>{94E6E2D4-1BA0-4D82-87DD-F5DB696DA406}</Project>
@@ -205,6 +209,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <None Include="bin\Debug\WarLab.SampleUI.vshost.exe.manifest" />
     <None Include="bin\Release\WarLab.SampleUI.vshost.exe.manifest" />
     <None Include="Sprites\Port.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -214,8 +219,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="bin\Debug\EnemyPlanes.dll" />
-    <Content Include="bin\Debug\EnemyPlanes.pdb" />
     <Content Include="bin\Debug\ScientificStudio.Charting.dll" />
     <Content Include="bin\Debug\ScientificStudio.Charting.pdb" />
     <Content Include="bin\Debug\VisualListener.dll" />

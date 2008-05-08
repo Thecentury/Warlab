@@ -6,6 +6,7 @@ using WarLab.AI;
 using WarLab;
 using System.Diagnostics;
 using WarLab.WarObjects;
+using System.ComponentModel;
 
 namespace EnemyPlanes {
 	public class EnemyFighterAI : FighterAI<Plane> {
@@ -52,7 +53,10 @@ namespace EnemyPlanes {
 				bool canBeginAttack = CanBeginAttack;
 				if ((Mode == EnemyFighterFlightMode.FollowBomber || Mode == EnemyFighterFlightMode.WaitForBomber) && canBeginAttack && CanRetarget) {
 					Mode = EnemyFighterFlightMode.Attack;
-					bomber = (EnemyBomber)TargetPlane;
+					if (bomber == null) {
+						bomber = (EnemyBomber)TargetPlane;
+					}
+
 					TargetPlane = closestFighter;
 				}
 				else if (!canBeginAttack && Mode == EnemyFighterFlightMode.Attack) {
@@ -72,7 +76,9 @@ namespace EnemyPlanes {
 						flyTo = FollowBomber(time);
 						break;
 					case EnemyFighterFlightMode.Attack:
-						flyTo = FollowTarget(time);
+						Vector3D newDirection = FollowTarget(time);
+						Vector3D fromBomberToTarget = (newDirection - BomberPosition).Normalize() * BomberAI.FightersRadius;
+						flyTo = BomberPosition + fromBomberToTarget;
 						break;
 					default:
 						break;
@@ -82,7 +88,21 @@ namespace EnemyPlanes {
 			}
 		}
 
-		private readonly double returnToBomberDistance = Distance.FromKilometres(0.8);
+		[Browsable(false)]
+		public Vector3D BomberPosition {
+			get {
+				return Bomber.Position;
+			}
+		}
+
+		public EnemyBomber Bomber {
+			get { return bomber ?? (EnemyBomber)TargetPlane; }
+		}
+
+		[Browsable(false)]
+		public EnemyBomberAI BomberAI {
+			get { return (EnemyBomberAI)Bomber.AI; }
+		}
 
 		private bool CanRetarget {
 			get {
@@ -103,14 +123,17 @@ namespace EnemyPlanes {
 				closestFighter = ourFighters[0];
 				// минимальное расстояние до нашего самолета
 				double minDistance = ourFighters[0].Position.Distance2D(Position);
-				return minDistance < 2 * attackDistance && !IsTooFarFromBomber;
+				return minDistance < 2 * attackDistance && !IsTooFarFromBomber && BomberAI.IsTargettedOnMe(ourFighters[0]);
 			}
 		}
 
+		private readonly double returnToBomberDistance = Distance.FromKilometres(0.8);
 		private bool IsTooFarFromBomber {
 			get {
-				EnemyBomber bomber = this.bomber ?? (EnemyBomber)TargetPlane;
-				return bomber.Position.Distance2D(ControlledPlane.Position) > returnToBomberDistance;
+				EnemyBomber bomber = Bomber;
+				bool res = bomber.Position.Distance2D(ControlledPlane.Position) > returnToBomberDistance;
+				if (res) { }
+				return res;
 			}
 		}
 
@@ -121,7 +144,7 @@ namespace EnemyPlanes {
 		/// <returns>удалось ли установить</returns>
 		private bool SetTarget(Plane target) {
 			if (mode != EnemyFighterFlightMode.ReturnToBase) {
-				if (target is OurFighter) { }
+
 				TargetPlane = target;
 				EnemyFighter plane = (EnemyFighter)ControlledDynamicObject;
 				plane.Speed = plane.MaxSpeed;
@@ -170,6 +193,7 @@ namespace EnemyPlanes {
 			if (ShouldLand(time)) {
 				EnemyBomber bomber = this.bomber ?? (EnemyBomber)TargetPlane;
 				EnemyBomberAI bomberAI = (EnemyBomberAI)bomber.AI;
+
 				if (!bomber.IsLanded && !bomber.IsDestroyed && bomberAI.Mode != BomberFlightMode.ReturnToBase) {
 					// нужно вернуться к своему бомбардировщику
 					ReloadAndRefuelInAir();

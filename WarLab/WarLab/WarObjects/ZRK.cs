@@ -15,6 +15,7 @@ namespace WarLab.WarObjects {
 		/// </summary>
 		public ZRK() {
 			InitChannels();
+			Importance = Default.ZRKImportance;
 		}
 
 		protected override string NameCore {
@@ -71,6 +72,10 @@ namespace WarLab.WarObjects {
 		public double CoverageRadius {
 			get { return coverageRadius; }
 			set { coverageRadius = value; }
+		}
+
+		public bool IsInCoverage(WarObject obj) {
+			return obj.Position.Distance2D(Position) <= coverageRadius;
 		}
 
 		protected override void UpdateImpl(WarTime warTime) {

@@ -51,10 +51,9 @@ namespace WarLab.AI {
 			TimeSpan realDurationOfFlight = TimeSpan.FromSeconds(distance / rocketSpeed);
 			Vector3D extrapolatedPos = targetPlane.Position + targetPlane.Speed * targetPlane.Orientation * realDurationOfFlight.TotalSeconds;
 			Vector2D toTarget = (extrapolatedPos - ControlledPlane.Position).Projection2D.Normalize();
+			
 			// не стрелять в заднюю полусферу - только по направлению полета
-			if ((ControlledPlane.Orientation.Projection2D & toTarget) > 0.1) {
-
-
+			if (true || (ControlledPlane.Orientation.Projection2D & toTarget) > 0.1) {
 				Rocket rocket = new Rocket
 				{
 					Speed = rocketSpeed,
@@ -81,6 +80,7 @@ namespace WarLab.AI {
 		protected abstract void BeginReturnToBase();
 
 		protected readonly double attackDistance = Distance.FromKilometres(0.3);
+
 		protected Vector3D FollowTarget(WarTime time) {
 			if (rocketLaunchDelay > TimeSpan.Zero)
 				rocketLaunchDelay -= time.ElapsedTime;
@@ -99,10 +99,10 @@ namespace WarLab.AI {
 				speed = TargetPlane.Speed;
 			}
 			else if (distanceToTarget < attackDistance) {
-				speed = TargetPlane.Speed * 1.15;
+				speed = TargetPlane.Speed * 1.2;
 			}
 			else {
-				//speed = TargetPlane.Speed * 1.3;
+				speed = TargetPlane.Speed * 1.2 + speed * 0.2;
 			}
 
 			if (speed > 1.4 * Default.FighterSpeed) {

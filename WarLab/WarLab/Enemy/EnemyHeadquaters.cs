@@ -11,7 +11,7 @@ namespace EnemyPlanes {
 	/// </summary>
 	public class EnemyHeadquaters : StaticObject {
 
-		private int fightersAroundBomber = 4;
+		private int fightersAroundBomber = 3;
 		public int FightersAroundBomber {
 			get { return fightersAroundBomber; }
 			set { fightersAroundBomber = value; }
@@ -36,7 +36,7 @@ namespace EnemyPlanes {
 					Attack(bomberAI, mostImportantTarget);
 
 					var alreadyConvoyingPlanes = airport.Planes.
-						Where(pi => pi.Plane.AI is EnemyFighterAI && 
+						Where(pi => pi.Plane.AI is EnemyFighterAI &&
 							pi.Plane.AI.Cast<EnemyFighterAI>().TargetPlane == bomber &&
 							(pi.State == AirportPlaneState.ReadyToFly || pi.State == AirportPlaneState.InAir));
 
@@ -66,19 +66,24 @@ namespace EnemyPlanes {
 		}
 
 		private OurStaticObject GetMostImportantTarget() {
-			var ourTargets = World.SelectAll<OurStaticObject>().Where(t => t.Health > 0).ToList();
+			var ourTargets = World.SelectAll<OurStaticObject>().
+				Where(t => t.Health > 0).OrderByDescending(o => o.Importance).
+				ToList();
+
 			if (ourTargets.Count == 0) return null;
 
-			double sum = ourTargets.Sum(t => t.Importance);
+			double sumImportance = ourTargets.Sum(t => t.Importance);
 
 			double rnd = StaticRandom.NextDouble();
+			// double rnd = 0.1;
+
 			double s = 0;
 			for (int i = 0; i < ourTargets.Count; i++) {
-				if (s + ourTargets[i].Importance / sum > rnd) {
+				if ((s + ourTargets[i].Importance / sumImportance) > rnd) {
 					return ourTargets[i];
 				}
 				else {
-					s += ourTargets[i].Importance / sum;
+					s += ourTargets[i].Importance / sumImportance;
 				}
 			}
 
@@ -86,6 +91,13 @@ namespace EnemyPlanes {
 		}
 
 		private readonly Dictionary<OurStaticObject, List<EnemyBomberAI>> assignedTargets = new Dictionary<OurStaticObject, List<EnemyBomberAI>>();
+
+		public IEnumerable<EnemyFighter> TargettedPlanes(EnemyBomber bomber) {
+			return World.SelectAll<EnemyAirport>().SelectMany(a => a.Planes).
+						Where(pi => pi.Plane.AI is EnemyFighterAI &&
+							pi.Plane.AI.Cast<EnemyFighterAI>().TargetPlane == bomber).
+						Select(pi => (EnemyFighter)pi.Plane);
+		}
 
 		private void EnemyHeadquaters_TargetReached(object sender, TargetDestroyedEventArgs args) {
 			EnemyBomberAI bomberAI = sender as EnemyBomberAI;
