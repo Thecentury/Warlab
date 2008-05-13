@@ -15,10 +15,10 @@ namespace WarLab.WarObjects {
 	}
 
 	public sealed class Rocket : DynamicObject, IDamageable {
-		private Vector3D targetPoint;
-		public Vector3D TargetPoint {
-			get { return targetPoint; }
-			set { targetPoint = value; }
+		private Vector3D targetPosition;
+		public Vector3D TargetPosition {
+			get { return targetPosition; }
+			set { targetPosition = value; }
 		}
 
 		private WarObject target;
@@ -53,7 +53,7 @@ namespace WarLab.WarObjects {
 
 		public void Explode() {
 			if (StaticRandom.NextDouble() < possibilityOfExplosion) {
-				World.RocketExploded(this);
+				World.ExplodeRocket(this);
 			}
 			RaiseDestroyed();
 		}
@@ -71,7 +71,7 @@ namespace WarLab.WarObjects {
 		}
 
 		protected override void UpdateImpl(WarTime warTime) {
-			double distance = Position.DistanceTo(TargetPoint);
+			double distance = Position.DistanceTo(TargetPosition);
 			// взрыв по времени или при достаточной близости к цели
 			if (timeOfExplosion < warTime.TotalTime || distance < damageRange / 2) {
 				Explode();

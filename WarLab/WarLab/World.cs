@@ -251,18 +251,21 @@ namespace WarLab {
 			destroyedObjects.Clear();
 		}
 
-		internal void RocketExploded(Rocket rocket) {
-			Vector3D targetPos = rocket.TargetPoint;
+		internal void ExplodeRocket(Vector3D targetPos, double damageRange, double damage) {
 			foreach (var item in SelectAll<DynamicObject>()) {
 				IRocketDamageable rocketDamageable = item as IRocketDamageable;
 				if (rocketDamageable != null) {
 					double distance = MathHelper.Distance(item.Position, targetPos);
-					if (distance < rocket.DamageRange) {
-						double damage = (rocket.DamageRange - distance) / rocket.DamageRange * rocket.Damage;
+					if (distance < damageRange) {
+						damage = (damageRange - distance) / damageRange * damage;
 						rocketDamageable.MakeDamage(damage);
 					}
 				}
 			}
+		}
+
+		internal void ExplodeRocket(Rocket rocket) {
+			ExplodeRocket(rocket.TargetPosition, rocket.DamageRange, rocket.Damage);
 		}
 
 		/// <summary>

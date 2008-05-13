@@ -13,7 +13,7 @@ namespace WarLab.AI {
 		}
 
 		public override void Update(WarTime time) {
-			ControlledRocket.TargetPoint = target.Position;
+			ControlledRocket.TargetPosition = target.Position;
 			MoveInDirectionOf(target.Position);
 		}
 	}

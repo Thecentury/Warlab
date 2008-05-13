@@ -14,7 +14,11 @@ namespace WarLab.AI {
 			private set {
 				mode = value;
 				if (value == OurFighterFlightMode.ReturnToBase) {
+#if false
 					SetReturnToBaseTime();
+#else
+					LandPlane();
+#endif
 				}
 			}
 		}

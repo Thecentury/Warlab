@@ -16,6 +16,16 @@ namespace WarLab.WarObjects {
 			}
 		}
 
+		private int numOfChannels = Default.OurAirportNumOfChannels;
+		public int NumOfChannels {
+			get { return numOfChannels; }
+			set { numOfChannels = value; }
+		}
+
+		protected override bool CanLaunchCore<T>() {
+			return Planes.Count(pi => pi.State == AirportPlaneState.InAir) < numOfChannels;
+		}
+
 		#region IHasImportance Members
 
 		private double importance = 1;

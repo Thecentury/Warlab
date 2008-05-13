@@ -54,6 +54,7 @@ namespace WarLab.AI {
 			
 			// не стрелять в заднюю полусферу - только по направлению полета
 			if (true || (ControlledPlane.Orientation.Projection2D & toTarget) > 0.1) {
+#if false
 				Rocket rocket = new Rocket
 				{
 					Speed = rocketSpeed,
@@ -66,6 +67,10 @@ namespace WarLab.AI {
 				World.Instance.AddObject(rocket, Position);
 
 				rocketLaunchDelay = rocketLaunchDelayValue;
+#else
+				World.Instance.ExplodeRocket(extrapolatedPos, Default.FighterRocketDamageRange,
+					Default.FighterRocketDamage);
+#endif
 
 				ControlledPlane.WeaponsLeft--;
 				if (ControlledPlane.WeaponsLeft <= 0) {

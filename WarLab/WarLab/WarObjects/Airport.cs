@@ -88,7 +88,11 @@ namespace WarLab.WarObjects {
 			if (fromPrevLaunch > TimeSpan.Zero) return false;
 
 			var planeInfo = SearchReadyPlane<T>();
-			return planeInfo != null;
+			return planeInfo != null && CanLaunchCore<T>();
+		}
+
+		protected virtual bool CanLaunchCore<T>() where T : Plane {
+			return true;
 		}
 
 		private AirportPlaneInfo SearchReadyPlane<T>() where T : Plane {
@@ -106,6 +110,10 @@ namespace WarLab.WarObjects {
 			set { flightHeight = value; }
 		}
 
+		protected virtual double PlaneHeight {
+			get { return flightHeight; }
+		}
+
 		private T LaunchPlane<T>(bool addToWorld) where T : Plane {
 			if (addToWorld && fromPrevLaunch != TimeSpan.Zero)
 				throw new InvalidOperationException("Нельзя запускать самолет - еще слишком рано!");
@@ -117,7 +125,7 @@ namespace WarLab.WarObjects {
 				T plane = (T)planeInfo.Plane;
 
 				if (addToWorld) {
-					World.AddObject(plane, new Vector3D(Position, flightHeight));
+					World.AddObject(plane, new Vector3D(Position, PlaneHeight));
 					fromPrevLaunch = planeLaunchDelay;
 				}
 				else {

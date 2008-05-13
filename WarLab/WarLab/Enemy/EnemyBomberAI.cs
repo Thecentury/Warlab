@@ -288,9 +288,14 @@ namespace EnemyPlanes {
 			get { return (EnemyBomber)ControlledDynamicObject; }
 		}
 
-		private TimeSpan maneuverDuration = TimeSpan.FromSeconds(15);
+		private TimeSpan maneuverDuration = TimeSpan.FromSeconds(30);
 		private double maneuverHeight;
+		
 		private bool duringManeuver = false;
+		public bool DuringManeuver {
+			get { return duringManeuver; }
+		}
+		
 		private bool maneuverCompleted = false;
 
 		/// <summary>
