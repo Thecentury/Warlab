@@ -128,11 +128,6 @@ namespace WarLab.WarObjects {
 			return enemyPlanes;
 		}
 
-		/// <summary>
-		/// Max Расстояние от траектории до объекта
-		/// </summary>
-		double minStrobeDist = Distance.FromMetres(90);
-
 		private bool CanBeAssignedToZRK(EnemyBomber enemy) {
 			EnemyBomberAI ai = (EnemyBomberAI)enemy.AI;
 			if (ai.Mode == BomberFlightMode.ReturnToBase) return false;
@@ -148,7 +143,7 @@ namespace WarLab.WarObjects {
 
 		private bool AllOKWithZRK(Ray ray, ZRK zrk) {
 			Vector3D zrkPos = zrk.Position;
-			return RayCoeff(zrkPos, ray) > 0 && Distance2DFromPointToRay(zrkPos, ray) <= minStrobeDist && zrk.NumOfEquipment > 0;
+			return RayCoeff(zrkPos, ray) > 0 && Distance2DFromPointToRay(zrkPos, ray) <= zrk.CoverageRadius && zrk.NumOfEquipment > 0;
 		}
 
 		private bool CanBeAssignedToZRK(EnemyFighter enemy) {
