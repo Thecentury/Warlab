@@ -185,7 +185,7 @@ namespace WarLab.WarObjects {
 			{
 				Speed = rocketSpeed,
 				TimeOfExposion = timeToExplode,
-				TargetPoint = targetPosition + targetPositionError,
+				TargetPosition = targetPosition + targetPositionError,
 				Host = RocketHost.ZRK
 			};
 

@@ -39,7 +39,7 @@ namespace WarLab.SampleUI {
 
 			Rocket rocket = new Rocket
 			{
-				TargetPoint = new Vector3D(1000, 1000, 0),
+				TargetPosition = new Vector3D(1000, 1000, 0),
 				TimeOfExposion = TimeSpan.FromSeconds(8),
 				Speed = Speed.FromKilometresPerHour(200),
 				DamageRange = Distance.FromMetres(200),

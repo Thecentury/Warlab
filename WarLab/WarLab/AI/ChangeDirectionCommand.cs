@@ -16,7 +16,7 @@ namespace WarLab.AI {
 
 			Verify.IsInSegment(direction.Length, 0.99, 1.01);
 
-#if true
+#if !true
 			if (smooth && (target.Orientation.Projection2D & direction.Projection2D) < minScalarProj) {
 				Vector3D sideVec = target.Orientation.LeftVector();
 				double angle = Math.Acos(minScalarProj);

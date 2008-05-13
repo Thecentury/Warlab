@@ -30,7 +30,7 @@ namespace WarLab.AI {
 			get { return trajectories.AsReadOnly(); }
 		}
 
-		private int minNumOfStepsInPreciseTrajectory = 5;
+		private int minNumOfStepsInPreciseTrajectory = 2;
 		public ReadOnlyCollection<RLSTrajectory> OldTrajectories {
 			get { return trajectories.Where(t => t.NumOfSteps != minNumOfStepsInPreciseTrajectory).ToList().AsReadOnly(); }
 		}

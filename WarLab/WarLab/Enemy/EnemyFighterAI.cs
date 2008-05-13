@@ -174,7 +174,7 @@ namespace EnemyPlanes {
 				 * его меняет). Поэтому сначала есть проверка на ненулевой вектор
 				 */
 				if (MathHelper.Distance(plane.Position + shift, AirportPosition) > plane.FuelLeft ||
-					plane.WeaponsLeft < 1) {
+					plane.WeaponsLeft < 1 || Bomber.IsDestroyed) {
 
 					Mode = EnemyFighterFlightMode.ReturnToBase;
 					Aim = ReturnToBaseAim.ReloadOrRefuel;

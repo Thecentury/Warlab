@@ -13,5 +13,24 @@ namespace EnemyPlanes {
 		protected override bool VerifyPlaneTypeCore(Plane plane) {
 			return plane is EnemyPlane;
 		}
+
+		private double minHeight = 500;
+		public double MinHeight {
+			get { return minHeight; }
+			set { minHeight = value; }
+		}
+
+		private double maxHeight = 2000;
+		public double MaxHeight {
+			get { return maxHeight; }
+			set { maxHeight = value; }
+		}
+
+		protected override double PlaneHeight {
+			get {
+				double ratio = StaticRandom.NextDouble();
+				return minHeight + ratio * (maxHeight - minHeight);
+			}
+		}
 	}
 }

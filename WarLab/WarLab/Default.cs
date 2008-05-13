@@ -19,5 +19,10 @@ namespace WarLab {
 		public static double FighterSpeed = Speed.FromKilometresPerHour(40);
 
 		public static double ZRKImportance = 10;
+
+		public static double FighterRocketDamage = 1;
+		public static double FighterRocketDamageRange = Distance.FromMetres(30);
+
+		public static int OurAirportNumOfChannels = 10;
 	}
 }
