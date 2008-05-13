@@ -208,12 +208,58 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <None Include="bin\Debug\WarLab.SampleUI.vshost.exe.manifest" />
+    <None Include="bin\Release\WarLab.SampleUI.vshost.exe.manifest" />
     <None Include="Sprites\Port.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Sprites\ZRK.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bin\Debug\ScientificStudio.Charting.dll" />
+    <Content Include="bin\Debug\ScientificStudio.Charting.pdb" />
+    <Resource Include="bin\Debug\Sprites\EnemyAirport.png" />
+    <Resource Include="bin\Debug\Sprites\EnemyBomber.png" />
+    <Resource Include="bin\Debug\Sprites\EnemyBuilding.png" />
+    <Resource Include="bin\Debug\Sprites\EnemyHeadquarters.png" />
+    <Resource Include="bin\Debug\Sprites\EnemyPlane.png" />
+    <Resource Include="bin\Debug\Sprites\OurAirport.png" />
+    <Resource Include="bin\Debug\Sprites\Plane.png" />
+    <Resource Include="bin\Debug\Sprites\Port.png" />
+    <Resource Include="bin\Debug\Sprites\Radar.png" />
+    <Resource Include="bin\Debug\Sprites\Rocket.png" />
+    <Resource Include="bin\Debug\Sprites\ZRK.png" />
+    <Content Include="bin\Debug\VisualListener.dll" />
+    <Content Include="bin\Debug\VisualListener.pdb" />
+    <Content Include="bin\Debug\WarLab.Base.dll" />
+    <Content Include="bin\Debug\WarLab.Base.pdb" />
+    <Content Include="bin\Debug\WarLab.SampleUI.exe" />
+    <Content Include="bin\Debug\WarLab.SampleUI.pdb" />
+    <Content Include="bin\Debug\WarLab.SampleUI.vshost.exe" />
+    <Content Include="bin\Release\EnemyPlanes.dll" />
+    <Content Include="bin\Release\EnemyPlanes.pdb" />
+    <Content Include="bin\Release\ScientificStudio.Charting.dll" />
+    <Content Include="bin\Release\ScientificStudio.Charting.pdb" />
+    <Resource Include="bin\Release\Sprites\EnemyAirport.png" />
+    <Resource Include="bin\Release\Sprites\EnemyBomber.png" />
+    <Resource Include="bin\Release\Sprites\EnemyBuilding.png" />
+    <Resource Include="bin\Release\Sprites\EnemyHeadquarters.png" />
+    <Resource Include="bin\Release\Sprites\EnemyPlane.png" />
+    <Resource Include="bin\Release\Sprites\OurAirport.png" />
+    <Resource Include="bin\Release\Sprites\Plane.png" />
+    <Resource Include="bin\Release\Sprites\Port.png" />
+    <Resource Include="bin\Release\Sprites\Radar.png" />
+    <Resource Include="bin\Release\Sprites\Rocket.png" />
+    <Resource Include="bin\Release\Sprites\ZRK.png" />
+    <Content Include="bin\Release\VisualListener.dll" />
+    <Content Include="bin\Release\VisualListener.pdb" />
+    <Content Include="bin\Release\WarLab.Base.dll" />
+    <Content Include="bin\Release\WarLab.Base.pdb" />
+    <Content Include="bin\Release\WarLab.SampleUI.exe" />
+    <Content Include="bin\Release\WarLab.SampleUI.pdb" />
+    <Content Include="bin\Release\WarLab.SampleUI.vshost.exe" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
