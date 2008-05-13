@@ -77,6 +77,7 @@
     <Compile Include="Enemy\StaticTarget.cs" />
     <Compile Include="Enemy\StaticTargetAI.cs" />
     <Compile Include="Enemy\TargetDestroyedEventArgs.cs" />
+    <Compile Include="WarObjects\SingleChannelZRK.cs" />
     <Compile Include="WarObjects\Finish.cs" />
     <Compile Include="ITimeControl.cs" />
     <Compile Include="ObjectDestroyedEventArgs.cs" />

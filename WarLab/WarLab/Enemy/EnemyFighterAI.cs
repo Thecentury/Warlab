@@ -77,8 +77,12 @@ namespace EnemyPlanes {
 						break;
 					case EnemyFighterFlightMode.Attack:
 						Vector3D newDirection = FollowTarget(time);
+#if false
 						Vector3D fromBomberToTarget = (newDirection - BomberPosition).Normalize() * BomberAI.FightersRadius;
 						flyTo = BomberPosition + fromBomberToTarget;
+#else
+						flyTo = FollowBomber(time);
+#endif
 						break;
 					default:
 						break;
