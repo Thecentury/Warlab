@@ -24,5 +24,6 @@ namespace WarLab {
 		public static double FighterRocketDamageRange = Distance.FromMetres(30);
 
 		public static int OurAirportNumOfChannels = 10;
+		public static TimeSpan EnemyBomberManeuverDuration = TimeSpan.FromSeconds(30);
 	}
 }

@@ -108,6 +108,14 @@ namespace EnemyPlanes {
 				if (value == BomberFlightMode.ReturnToBase) {
 					TimeSpan toBaseDuration = TimeSpan.FromSeconds(ControlledBomber.Airport.Position.DistanceTo(ControlledBomber.Position) / ControlledBomber.Speed);
 					returnToBaseTime = toBaseDuration + World.Instance.Time.TotalTime;
+
+					// восстанавливаем возможность совершать маневр
+					this.duringManeuver = false;
+					this.maneuverCompleted = false;
+					this.maneuverTick = 0;
+					this.maneuverDuration = Default.EnemyBomberManeuverDuration;
+					this.willManeuver = true;
+
 				}
 				else if (value == BomberFlightMode.ReturnToBombTarget) {
 					targetReachedTime.Add(TimeSpan.FromSeconds(path.TotalLength / ControlledBomber.Speed));
@@ -288,7 +296,7 @@ namespace EnemyPlanes {
 			get { return (EnemyBomber)ControlledDynamicObject; }
 		}
 
-		private TimeSpan maneuverDuration = TimeSpan.FromSeconds(30);
+		private TimeSpan maneuverDuration = Default.EnemyBomberManeuverDuration;
 		private double maneuverHeight;
 		
 		private bool duringManeuver = false;
