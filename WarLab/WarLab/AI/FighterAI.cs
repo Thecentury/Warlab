@@ -66,11 +66,12 @@ namespace WarLab.AI {
 
 				World.Instance.AddObject(rocket, Position);
 
-				rocketLaunchDelay = rocketLaunchDelayValue;
 #else
 				World.Instance.ExplodeRocket(extrapolatedPos, Default.FighterRocketDamageRange,
 					Default.FighterRocketDamage);
 #endif
+
+				rocketLaunchDelay = rocketLaunchDelayValue;
 
 				ControlledPlane.WeaponsLeft--;
 				if (ControlledPlane.WeaponsLeft <= 0) {
