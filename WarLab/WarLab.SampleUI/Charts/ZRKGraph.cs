@@ -10,8 +10,8 @@ using ScientificStudio.Charting;
 
 namespace WarLab.SampleUI.Charts {
 	public sealed class ZRKGraph : StaticObjectGraph {
-		private ZRK RenderedZRK {
-			get { return StaticObject as ZRK; }
+		private ZRKBase RenderedZRK {
+			get { return StaticObject as ZRKBase; }
 		}
 
 		const double topMargin = 5; // px

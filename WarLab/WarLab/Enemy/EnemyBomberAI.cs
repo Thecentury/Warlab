@@ -23,7 +23,7 @@ namespace EnemyPlanes {
 		/// <summary>
 		/// Бомбардируемая цель
 		/// </summary>
-		private OurStaticObject target;
+		private StaticObject target;
 
 
 		public event TargetDestroyedHandler TargetDestroyed;
@@ -368,7 +368,7 @@ namespace EnemyPlanes {
 		/// </summary>
 		/// <param name="target">статичный объект на земле</param>
 		/// <returns>Удалось ли установить цель для бомбардирования</returns>
-		public bool AttackTarget(OurStaticObject target) {
+		public bool AttackTarget(StaticObject target) {
 			// todo это правильно?
 			if (true || mode != BomberFlightMode.ReturnToBase) {
 				this.target = target;

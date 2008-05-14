@@ -65,9 +65,9 @@ namespace EnemyPlanes {
 			}
 		}
 
-		private OurStaticObject GetMostImportantTarget() {
-			var ourTargets = World.SelectAll<OurStaticObject>().
-				Where(t => t.Health > 0).OrderByDescending(o => o.Importance).
+		private StaticObject GetMostImportantTarget() {
+			var ourTargets = World.SelectAll<IHasImportance>().
+				Where(t => ((IBombDamageable)t).Health > 0).OrderByDescending(o => o.Importance).
 				ToList();
 
 			if (ourTargets.Count == 0) return null;
@@ -80,17 +80,17 @@ namespace EnemyPlanes {
 			double s = 0;
 			for (int i = 0; i < ourTargets.Count; i++) {
 				if ((s + ourTargets[i].Importance / sumImportance) > rnd) {
-					return ourTargets[i];
+					return (StaticObject)ourTargets[i];
 				}
 				else {
 					s += ourTargets[i].Importance / sumImportance;
 				}
 			}
 
-			return ourTargets[0];
+			return (StaticObject)ourTargets[0];
 		}
 
-		private readonly Dictionary<OurStaticObject, List<EnemyBomberAI>> assignedTargets = new Dictionary<OurStaticObject, List<EnemyBomberAI>>();
+		private readonly Dictionary<StaticObject, List<EnemyBomberAI>> assignedTargets = new Dictionary<StaticObject, List<EnemyBomberAI>>();
 
 		public IEnumerable<EnemyFighter> TargettedPlanes(EnemyBomber bomber) {
 			return World.SelectAll<EnemyAirport>().SelectMany(a => a.Planes).
@@ -123,7 +123,7 @@ namespace EnemyPlanes {
 		/// </summary>
 		/// <param name="plane">Бомбардировщик</param>
 		/// <param name="target">Цель</param>
-		public void Attack(EnemyBomberAI planeAI, OurStaticObject target) {
+		public void Attack(EnemyBomberAI planeAI, StaticObject target) {
 			if (!assignedTargets.ContainsKey(target)) {
 				target.Destroyed += target_Destroyed;
 
@@ -142,7 +142,7 @@ namespace EnemyPlanes {
 		}
 
 		private void target_Destroyed(object sender, EventArgs e) {
-			OurStaticObject destroyedTarget = (OurStaticObject)sender;
+			StaticObject destroyedTarget = (StaticObject)sender;
 			destroyedTarget.Destroyed -= target_Destroyed;
 
 			var assignedAIs = assignedTargets[destroyedTarget];

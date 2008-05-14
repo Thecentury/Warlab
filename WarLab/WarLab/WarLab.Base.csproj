@@ -124,6 +124,7 @@
     <Compile Include="Verify.cs" />
     <Compile Include="WarObjects\TargetInfo.cs" />
     <Compile Include="WarObjects\WarObject.cs" />
+    <Compile Include="WarObjects\ZRKBase.cs" />
     <Compile Include="WarObjects\ZRKChannelInfo.cs" />
     <Compile Include="WarTime.cs" />
     <Compile Include="World.cs" />
