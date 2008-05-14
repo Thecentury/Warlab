@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using WarLab.WarObjects;
 using System.Diagnostics;
+using EnemyPlanes;
 
 namespace WarLab.AI {
 	public sealed class OurFighterAI : FighterAI<EnemyPlane> {
@@ -14,7 +15,7 @@ namespace WarLab.AI {
 			private set {
 				mode = value;
 				if (value == OurFighterFlightMode.ReturnToBase) {
-#if false
+#if !false
 					SetReturnToBaseTime();
 #else
 					LandPlane();
@@ -72,6 +73,23 @@ namespace WarLab.AI {
 				Aim = ReturnToBaseAim.NoTargets;
 				return false;
 			};
+
+			bool shouldReturn_NoTargets = false;
+			EnemyBomberAI bomberAI = TargetPlane.AI as EnemyBomberAI;
+			if (bomberAI != null && bomberAI.Mode == BomberFlightMode.ReturnToBase) {
+				shouldReturn_NoTargets = true;
+			}
+			else {
+				EnemyFighterAI fighterAi = TargetPlane.AI as EnemyFighterAI;
+				if (fighterAi != null && fighterAi.Mode == EnemyFighterFlightMode.ReturnToBase) {
+					shouldReturn_NoTargets = true;
+				}
+			}
+			if (shouldReturn_NoTargets) {
+				Mode = OurFighterFlightMode.ReturnToBase;
+				Aim = ReturnToBaseAim.NoTargets;
+				return false;
+			}
 
 			Plane plane = (OurFighter)ControlledPlane;
 

@@ -5,6 +5,7 @@ using System.Text;
 using System.Diagnostics;
 using EnemyPlanes;
 using WarLab.WarObjects;
+using System.Windows;
 
 namespace WarLab.SampleUI.Charts {
 	public class Finish : WarObject {
@@ -40,6 +41,8 @@ namespace WarLab.SampleUI.Charts {
 
 		private void StopWar(string p) {
 			World.GetTimeControl().Stop();
+			
+			MessageBox.Show(p);
 			Debug.WriteLine(p);
 		}
 	}
