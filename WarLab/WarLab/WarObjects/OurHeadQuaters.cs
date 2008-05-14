@@ -137,13 +137,17 @@ namespace WarLab.WarObjects {
 			Ray ray = new Ray(enemy.Position, targetPos - enemy.Position);
 
 			// есть ли ЗРК, которые могут атаковать эту цель.
-			return World.Instance.SelectAll<ZRK>().
+			bool res = World.Instance.SelectAll<ZRKBase>().
 				Where(zrk => AllOKWithZRK(ray, zrk)).Any();
+			if (!res) { }
+			return res;
 		}
 
-		private bool AllOKWithZRK(Ray ray, ZRK zrk) {
+		private bool AllOKWithZRK(Ray ray, ZRKBase zrk) {
 			Vector3D zrkPos = zrk.Position;
-			return RayCoeff(zrkPos, ray) > 0 && Distance2DFromPointToRay(zrkPos, ray) <= zrk.CoverageRadius && zrk.NumOfEquipment > 0;
+			bool res = RayCoeff(zrkPos, ray) > 0 && Distance2DFromPointToRay(zrkPos, ray) <= zrk.CoverageRadius && zrk.NumOfEquipment > 0;
+			if (!res) { }
+			return res;
 		}
 
 		private bool CanBeAssignedToZRK(EnemyFighter enemy) {
@@ -160,7 +164,7 @@ namespace WarLab.WarObjects {
 				res = CanBeAssignedToZRK((EnemyFighter)enemy) || StaticRandom.NextDouble() > 0.5;
 			}
 
-			bool isInZRKCoverage = World.SelectAll<ZRK>().Any(zrk => zrk.IsInCoverage(enemy) && zrk.NumOfEquipment > 0);
+			bool isInZRKCoverage = World.SelectAll<ZRKBase>().Any(zrk => zrk.IsInCoverage(enemy) && zrk.NumOfEquipment > 0);
 			return isInZRKCoverage | res;
 		}
 
@@ -175,8 +179,8 @@ namespace WarLab.WarObjects {
 		}
 
 		private static double RayCoeff(Vector3D point, Ray ray) {
-			Vector3D v = ray.Origin - point;
-			Vector3D dir = ray.Dir;
+			Vector3D v = ray.Origin.Projection2D - point;
+			Vector3D dir = ray.Dir.Projection2D;
 			double t = -(v & dir) / (dir & dir);
 			return t;
 		}
@@ -200,6 +204,11 @@ namespace WarLab.WarObjects {
 
 		private bool AssignPlane(EnemyPlane target, OurFighterAI plane) {
 			if (CanBeAssignedToZRK(target)) return false;
+			EnemyBomber bomber = target as EnemyBomber;
+			if (bomber != null) {
+				EnemyBomberAI ai = (EnemyBomberAI)bomber.AI;
+				if (ai.Mode == BomberFlightMode.ReturnToBase) return false;
+			}
 
 			if (!assignedPlanes.ContainsKey(target)) {
 				assignedPlanes[target] = new List<OurFighterAI>(1);

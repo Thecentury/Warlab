@@ -29,7 +29,7 @@ namespace WarLab.SampleUI.Charts {
 				return;
 			}
 
-			bool hasZrks = World.SelectAll<ZRK>().Any();
+			bool hasZrks = World.SelectAll<ZRKBase>().Any();
 			bool hasOurPlanes = World.SelectAll<OurAirport>().SelectMany(a => a.Planes).
 				Where(ai => ai.State != AirportPlaneState.Dead).Any();
 			if (!(hasZrks || hasOurPlanes)) {

@@ -5,10 +5,10 @@ using System.Text;
 
 namespace WarLab {
 	public static class Default {
-		public static double EnemyBomberHealth = 300; // 3
-		public static double EnemyFighterHealth = 200; // 2
+		public static double EnemyBomberHealth = 2; // 3
+		public static double EnemyFighterHealth = 1; // 2
 
-		public static double OurFighterHealth = 200; // 2
+		public static double OurFighterHealth = 1; // 2
 
 		public static double EnemyBomberImportance = 3;
 

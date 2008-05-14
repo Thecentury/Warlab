@@ -9,71 +9,20 @@ using System.Windows.Media;
 using VisualListener;
 
 namespace WarLab.WarObjects {
-	public sealed class SingleChannelZRK : OurStaticObject {
+	public sealed class SingleChannelZRK : ZRKBase {
 		/// <summary>
 		/// Создает ЗРК с одним каналом.
 		/// </summary>
-		public SingleChannelZRK() {
-			InitChannels();
-			Importance = Default.ZRKImportance;
+		public SingleChannelZRK()
+			: base() {
+			NumOfChannels = 1;
+			NumOfEquipment = 5;
 		}
 
 		protected override string NameCore {
 			get { return "ЗРК"; }
 		}
 
-		private void InitChannels() {
-			channels = new ZRKChannelInfo[numOfChannels];
-			for (int i = 0; i < numOfChannels; i++) {
-				channels[i] = new ZRKChannelInfo();
-			}
-		}
-
-		public bool HasFreeChannels {
-			get { return channels.Count(ch => ch.ReadyToFire) != 0; }
-		}
-
-		public static readonly TimeSpan ChannelReloadTime = TimeSpan.FromSeconds(10);
-
-		private int numOfChannels = 1;
-		public int NumOfChannels {
-			get { return numOfChannels; }
-		}
-
-		private int numOfEquipment = 500;
-		/// <summary>
-		/// Количество зарядов.
-		/// </summary>
-		public int NumOfEquipment {
-			get { return numOfEquipment; }
-			set {
-				Verify.IsNonNegative(value);
-
-				PropertyInspector.AddValue("numOfEquipment", value);
-
-				numOfEquipment = value;
-			}
-		}
-
-		private ZRKChannelInfo[] channels;
-		public ZRKChannelInfo[] Channels {
-			get { return channels; }
-		}
-
-		public const int RelyableTrajectoryAge = 1;
-		private double coverageRadius = Distance.FromMetres(400);
-		public double CoverageRadius {
-			get { return coverageRadius; }
-			set { coverageRadius = value; }
-		}
-
-		public bool IsInCoverage(WarObject obj) {
-			return IsInCoverage(obj.Position);
-		}
-
-		public bool IsInCoverage(Vector3D pos) {
-			return pos.Distance2D(Position) <= coverageRadius;
-		}
 
 		RLSTrajectory preferredTraj;
 		protected override void UpdateImpl(WarTime time) {
@@ -103,7 +52,7 @@ namespace WarLab.WarObjects {
 				}
 			}
 
-			if (preferredTraj.Plane.IsDestroyed || preferredTraj.Plane.IsLanded) {
+			if (preferredTraj != null && (preferredTraj.Plane.IsDestroyed || preferredTraj.Plane.IsLanded)) {
 				preferredTraj = null;
 			}
 
@@ -158,50 +107,6 @@ namespace WarLab.WarObjects {
 					LaunchRocket(time.TotalTime, extrapolatedTargetPos);
 				}
 			}
-		}
-
-		private Vector3D GetRocketDirection(Vector3D targetPos) {
-			return (targetPos - Position).Normalize();
-		}
-
-		private double rocketSpeed = Speed.FromKilometresPerHour(300);
-		public double RocketSpeed {
-			get { return rocketSpeed; }
-			set {
-				Verify.IsPositive(value);
-
-				rocketSpeed = value;
-			}
-		}
-
-		private double targetingErrorDistance = Distance.FromMetres(8);
-		public double TargetingErrorDistance {
-			get { return targetingErrorDistance; }
-			set { targetingErrorDistance = value; }
-		}
-
-		private void LaunchRocket(TimeSpan globalTime, Vector3D targetPosition) {
-
-			double distance = (targetPosition - Position).Length;
-			TimeSpan durationOfFlight = TimeSpan.FromSeconds(distance / rocketSpeed);
-
-			Debug.WriteLine("Rocket: " + durationOfFlight.TotalSeconds + " s to fly");
-
-			TimeSpan timeToExplode = durationOfFlight + globalTime;
-
-			Vector3D targetPositionError = Vector3D.RandomVectorNormalized(targetingErrorDistance) * targetingErrorDistance;
-
-			PropertyInspector.AddValue("Target error", targetPositionError.Length);
-
-			Rocket rocket = new Rocket
-			{
-				Speed = rocketSpeed,
-				TimeOfExposion = timeToExplode,
-				TargetPosition = targetPosition + targetPositionError,
-				Host = RocketHost.ZRK
-			};
-
-			World.AddObject(rocket, Position);
 		}
 	}
 }
