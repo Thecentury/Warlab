@@ -45,6 +45,12 @@ namespace WarLab.AI {
 		public EnemyPlane Plane { get; private set; }
 		public bool IsDestroyed { get { return Plane.IsDestroyed; } }
 
+		private ZRKBase assignedZRK = null;
+		public ZRKBase AssignedZRK {
+			get { return assignedZRK; }
+			set { assignedZRK = value; }
+		}
+
 		public RLSTrajectory Clone() {
 			RLSTrajectory t = (RLSTrajectory)MemberwiseClone();
 

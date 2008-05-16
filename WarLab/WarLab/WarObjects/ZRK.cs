@@ -56,7 +56,7 @@ namespace WarLab.WarObjects {
 
 			// todo это грязный хак
 			trajectories = rlses.Select(rls => (RLSAI)rls.AI).SelectMany(rlsai => rlsai.AllTrajectories).
-				Where(t => t.NumOfSteps >= RelyableTrajectoryAge).ToList();
+				Where(t => t.NumOfSteps >= RelyableTrajectoryAge && IsAssignedToThis(t)).ToList();
 
 			trajectories.Sort((t1, t2) =>
 				t1.Position.DistanceTo(Position).CompareTo(t2.Position.DistanceTo(Position)));
@@ -80,6 +80,7 @@ namespace WarLab.WarObjects {
 
 					// выпускаем ракету, только если она сможет догнать цель.
 					if (targetSpeedProj < rocketSpeed && interpolatedTargetPos.Distance2D(Position) < CoverageRadius) {
+						traject.AssignedZRK = this;
 						channel.Fire();
 
 						Debug.WriteLine(new Run
@@ -90,6 +91,9 @@ namespace WarLab.WarObjects {
 							FontSize = 14
 						});
 						LaunchRocket(warTime.TotalTime, interpolatedTargetPos);
+					}
+					else {
+						traject.AssignedZRK = null;
 					}
 				}
 			}

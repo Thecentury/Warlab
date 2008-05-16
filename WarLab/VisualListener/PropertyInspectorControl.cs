@@ -11,7 +11,7 @@ namespace VisualListener {
 		public PropertyInspectorControl() {
 			PropertyInspector.AttachControl(this);
 			
-			stackPanel = new StackPanel { Background = new SolidColorBrush(Color.FromArgb(100, 100, 50, 180)) };
+			stackPanel = new StackPanel { Background = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0)) };
 			Content = stackPanel;
 		}
 

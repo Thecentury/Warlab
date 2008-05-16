@@ -93,6 +93,10 @@ namespace WarLab.WarObjects {
 			set { targetingErrorDistance = value; }
 		}
 
+		protected bool IsAssignedToThis(RLSTrajectory traj) {
+			return traj.AssignedZRK == this || traj.AssignedZRK == null;
+		}
+
 		protected void LaunchRocket(TimeSpan globalTime, Vector3D targetPosition) {
 
 			double distance = (targetPosition - Position).Length;
