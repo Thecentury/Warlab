@@ -157,7 +157,7 @@ namespace WarLab.AI {
 			return mode == OurFighterFlightMode.ReturnToBase && Aim == ReturnToBaseAim.NoTargets
 				|| TargetPlane == null
 				|| mode == OurFighterFlightMode.Attack &&
-				(TargetPlane.PlaneImportance <= anotherPlane.PlaneImportance || TargetPlane.Health <= 0);
+				(TargetPlane.PlaneImportance < anotherPlane.PlaneImportance || TargetPlane.Health <= 0);
 		}
 
 		internal void ReturnToBase() {

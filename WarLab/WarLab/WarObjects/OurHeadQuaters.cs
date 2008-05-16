@@ -161,11 +161,11 @@ namespace WarLab.WarObjects {
 				res = CanBeAssignedToZRK((EnemyBomber)enemy);
 			}
 			else {
-				res = CanBeAssignedToZRK((EnemyFighter)enemy) || StaticRandom.NextDouble() > 0.5;
+				res = CanBeAssignedToZRK((EnemyFighter)enemy);
 			}
 
 			bool isInZRKCoverage = World.SelectAll<ZRKBase>().Any(zrk => zrk.IsInCoverage(enemy) && zrk.NumOfEquipment > 0);
-			return isInZRKCoverage | res;
+			return res || isInZRKCoverage;
 		}
 
 		class Ray {
